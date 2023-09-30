@@ -139,7 +139,70 @@
             "volumes": [
                 {
                     "container": "/config",
-                    "bind": "/data/prowlarr/"
+                    "bind": "/data/prowlarr"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Media",
+                "Open Source",
+                "Torrent"
+            ],
+            "title": "qBittorrent",
+            "note": "<p><a href=\"https://www.qbittorrent.org\" target=\"_blank\">qBittorrent</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-qbittorrent\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "Qbittorrent aims to provide an open-source software alternative to µTorrent. qBittorrent is based on the Qt toolkit and libtorrent-rasterbar library.",
+            "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/qbittorrent-icon.png",
+            "image": "linuxserver/qbittorrent:latest",
+            "name": "qbittorrent",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "qubit",
+            "ports": [
+                "6881:6881/tcp",
+                "6881:6881/udp",
+                "8080:8080/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "1000",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "1000",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                },
+                {
+                    "name": "WEBUI_PORT",
+                    "label": "WEBUI PORT",
+                    "default": "8080",
+                    "description": "WebUI port. Change exposed ports if you change this value."
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/qbittorrent"
+                },
+                {
+                    "container": "/downloads",
+                    "bind": "/data/media"
+                },
+                {
+                    "container": "/torrents",
+                    "bind": "/data/torrents"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -186,7 +249,7 @@
             "volumes": [
                 {
                     "container": "/config",
-                    "bind": "/data/sonarr/"
+                    "bind": "/data/sonarr"
                 },
                 {
                     "container": "/media",
