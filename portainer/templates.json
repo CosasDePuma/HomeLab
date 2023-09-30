@@ -199,10 +199,6 @@
                 {
                     "container": "/downloads",
                     "bind": "/data/media"
-                },
-                {
-                    "container": "/torrents",
-                    "bind": "/data/torrents"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -254,10 +250,6 @@
                 {
                     "container": "/media",
                     "bind": "/data/media/series"
-                },
-                {
-                    "container": "/torrents",
-                    "bind": "/data/torrents/series"
                 }
             ],
             "restart_policy": "unless-stopped"
