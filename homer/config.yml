@@ -9,7 +9,7 @@ header: true
 footer: "<p>Maybe wars aren't meant to be won, maybe they're meant to be continuous <span class=\"has-text-danger\">🤖</span></p>"
 
 # -- | Theme
-theme: default
+theme: "default"
 colors:
   light:
     highlight-primary: "#3367d6"
@@ -23,7 +23,7 @@ colors:
     text-subtitle: "#424242"
     link: "#3273dc"
     link-hover: "#363636"
-    card-shadow: rgba(0, 0, 0, 0.1)
+    card-shadow: "rgba(0, 0, 0, 0.1)"
   dark:
     highlight-primary: "transparent"
     highlight-secondary: "#8466AE"
@@ -36,7 +36,7 @@ colors:
     text-subtitle: "#8be9fd"
     link: "#50fa7b"
     link-hover: "#50fa7b"
-    card-shadow: rgba(0, 0, 0, 0.4)
+    card-shadow: "rgba(0, 0, 0, 0.4)"
 
 # -- | Navbar
 links:
@@ -51,8 +51,8 @@ links:
 
 # -- | Services
 defaults:
-  layout: columns
-  colorTheme: dark
+  layout: "columns"
+  colorTheme: "dark"
 
 colums: 3
 connectivityCheck: true
@@ -85,5 +85,30 @@ services:
         subtitle: "Stream Media Solution"
         tag: "container"
         keywords: "movies, tv, series, music, jellyfin, plex, emby, kodi, media, stream, comics, ebooks"
-        url: "https://192.168.1.201:8096"
+        url: "http://192.168.1.201:8096"
         target: "_blank"
+
+      - name: "Submarine"
+        logo: "assets/icons/sonarr.png"
+        subtitle: "TV Shows Management"
+        tag: "container"
+        keywords: "tv, series, anime, shows, sonarr, transmission, qbittorrent, rss"
+        url: "http://192.168.1.201:8989"
+        target: "_blank"
+  
+  - name: "Downloads"
+    icon: "fas fa-download"
+    items:
+      - name: "Qubit"
+        logo: "assets/icons/qbittorrent.png"
+        subtitle: "Torrent Downloader"
+        tag: "container"
+        keywords: "torrent, download, magnet, qbittorrent, rss"
+        url: "http://192.168.1.201:8080"
+
+      - name: "Taiga"
+        logo: "assets/icons/prowlarr.png"
+        subtitle: "Indexer Manager"
+        tag: "container"
+        keywords: "indexer, torrent, download, magnet, radarr, sonarr, lidarr, prowlarr, jackett, rss"
+        url: "http://192.168.1.201:9696"
