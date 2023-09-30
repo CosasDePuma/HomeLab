@@ -1,0 +1,89 @@
+---
+# === Homer configuration ===
+
+# -- | Main
+title: "HomeLab"
+subtitle: "Pumita"
+
+header: true
+footer: "<p>Maybe wars aren't meant to be won, maybe they're meant to be continuous <span class=\"has-text-danger\">🤖</span></p>"
+
+# -- | Theme
+theme: default
+colors:
+  light:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#282a36"
+    card-background: "#fafafa"
+    text: "#f8f8f2"
+    text-header: "#f8f8f2"
+    text-title: "#303030"
+    text-subtitle: "#424242"
+    link: "#3273dc"
+    link-hover: "#363636"
+    card-shadow: rgba(0, 0, 0, 0.1)
+  dark:
+    highlight-primary: "transparent"
+    highlight-secondary: "#8466AE"
+    highlight-hover: "#44475a"
+    background: "#282a36"
+    card-background: "#44475a"
+    text: "#f8f8f2"
+    text-header: "#f8f8f2"
+    text-title: "#f8f8f2"
+    text-subtitle: "#8be9fd"
+    link: "#50fa7b"
+    link-hover: "#50fa7b"
+    card-shadow: rgba(0, 0, 0, 0.4)
+
+# -- | Navbar
+links:
+  - name: "GitHub"
+    icon: "fab fa-github"
+    url: "https://github.com/cosasdepuma/"
+    target: "_blank"
+  - name: "kike.wtf"
+    icon: "fas fa-home"
+    url: "https://www.kike.wtf/"
+    target: "_blank"
+
+# -- | Services
+defaults:
+  layout: columns
+  colorTheme: dark
+
+colums: 3
+connectivityCheck: true
+
+services:
+  - name: "Management"
+    icon: "fas fa-server"
+    items:
+      - name: "Metaverse"
+        logo: "assets/icons/proxmox.png"
+        subtitle: "Virtual Machines Management"
+        tag: "os"
+        keywords: "virtualization, hypervisor, kvm, lxc, openvz, proxmox, pve"
+        url: "https://192.168.1.200:8006"
+        target: "_blank"
+
+      - name: "Whales"
+        logo: "assets/icons/portainer.png"
+        subtitle: "Containers Management"
+        tag: "vm"
+        keywords: "virtualization, containers, docker, portainer, kubernetes, k8s, compose, stack"
+        url: "https://192.168.1.201:9443"
+        target: "_blank"
+
+  - name: "Media"
+    icon: "fas fa-photo-video"
+    items:
+      - name: "Jellyfish"
+        logo: "assets/icons/jellyfin.png"
+        subtitle: "Stream Media Solution"
+        tag: "container"
+        keywords: "movies, tv, series, music, jellyfin, plex, emby, kodi, media, stream, comics, ebooks"
+        url: "https://192.168.1.201:8096"
+        target: "_blank"

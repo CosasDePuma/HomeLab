@@ -1,0 +1,290 @@
+{
+    "version": "2",
+    "templates": [
+        {
+            "type": 1,
+            "categories": [
+                "Dashboard",
+                "Open Source"
+            ],
+            "title": "Homer",
+            "note": "<p><a href=\"https://github.com/bastienwirtz/homer\" target=\"_blank\">Homer</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://github.com/bastienwirtz/homer#getting-started\" target=\"_blank\">@bastienwirtz</a>.</p>",
+            "description": "Homer is a very simple static homepage for your server. A dead simple static HOMepage for your servER to keep your services on hand, from a simple yaml configuration file.",
+            "logo": "https://raw.githubusercontent.com/bastienwirtz/homer/main/public/logo.png",
+            "image": "b4bz/homer:latest",
+            "name": "homer",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "simpson",
+            "ports": [
+                "80:8080/tcp"
+            ],
+            "env": [
+                {
+                    "name": "SUBFOLDER",
+                    "label": "SUBFOLDER",
+                    "default": "",
+                    "description": "If you would like to host Homer in a subfolder (ex: http://example.com/homer), set this to the subfolder path (ex: /homer)"
+                },
+                {
+                    "name": "INIT_ASSETS",
+                    "label": "ASSETS",
+                    "select": [
+                        {
+                            "default": true,
+                            "text": "Empty",
+                            "value": "0"
+                        },
+                        {
+                            "text": "Default",
+                            "value": "1"
+                        }
+                    ],
+                    "description": "Install example configuration file and assets (favicons, css, ...) to help you get started."
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/www/assets",
+                    "bind": "/data/homer"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Cybersecurity",
+                "Vulnerability Scanner"
+            ],
+            "title": "Nessus",
+            "note": "<p><a href=\"https://www.tenable.com/products/nessus\" target=\"_blank\">Nessus</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.tenable.com/nessus/Content/DeployNessusDocker.htm\" target=\"_blank\">Tenable</a>.</p>",
+            "description": "Nessus is a vulnerability scanning program for various operating systems. It consists of a daemon or devil, nessusd, which performs the scan on the target system, and nessus, the client which displays the progress and reports on the status of the scans.",
+            "logo": "https://www.gravatar.com/avatar/d27f61b9faa8533c9764d369a7293231",
+            "image": "tenable/nessus:latest-ubuntu",
+            "name": "nessus",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "centaur",
+            "ports": [
+                "8834:8834/tcp"
+            ],
+            "env": [
+                {
+                    "name": "USERNAME",
+                    "label": "USERNAME",
+                    "default": "auditor",
+                    "description": "Username"
+                },
+                {
+                    "name": "PASSWORD",
+                    "label": "PASSWORD",
+                    "default": "nessus",
+                    "description": "Password"
+                },
+                {
+                    "name": "ACTIVATION_CODE",
+                    "label": "ACTIVATION CODE",
+                    "default": "",
+                    "description": "Nessus Pro activation code"
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/opt/nessus/etc/nessus/",
+                    "bind": "/data/nessus"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Media",
+                "Open Source",
+                "Torrent"
+            ],
+            "title": "Prowlarr",
+            "note": "<p><a href=\"https://github.com/Prowlarr/Prowlarr\" target=\"_blank\">Prowlarr</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-prowlarr\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "Prowlarr is an indexer manager/proxy built on the popular *arr .net/reactjs base stack to integrate with your various PVR apps. Prowlarr supports management of both Torrent Trackers and Usenet Indexers. It integrates seamlessly with Lidarr, Mylar3, Radarr, Readarr and Sonarr.",
+            "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/prowlarr-banner.png",
+            "image": "linuxserver/prowlarr:latest",
+            "name": "prowlarr",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "taiga",
+            "ports": [
+                "9696:9696/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "1000",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "1000",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/prowlarr/"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Media",
+                "Open Source",
+                "Torrent"
+            ],
+            "title": "Sonarr",
+            "note": "<p><a href=\"https://sonarr.tv\" target=\"_blank\">Sonarr</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-sonarr\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "Sonarr (formerly NZBdrone) is a PVR for usenet and bittorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them.",
+            "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/sonarr-logo.png",
+            "image": "linuxserver/sonarr:latest",
+            "name": "sonarr",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "submarine",
+            "ports": [
+                "8989:8989/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "1000",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "1000",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/sonarr/"
+                },
+                {
+                    "container": "/media",
+                    "bind": "/data/media/series"
+                },
+                {
+                    "container": "/torrents",
+                    "bind": "/data/torrents/series"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Cybersecurity",
+                "Open Source",
+                "VPN"
+            ],
+            "title": "WireGuard (*)",
+            "note": "<p><a href=\"https://www.wireguard.com\" target=\"_blank\">WireGuard</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-wireguard\" target=\"_blank\">linuxserver.io</a>.</p><br/><p><b>(*) NOTE</b>: It is required to edit the container once created and add the following parameters:<br/><br/>* CAPABILITIES: NET_ADMIN, SYS_MODULE<br/>* SYSCTLS: net.ipv4.conf.all.src_valid_mark=1</p>",
+            "description": "WireGuard is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography. It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache. It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances.",
+            "logo": "https://play-lh.googleusercontent.com/tixGgVipnsaKeGQzykJfgSEhUc_YYMSsr3gwBuPTpXb2F1BKPVzv5OxfCrpS8OAXXh8",
+            "image": "linuxserver/wireguard:latest",
+            "name": "wireguard",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "cerberus",
+            "ports": [
+                "51820:51820/udp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "1000",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "1000",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                },
+                {
+                    "name": "SERVERURL",
+                    "label": "SERVERURL",
+                    "default": "auto",
+                    "description": "External IP or domain. If set to `auto`, the container will try to determine and set the external IP automatically"
+                },
+                {
+                    "name": "SERVERPORT",
+                    "label": "SERVERPORT",
+                    "default": "51820",
+                    "description": "UDP connection port. Remember to update the exposed docker ports."
+                },
+                {
+                    "name": "PEERS",
+                    "label": "PEERS",
+                    "default": "laptop,tablet,mobile,tv",
+                    "description": "Number of clients (peers). Can also be a list of names: `android,ios,tv,computer` (alphanumeric only)"
+                },
+                {
+                    "name": "PEERDNS",
+                    "label": "PEERDNS",
+                    "default": "auto",
+                    "description": "DNS server set in client configs (can be set as `8.8.8.8`). Defaults to `auto`, which uses internal DNS via included CoreDNS forward."
+                },
+                {
+                    "name": "INTERNAL_SUBNET",
+                    "label": "INTERNAL_SUBNET",
+                    "default": "10.10.0.0",
+                    "description": "Internal subnet for the wireguard and server and clients."
+                },
+                {
+                    "name": "ALLOWEDIPS",
+                    "label": "ALLOWEDIPS",
+                    "default": "10.10.0.1, 192.168.1.0/24",
+                    "description": "The IPs/ranges (separated by commas) that the clients will be able to reach using the VPN connection. If you want split tunneling, set this to only the IPs you would like to use the tunnel AND the ip of the server's WG IP, such as 10.10.0.1."
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/wireguard"
+                },
+                {
+                    "container": "/lib/modules",
+                    "bind": "/lib/modules"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        }
+    ]
+}
