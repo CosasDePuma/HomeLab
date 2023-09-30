@@ -51,7 +51,7 @@ links:
 
 # -- | Services
 defaults:
-  layout: "columns"
+  layout: "rows"
   colorTheme: "dark"
 
 colums: 3
@@ -95,6 +95,14 @@ services:
         keywords: "tv, series, anime, shows, sonarr, transmission, qbittorrent, rss"
         url: "http://192.168.1.201:8989"
         target: "_blank"
+
+      - name: "Aladin"
+        logo: "assets/icons/bazarr.png"
+        subtitle: "Subtitles Manager"
+        tag: "container"
+        keywords: "tv, series, anime, shows, sonarr, radarr, rss, subtitles, bazarr"
+        url: "http://192.168.1.201:6767"
+        target: "_blank"
   
   - name: "Downloads"
     icon: "fas fa-download"
@@ -105,6 +113,7 @@ services:
         tag: "container"
         keywords: "torrent, download, magnet, qbittorrent, rss"
         url: "http://192.168.1.201:8080"
+        target: "_blank"
 
       - name: "Taiga"
         logo: "assets/icons/prowlarr.png"
@@ -112,3 +121,4 @@ services:
         tag: "container"
         keywords: "indexer, torrent, download, magnet, radarr, sonarr, lidarr, prowlarr, jackett, rss"
         url: "http://192.168.1.201:9696"
+        target: "_blank"
