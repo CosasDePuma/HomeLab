@@ -4,6 +4,63 @@
         {
             "type": 1,
             "categories": [
+                "Media",
+                "Movies",
+                "Open Source",
+                "Series",
+                "Subtitles"
+            ],
+            "title": "Bazarr",
+            "note": "<p><a href=\"https://www.bazarr.media\" target=\"_blank\">Bazarr</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-bazarr\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "Bazarr is a companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements. You define your preferences by TV show or movie and Bazarr takes care of everything for you.",
+            "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/bazarr.png",
+            "image": "linuxserver/bazarr:latest",
+            "name": "bazarr",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "aladin",
+            "ports": [
+                "6767:6767/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "1000",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "1000",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/bazarr"
+                },
+                {
+                    "container": "/series",
+                    "bind": "/data/media/series"
+                },
+                {
+                    "container": "/movies",
+                    "bind": "/data/media/movies"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
                 "Dashboard",
                 "Open Source"
             ],
@@ -208,6 +265,7 @@
             "categories": [
                 "Media",
                 "Open Source",
+                "Series",
                 "Torrent"
             ],
             "title": "Sonarr",
