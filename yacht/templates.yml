@@ -1,14 +1,14 @@
 ---
 title: WireGuard
 name: wireguard
-logo: https://raw.githubusercontent.com/cosasdepuma/homelab/main/homer/wireguard.png
+logo: https://raw.githubusercontent.com/CosasDePuma/HomeLab/main/homer/icons/wireguard.png
 description: |
   WireGuard is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography.
   It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache.
   It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances.
 note: |
   <p><a href=\"https://www.wireguard.com\" target=\"_blank\">WireGuard</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-wireguard\" target=\"_blank\">linuxserver.io</a>.</p>
-  <img src=x oneonerror=alert(1) onerror=alert(1) />
+  {{7*7}}{{=7*7}}<%7*7%><%=7*7%>
 categories:
 - Security
 - Network
