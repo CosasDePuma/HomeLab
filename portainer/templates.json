@@ -26,13 +26,13 @@
                 {
                     "name": "PUID",
                     "label": "UID",
-                    "default": "1000",
+                    "default": "0",
                     "description": "User ID"
                 },
                 {
                     "name": "PGID",
                     "label": "GID",
-                    "default": "1000",
+                    "default": "0",
                     "description": "Group ID"
                 },
                 {
@@ -45,15 +45,11 @@
             "volumes": [
                 {
                     "container": "/config",
-                    "bind": "/data/bazarr"
+                    "bind": "/data/config/bazarr"
                 },
                 {
-                    "container": "/series",
-                    "bind": "/data/media/series"
-                },
-                {
-                    "container": "/movies",
-                    "bind": "/data/media/movies"
+                    "container": "/media",
+                    "bind": "/data/media"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -103,7 +99,7 @@
             "volumes": [
                 {
                     "container": "/www/assets",
-                    "bind": "/data/homer"
+                    "bind": "/data/config/homer"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -149,7 +145,7 @@
             "volumes": [
                 {
                     "container": "/opt/nessus/etc/nessus/",
-                    "bind": "/data/nessus"
+                    "bind": "/data/config/nessus"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -196,7 +192,7 @@
             "volumes": [
                 {
                     "container": "/config",
-                    "bind": "/data/prowlarr"
+                    "bind": "/data/config/prowlarr"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -226,13 +222,13 @@
                 {
                     "name": "PUID",
                     "label": "UID",
-                    "default": "1000",
+                    "default": "0",
                     "description": "User ID"
                 },
                 {
                     "name": "PGID",
                     "label": "GID",
-                    "default": "1000",
+                    "default": "0",
                     "description": "Group ID"
                 },
                 {
@@ -251,11 +247,15 @@
             "volumes": [
                 {
                     "container": "/config",
-                    "bind": "/data/qbittorrent"
+                    "bind": "/data/config/qbittorrent"
+                },
+                {
+                    "container": "/media",
+                    "bind": "/data/media"
                 },
                 {
                     "container": "/downloads",
-                    "bind": "/data/media"
+                    "bind": "/data/torrents"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -284,13 +284,13 @@
                 {
                     "name": "PUID",
                     "label": "UID",
-                    "default": "1000",
+                    "default": "0",
                     "description": "User ID"
                 },
                 {
                     "name": "PGID",
                     "label": "GID",
-                    "default": "1000",
+                    "default": "0",
                     "description": "Group ID"
                 },
                 {
@@ -307,7 +307,11 @@
                 },
                 {
                     "container": "/media",
-                    "bind": "/data/media/series"
+                    "bind": "/data/media"
+                },
+                {
+                    "container": "/downloads",
+                    "bind": "/data/torrents"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -383,14 +387,14 @@
                 {
                     "name": "ALLOWEDIPS",
                     "label": "ALLOWEDIPS",
-                    "default": "10.10.0.1, 192.168.1.0/24",
+                    "default": "10.10.0.1,192.168.1.0/24",
                     "description": "The IPs/ranges (separated by commas) that the clients will be able to reach using the VPN connection. If you want split tunneling, set this to only the IPs you would like to use the tunnel AND the ip of the server's WG IP, such as 10.10.0.1."
                 }
             ],
             "volumes": [
                 {
                     "container": "/config",
-                    "bind": "/data/wireguard"
+                    "bind": "/data/config/wireguard"
                 },
                 {
                     "container": "/lib/modules",
