@@ -426,7 +426,7 @@
                 {
                     "name": "WIREGUARD_PEERS",
                     "label": "PEERS",
-                    "default": "laptop,tablet,mobile,tv",
+                    "default": "laptop,computer,phone,tablet,tv",
                     "description": "Number of clients (peers). Can also be a list of names: `android,ios,tv,computer` (alphanumeric only)"
                 },
                 {
