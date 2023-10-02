@@ -14,7 +14,7 @@ services:
       - PEERS=${WIREGUARD_PEERS:-laptop,computer,phone,tablet,tv}
       - PEERDNS=${WIREGUARD_DNS:-auto}
       - INTERNAL_SUBNET=${WIREGUARD_SUBNET:-10.10.10.0}
-      - ALLOWEDIPS=${WIREGUARD_ALLOWEDIPS:-10.10.10.1,192.168.0.0/23}
+      - ALLOWEDIPS=${WIREGUARD_ALLOWEDIPS:-0.0.0.0/0}
       - PERSISTENTKEEPALIVE_PEERS=false
       - LOG_CONFS=true
     volumes:
