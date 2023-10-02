@@ -77,6 +77,17 @@ services:
         url: "https://192.168.1.210:9443"
         target: "_blank"
 
+  - name: "Productivity"
+    icon: "fas fa-coffee"
+    items:
+      - name: "Workbench"
+        logo: "assets/icons/vscode.png"
+        subtitle: "Visual Studio Code"
+        tag: "container"
+        keywords: "code, development, developer, vscode, visual studio code, editor, ide, integrated development environment"
+        url: "http://192.168.1.210:8443"
+        target: "_blank"
+
   - name: "Media"
     icon: "fas fa-photo-video"
     items:
