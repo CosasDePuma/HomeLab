@@ -12,11 +12,11 @@ services:
       - SERVERURL=${WIREGUARD_DOMAIN}
       - SERVERPORT=${WIREGUARD_PORT:-51820}
       - PEERS=${WIREGUARD_PEERS:-laptop,computer,phone,tablet,tv}
-      - PEERDNS=${WIREGUARD_DNS:-auto}
       - INTERNAL_SUBNET=${WIREGUARD_SUBNET:-10.10.10.0}
-      - ALLOWEDIPS=${WIREGUARD_ALLOWEDIPS:-0.0.0.0/0}
+      - PEERDNS=${WIREGUARD_DNS:-10.10.10.1,1.1.1.1}
+      - ALLOWEDIPS=${WIREGUARD_ALLOWEDIPS:-10.10.10.1,192.168.0.0/23}
       - PERSISTENTKEEPALIVE_PEERS=false
-      - LOG_CONFS=true
+      - LOG_CONFS=false
     volumes:
       - /lib/modules:/lib/modules:rw
       - ${WIREGUARD_CONFIG:-/data/config/wireguard}:/config:rw

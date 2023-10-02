@@ -1,5 +1,5 @@
 ---
-version: '2'
+version: '3.8'
 
 services:
   vscode:
@@ -16,6 +16,7 @@ services:
       - ${VSCODE_CONFIG:-/data/config/vscode}:/config:rw
       - ${VSCODE_WORKSPACE:-/data/projects}:/workspace:rw
     hostname: workbench
+    network_mode: bridge
     ports:
       - ${VSCODE_PORT:-8443}:8443/tcp
     restart: unless-stopped

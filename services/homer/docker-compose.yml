@@ -1,5 +1,5 @@
 ---
-version: '2'
+version: '3.8'
 
 services:
   homer:
@@ -11,6 +11,7 @@ services:
     volumes:
       - ${HOMER_ASSETS:-./www}:/www/assets:ro
     hostname: simpson
+    network_mode: bridge
     ports:
       - ${HOMER_PORT:-9443}:9443/tcp
     restart: unless-stopped

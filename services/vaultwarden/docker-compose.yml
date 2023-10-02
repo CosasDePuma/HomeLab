@@ -1,5 +1,5 @@
 ---
-version: '2'
+version: '3.8'
 
 services:
   vaultwarden:
@@ -10,6 +10,7 @@ services:
     volumes:
       - ${VAULTWARDEN_CONFIG:-/data/config/vaultwarden}:/data:rw
     hostname: vault
+    network_mode: bridge
     ports:
       - ${VAULTWARDEN_PORT:-80}:80
     restart: unless-stopped

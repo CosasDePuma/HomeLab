@@ -206,7 +206,7 @@
             "platform": "linux",
             "repository": {
                 "url": "https://github.com/cosasdepuma/homelab",
-                "stackfile": "compose/wireguard/docker-compose.yml"
+                "stackfile": "services/wireguard/docker-compose.yml"
             },
             "env": [
                 {
