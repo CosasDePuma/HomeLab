@@ -380,6 +380,74 @@
             "restart_policy": "unless-stopped"
         },
         {
+            "type": 1,
+            "categories": [
+                "Development"
+            ],
+            "title": "VSCode",
+            "note": "<p><a href=\"https://coder.com\" target=\"_blank\">VSCode Server</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-code-server\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "VS Code running on a remote server, accessible through the browser.",
+            "logo": "https://raw.githubusercontent.com/cosasdepuma/homelab/main/homer/icons/vscode.png",
+            "image": "linuxserver/code-server:latest",
+            "name": "vscode",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "workbench",
+            "ports": [
+                "8443:8443/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "1000",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "1000",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                },
+                {
+                    "name": "PASSWORD",
+                    "label": "PASSWORD",
+                    "default": "user",
+                    "description": "User password"
+                },
+                {
+                    "name": "SUDO_PASSWORD",
+                    "label": "SUDO PASSWORD",
+                    "default": "toor",
+                    "description": "Sudo password"
+                },
+                {
+                    "name": "DEFAULT_WORKSPACE",
+                    "label": "WORKSPACE",
+                    "default": "/workspace",
+                    "description": "Default workspace",
+                    "preset": true
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/config/vscode"
+                },
+                {
+                    "container": "/workspace",
+                    "bind": "/data/projects"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
             "type": 3,
             "categories": [
                 "Network",
