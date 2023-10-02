@@ -256,6 +256,11 @@
                     "label": "ALLOWED IPS",
                     "default": "10.10.0.1,192.168.0.0/23",
                     "description": "The IPs/ranges (separated by commas) that the clients will be able to reach using the VPN connection. If you want split tunneling, set this to only the IPs you would like to use the tunnel AND the ip of the server's WG IP, such as 10.10.0.1."
+                },
+                {
+                    "name": "LOG_CONFS",
+                    "default": "false",
+                    "preset": true
                 }
             ]
         }
