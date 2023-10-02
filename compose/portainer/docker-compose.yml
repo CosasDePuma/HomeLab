@@ -1,5 +1,5 @@
 ---
-version: '3.8'
+version: '2'
 
 services:
   portainer:
@@ -9,7 +9,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:rw
       - config_portainer:/data:rw
     restart: unless-stopped
-    network-mode: "bridge"
     hostname: whales
     ports:
       - ${PORTAINER_PORT:-9443}:9443/tcp

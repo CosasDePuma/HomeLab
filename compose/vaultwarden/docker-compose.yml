@@ -1,5 +1,5 @@
 ---
-version: '3.8'
+version: '2'
 
 services:
   vaultwarden:
@@ -9,7 +9,6 @@ services:
       DOMAIN: "https://${VAULTWARDEN_DOMAIN}"
     volumes:
       - ${VAULTWARDEN_CONFIG:-/data/config/vaultwarden}:/data
-    network-mode: "bridge"
     hostname: vault
     ports:
       - ${VAULTWARDEN_PORT:-80}:80
