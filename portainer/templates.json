@@ -382,7 +382,8 @@
         {
             "type": 1,
             "categories": [
-                "Development"
+                "Development",
+                "Productivity"
             ],
             "title": "VSCode",
             "note": "<p><a href=\"https://coder.com\" target=\"_blank\">VSCode Server</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-code-server\" target=\"_blank\">linuxserver.io</a>.</p>",
@@ -419,7 +420,7 @@
                     "name": "PASSWORD",
                     "label": "PASSWORD",
                     "default": "user",
-                    "description": "User password"
+                    "description": "Web application password"
                 },
                 {
                     "name": "SUDO_PASSWORD",
