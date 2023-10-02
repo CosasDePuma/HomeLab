@@ -1,0 +1,32 @@
+---
+version: '3.8'
+
+services:
+  wireguard:
+    image: linuxserver/wireguard:latest
+    container_name: wireguard
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${WIREGUARD_TZ:-Europe/Madrid}
+      - SERVERURL=${WIREGUARD_DOMAIN}
+      - SERVERPORT=${WIREGUARD_PORT:-51820}
+      - PEERS=${WIREGUARD_PEERS:-laptop,computer,phone}
+      - PEERDNS=${WIREGUARD_DNS:-auto}
+      - INTERNAL_SUBNET=${WIREGUARD_SUBNET:-10.10.10.0}
+      - ALLOWEDIPS=${WIREGUARD_ALLOWEDIPS:-10.10.10.1,192.168.0.0/23}
+      - PERSISTENTKEEPALIVE_PEERS=false
+      - LOG_CONFS=true
+    volumes:
+      - /lib/modules:/lib/modules:rw
+      - ${WIREGUARD_CONFIG:-/data/config/wireguard}:/config:rw
+    network-mode: "bridge"
+    hostname: knight
+    ports:
+      - ${WIREGUARD_PORT:-51820}:51820/udp
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped

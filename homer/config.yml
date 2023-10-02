@@ -74,7 +74,7 @@ services:
         subtitle: "Containers Management"
         tag: "vm"
         keywords: "virtualization, containers, docker, portainer, kubernetes, k8s, compose, stack"
-        url: "https://192.168.1.201:9443"
+        url: "https://192.168.1.210:9443"
         target: "_blank"
 
   - name: "Media"
@@ -85,7 +85,7 @@ services:
         subtitle: "Stream Media Solution"
         tag: "container"
         keywords: "movies, tv, series, music, jellyfin, plex, emby, kodi, media, stream, comics, ebooks"
-        url: "http://192.168.1.201:8096"
+        url: "http://192.168.1.210:8096"
         target: "_blank"
 
       - name: "Submarine"
@@ -93,7 +93,7 @@ services:
         subtitle: "TV Shows Management"
         tag: "container"
         keywords: "tv, series, anime, shows, sonarr, transmission, qbittorrent, rss"
-        url: "http://192.168.1.201:8989"
+        url: "http://192.168.1.210:8989"
         target: "_blank"
 
       - name: "Aladin"
@@ -101,7 +101,7 @@ services:
         subtitle: "Subtitles Manager"
         tag: "container"
         keywords: "tv, series, anime, shows, sonarr, radarr, rss, subtitles, bazarr"
-        url: "http://192.168.1.201:6767"
+        url: "http://192.168.1.210:6767"
         target: "_blank"
   
   - name: "Downloads"
@@ -112,7 +112,7 @@ services:
         subtitle: "Torrent Downloader"
         tag: "container"
         keywords: "torrent, download, magnet, qbittorrent, rss"
-        url: "http://192.168.1.201:8080"
+        url: "http://192.168.1.210:8080"
         target: "_blank"
 
       - name: "Taiga"
@@ -120,5 +120,5 @@ services:
         subtitle: "Indexer Manager"
         tag: "container"
         keywords: "indexer, torrent, download, magnet, radarr, sonarr, lidarr, prowlarr, jackett, rss"
-        url: "http://192.168.1.201:9696"
+        url: "http://192.168.1.210:9696"
         target: "_blank"

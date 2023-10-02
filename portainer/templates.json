@@ -261,6 +261,69 @@
             "restart_policy": "unless-stopped"
         },
         {
+            "type": 2,
+            "categories": [
+                "Management",
+                "Open Source",
+                "Ansible"
+            ],
+            "title": "Semaphore",
+            "note": "<p><a href=\"https://www.qbittorrent.org\" target=\"_blank\">qBittorrent</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-qbittorrent\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "Qbittorrent aims to provide an open-source software alternative to µTorrent. qBittorrent is based on the Qt toolkit and libtorrent-rasterbar library.",
+            "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/qbittorrent-icon.png",
+            "image": "linuxserver/qbittorrent:latest",
+            "name": "qbittorrent",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "qubit",
+            "ports": [
+                "6881:6881/tcp",
+                "6881:6881/udp",
+                "8080:8080/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "0",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "0",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                },
+                {
+                    "name": "WEBUI_PORT",
+                    "label": "WEBUI PORT",
+                    "default": "8080",
+                    "description": "WebUI port. Change exposed ports if you change this value."
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/config/qbittorrent"
+                },
+                {
+                    "container": "/media",
+                    "bind": "/data/media"
+                },
+                {
+                    "container": "/downloads",
+                    "bind": "/data/torrents"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
             "type": 1,
             "categories": [
                 "Media",
@@ -317,77 +380,67 @@
             "restart_policy": "unless-stopped"
         },
         {
-            "type": 1,
+            "type": 3,
             "categories": [
-                "Cybersecurity",
+                "Network",
+                "Security",
                 "Open Source",
                 "VPN"
             ],
-            "title": "WireGuard (*)",
-            "note": "<p><a href=\"https://www.wireguard.com\" target=\"_blank\">WireGuard</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-wireguard\" target=\"_blank\">linuxserver.io</a>.</p><br/><p><b>(*) NOTE</b>: It is required to edit the container once created and add the following parameters:<br/><br/>* CAPABILITIES: NET_ADMIN, SYS_MODULE<br/>* SYSCTLS: net.ipv4.conf.all.src_valid_mark=1</p>",
+            "title": "WireGuard",
+            "note": "<p><a href=\"https://www.wireguard.com\" target=\"_blank\">WireGuard</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-wireguard\" target=\"_blank\">linuxserver.io</a>.</p>",
             "description": "WireGuard is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography. It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache. It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances.",
-            "logo": "https://play-lh.googleusercontent.com/tixGgVipnsaKeGQzykJfgSEhUc_YYMSsr3gwBuPTpXb2F1BKPVzv5OxfCrpS8OAXXh8",
+            "logo": "https://raw.githubusercontent.com/cosasdepuma/homelab/main/homer/icons/wireguard.png",
             "image": "linuxserver/wireguard:latest",
             "name": "wireguard",
             "platform": "linux",
-            "network": "bridge",
-            "hostname": "cerberus",
-            "ports": [
-                "51820:51820/udp"
-            ],
             "env": [
                 {
-                    "name": "PUID",
-                    "label": "UID",
-                    "default": "1000",
-                    "description": "User ID"
+                    "name": "WIREGUARD_CONFIG",
+                    "label": "CONFIG",
+                    "default": "/data/config/wireguard",
+                    "description": "Path to the wireguard config folder"
                 },
                 {
-                    "name": "PGID",
-                    "label": "GID",
-                    "default": "1000",
-                    "description": "Group ID"
-                },
-                {
-                    "name": "TZ",
+                    "name": "WIREGUARD_TZ",
                     "label": "TZ",
                     "default": "Europe/Madrid",
                     "description": "Timezone"
                 },
                 {
-                    "name": "SERVERURL",
-                    "label": "SERVERURL",
-                    "default": "auto",
-                    "description": "External IP or domain. If set to `auto`, the container will try to determine and set the external IP automatically"
+                    "name": "WIREGUARD_DOMAIN",
+                    "label": "DOMAIN",
+                    "default": "",
+                    "description": "Domain name for the VPN server. If you don't have one, you can use the server's IP address."
                 },
                 {
-                    "name": "SERVERPORT",
-                    "label": "SERVERPORT",
+                    "name": "WIREGUARD_PORT",
+                    "label": "PORT",
                     "default": "51820",
                     "description": "UDP connection port. Remember to update the exposed docker ports."
                 },
                 {
-                    "name": "PEERS",
+                    "name": "WIREGUARD_PEERS",
                     "label": "PEERS",
                     "default": "laptop,tablet,mobile,tv",
                     "description": "Number of clients (peers). Can also be a list of names: `android,ios,tv,computer` (alphanumeric only)"
                 },
                 {
-                    "name": "PEERDNS",
-                    "label": "PEERDNS",
+                    "name": "WIREGUARD_DNS",
+                    "label": "DNS",
                     "default": "auto",
-                    "description": "DNS server set in client configs (can be set as `8.8.8.8`). Defaults to `auto`, which uses internal DNS via included CoreDNS forward."
+                    "description": "DNS server set in client configs (can be set as `1.1.1.1`). Defaults to `auto`, which uses internal DNS via included CoreDNS forward."
                 },
                 {
-                    "name": "INTERNAL_SUBNET",
-                    "label": "INTERNAL_SUBNET",
-                    "default": "10.10.0.0",
+                    "name": "WIREGUARD_SUBNET",
+                    "label": "SUBNET",
+                    "default": "10.10.10.0",
                     "description": "Internal subnet for the wireguard and server and clients."
                 },
                 {
-                    "name": "ALLOWEDIPS",
-                    "label": "ALLOWEDIPS",
-                    "default": "10.10.0.1,192.168.1.0/24",
+                    "name": "WIREGUARD_ALLOWEDIPS",
+                    "label": "ALLOWED IPS",
+                    "default": "10.10.10.1,192.168.0.0/23",
                     "description": "The IPs/ranges (separated by commas) that the clients will be able to reach using the VPN connection. If you want split tunneling, set this to only the IPs you would like to use the tunnel AND the ip of the server's WG IP, such as 10.10.0.1."
                 }
             ],

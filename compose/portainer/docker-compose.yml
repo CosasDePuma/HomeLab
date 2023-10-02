@@ -1,0 +1,19 @@
+---
+version: '3.8'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - config_portainer:/data:rw
+    restart: unless-stopped
+    network-mode: "bridge"
+    hostname: whales
+    ports:
+      - ${PORTAINER_PORT:-9443}:9443/tcp
+    restart: unless-stopped
+
+volumes:
+    config_portainer:
