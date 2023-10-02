@@ -1,0 +1,340 @@
+{
+    "version": "2",
+    "templates": [
+        {
+            "type": 1,
+            "categories": [
+                "Media",
+                "Movies",
+                "Open Source",
+                "Series",
+                "Subtitles"
+            ],
+            "title": "Bazarr",
+            "note": "<p><a href=\"https://www.bazarr.media\" target=\"_blank\">Bazarr</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-bazarr\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "Bazarr is a companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements. You define your preferences by TV show or movie and Bazarr takes care of everything for you.",
+            "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/bazarr.png",
+            "image": "linuxserver/bazarr:latest",
+            "name": "bazarr",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "aladin",
+            "ports": [
+                "6767:6767/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "0",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "0",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/config/bazarr"
+                },
+                {
+                    "container": "/media",
+                    "bind": "/data/media"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Cybersecurity",
+                "Vulnerability Scanner"
+            ],
+            "title": "Nessus",
+            "note": "<p><a href=\"https://www.tenable.com/products/nessus\" target=\"_blank\">Nessus</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.tenable.com/nessus/Content/DeployNessusDocker.htm\" target=\"_blank\">Tenable</a>.</p>",
+            "description": "Nessus is a vulnerability scanning program for various operating systems. It consists of a daemon or devil, nessusd, which performs the scan on the target system, and nessus, the client which displays the progress and reports on the status of the scans.",
+            "logo": "https://www.gravatar.com/avatar/d27f61b9faa8533c9764d369a7293231",
+            "image": "tenable/nessus:latest-ubuntu",
+            "name": "nessus",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "centaur",
+            "ports": [
+                "8834:8834/tcp"
+            ],
+            "env": [
+                {
+                    "name": "USERNAME",
+                    "label": "USERNAME",
+                    "default": "auditor",
+                    "description": "Username"
+                },
+                {
+                    "name": "PASSWORD",
+                    "label": "PASSWORD",
+                    "default": "nessus",
+                    "description": "Password"
+                },
+                {
+                    "name": "ACTIVATION_CODE",
+                    "label": "ACTIVATION CODE",
+                    "default": "",
+                    "description": "Nessus Pro activation code"
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/opt/nessus/etc/nessus/",
+                    "bind": "/data/config/nessus"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Media",
+                "Open Source",
+                "Torrent"
+            ],
+            "title": "Prowlarr",
+            "note": "<p><a href=\"https://github.com/Prowlarr/Prowlarr\" target=\"_blank\">Prowlarr</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-prowlarr\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "Prowlarr is an indexer manager/proxy built on the popular *arr .net/reactjs base stack to integrate with your various PVR apps. Prowlarr supports management of both Torrent Trackers and Usenet Indexers. It integrates seamlessly with Lidarr, Mylar3, Radarr, Readarr and Sonarr.",
+            "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/prowlarr-banner.png",
+            "image": "linuxserver/prowlarr:latest",
+            "name": "prowlarr",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "taiga",
+            "ports": [
+                "9696:9696/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "1000",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "1000",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/config/prowlarr"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Media",
+                "Open Source",
+                "Torrent"
+            ],
+            "title": "qBittorrent",
+            "note": "<p><a href=\"https://www.qbittorrent.org\" target=\"_blank\">qBittorrent</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-qbittorrent\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "Qbittorrent aims to provide an open-source software alternative to µTorrent. qBittorrent is based on the Qt toolkit and libtorrent-rasterbar library.",
+            "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/qbittorrent-icon.png",
+            "image": "linuxserver/qbittorrent:latest",
+            "name": "qbittorrent",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "qubit",
+            "ports": [
+                "6881:6881/tcp",
+                "6881:6881/udp",
+                "8080:8080/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "0",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "0",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                },
+                {
+                    "name": "WEBUI_PORT",
+                    "label": "WEBUI PORT",
+                    "default": "8080",
+                    "description": "WebUI port. Change exposed ports if you change this value."
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/config/qbittorrent"
+                },
+                {
+                    "container": "/media",
+                    "bind": "/data/media"
+                },
+                {
+                    "container": "/downloads",
+                    "bind": "/data/torrents"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Media",
+                "Open Source",
+                "Series",
+                "Torrent"
+            ],
+            "title": "Sonarr",
+            "note": "<p><a href=\"https://sonarr.tv\" target=\"_blank\">Sonarr</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-sonarr\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "Sonarr (formerly NZBdrone) is a PVR for usenet and bittorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them.",
+            "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/sonarr-logo.png",
+            "image": "linuxserver/sonarr:latest",
+            "name": "sonarr",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "submarine",
+            "ports": [
+                "8989:8989/tcp"
+            ],
+            "env": [
+                {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "0",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "0",
+                    "description": "Group ID"
+                },
+                {
+                    "name": "TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/config",
+                    "bind": "/data/sonarr"
+                },
+                {
+                    "container": "/media",
+                    "bind": "/data/media"
+                },
+                {
+                    "container": "/downloads",
+                    "bind": "/data/torrents"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 3,
+            "categories": [
+                "Network",
+                "Security",
+                "Open Source",
+                "VPN"
+            ],
+            "title": "WireGuard",
+            "note": "<p><a href=\"https://www.wireguard.com\" target=\"_blank\">WireGuard</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-wireguard\" target=\"_blank\">linuxserver.io</a>.</p>",
+            "description": "WireGuard is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography. It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache. It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances.",
+            "logo": "https://raw.githubusercontent.com/cosasdepuma/homelab/main/services/homer/www/wireguard.png",
+            "image": "linuxserver/wireguard:latest",
+            "name": "wireguard",
+            "platform": "linux",
+            "repository": {
+                "url": "https://github.com/cosasdepuma/homelab",
+                "stackfile": "compose/wireguard/docker-compose.yml"
+            },
+            "env": [
+                {
+                    "name": "WIREGUARD_CONFIG",
+                    "label": "CONFIG",
+                    "default": "/data/config/wireguard",
+                    "description": "Path to the wireguard config folder"
+                },
+                {
+                    "name": "WIREGUARD_TZ",
+                    "label": "TZ",
+                    "default": "Europe/Madrid",
+                    "description": "Timezone"
+                },
+                {
+                    "name": "WIREGUARD_DOMAIN",
+                    "label": "DOMAIN",
+                    "default": "",
+                    "description": "Domain name for the VPN server. If you don't have one, you can use the server's IP address."
+                },
+                {
+                    "name": "WIREGUARD_PORT",
+                    "label": "PORT",
+                    "default": "51820",
+                    "description": "UDP connection port. Remember to update the exposed docker ports."
+                },
+                {
+                    "name": "WIREGUARD_PEERS",
+                    "label": "PEERS",
+                    "default": "laptop,computer,phone,tablet,tv",
+                    "description": "Number of clients (peers). Can also be a list of names: `android,ios,tv,computer` (alphanumeric only)"
+                },
+                {
+                    "name": "WIREGUARD_DNS",
+                    "label": "DNS",
+                    "default": "auto",
+                    "description": "DNS server set in client configs (can be set as `1.1.1.1`). Defaults to `auto`, which uses internal DNS via included CoreDNS forward."
+                },
+                {
+                    "name": "WIREGUARD_SUBNET",
+                    "label": "SUBNET",
+                    "default": "10.10.10.0",
+                    "description": "Internal subnet for the wireguard and server and clients."
+                },
+                {
+                    "name": "WIREGUARD_ALLOWEDIPS",
+                    "label": "ALLOWED IPS",
+                    "default": "0.0.0.0/0",
+                    "description": "The IPs/ranges (separated by commas) that the clients will be able to reach using the VPN connection. If you want split tunneling, set this to only the IPs you would like to use the tunnel AND the ip of the server's WG IP, such as 10.10.0.1."
+                }
+            ]
+        }
+    ]
+}
