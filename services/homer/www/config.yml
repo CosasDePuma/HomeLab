@@ -77,6 +77,14 @@ services:
         url: "https://192.168.1.210:9443"
         target: "_blank"
 
+      - name: "Traffic"
+        logo: "assets/icons/semaphore.png"
+        subtitle: "Ansible Management"
+        tag: "container"
+        keywords: "semaphore, ansible, tower, playbooks, tasks, automation, vms"
+        url: "https://192.168.1.210:3000"
+        target: "_blank"
+
   - name: "Productivity"
     icon: "fas fa-coffee"
     items:
