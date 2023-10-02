@@ -1,0 +1,16 @@
+---
+version: '2'
+
+services:
+  homer:
+    image: b4bz/homer:latest
+    container_name: homer
+    environment:
+      SUBFOLDER: ${HOMER_SUBFOLDER}
+      INIT_ASSETS: ${HOMER_INIT_ASSETS:-0}
+    volumes:
+      - ${HOMER_ASSETS:-./www}:/www/assets:ro
+    hostname: simpson
+    ports:
+      - ${HOMER_PORT:-9443}:9443/tcp
+    restart: unless-stopped
