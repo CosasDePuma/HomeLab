@@ -394,6 +394,10 @@
             "image": "linuxserver/wireguard:latest",
             "name": "wireguard",
             "platform": "linux",
+            "repository": {
+                "url": "https://github.com/cosasdepuma/homelab",
+                "stackfile": "compose/wireguard/docker-compose.yml"
+            },
             "env": [
                 {
                     "name": "WIREGUARD_CONFIG",
