@@ -6,12 +6,12 @@ services:
     image: linuxserver/code-server:latest
     container_name: vscode
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${VSCODE_TZ:-Europe/Madrid}
-      - PASSWORD=${VSCODE_PASSWORD:-user}
-      - SUDO_PASSWORD=${VSCODE_SUDO_PASSWORD:-toor}
-      - DEFAULT_WORKSPACE=/workspace
+      PUID: 1000
+      PGID: 1000
+      TZ: ${VSCODE_TZ:-Europe/Madrid}
+      PASSWORD: ${VSCODE_PASSWORD:-user}
+      SUDO_PASSWORD: ${VSCODE_SUDO_PASSWORD:-toor}
+      DEFAULT_WORKSPACE: /workspace
     volumes:
       - ${VSCODE_CONFIG:-/data/config/vscode}:/config:rw
       - ${VSCODE_WORKSPACE:-/data/projects}:/workspace:rw

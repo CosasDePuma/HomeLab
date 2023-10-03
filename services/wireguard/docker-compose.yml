@@ -6,17 +6,17 @@ services:
     image: linuxserver/wireguard:latest
     container_name: wireguard
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${WIREGUARD_TZ:-Europe/Madrid}
-      - SERVERURL=${WIREGUARD_DOMAIN}
-      - SERVERPORT=${WIREGUARD_PORT:-51820}
-      - PEERS=${WIREGUARD_PEERS:-laptop,computer,phone,tablet,tv}
-      - INTERNAL_SUBNET=${WIREGUARD_SUBNET:-10.10.10.0}
-      - PEERDNS=${WIREGUARD_DNS:-10.10.10.1,1.1.1.1}
-      - ALLOWEDIPS=${WIREGUARD_ALLOWEDIPS:-10.10.10.1,192.168.0.0/23}
-      - PERSISTENTKEEPALIVE_PEERS=false
-      - LOG_CONFS=false
+      PUID: 1000
+      PGID: 1000
+      TZ: ${WIREGUARD_TZ:-Europe/Madrid}
+      SERVERURL: ${WIREGUARD_DOMAIN}
+      SERVERPORT: ${WIREGUARD_PORT:-51820}
+      PEERS: ${WIREGUARD_PEERS:-laptop,computer,phone,tablet,tv}
+      INTERNAL_SUBNET: ${WIREGUARD_SUBNET:-10.10.10.0}
+      PEERDNS: ${WIREGUARD_DNS:-10.10.10.1,1.1.1.1}
+      ALLOWEDIPS: ${WIREGUARD_ALLOWEDIPS:-10.10.10.1,192.168.0.0/23}
+      PERSISTENTKEEPALIVE_PEERS: false
+      LOG_CONFS: false
     volumes:
       - /lib/modules:/lib/modules:rw
       - ${WIREGUARD_CONFIG:-/data/config/wireguard}:/config:rw
