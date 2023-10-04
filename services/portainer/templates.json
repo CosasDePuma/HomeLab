@@ -248,7 +248,7 @@
                     "name": "DOMAIN",
                     "label": "DOMAIN",
                     "default": "",
-                    "description": "VaultWarden domain"
+                    "description": "VaultWarden domain as https://domain.tld"
                 }
             ],
             "volumes": [
