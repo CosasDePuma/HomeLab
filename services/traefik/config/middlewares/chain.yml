@@ -1,0 +1,21 @@
+---
+http:
+  middlewares:
+    default:
+      chain:
+        middlewares:
+          - jokes@file
+          - security@file
+          - size@file
+
+    security:
+      chain:
+        middlewares:
+          - https@file
+          - security-headers@file
+
+    strong-security:
+      chain:
+        middlewares:
+          security@file
+          extra-security-headers@file

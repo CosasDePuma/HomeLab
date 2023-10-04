@@ -15,7 +15,7 @@ services:
       - ${SEMAPHORE_PLAYBOOKS:-/data/ansible}:/playbooks:rw
       - ${SEMAPHORE_CONFIG:-/data/config/semaphore}:/etc/semaphore:rw
       - ${SEMAPHORE_DATA:-/data/database/semaphore}:/var/lib/semaphore:rw
-    hostname: traffic
+    hostname: signal
     network_mode: bridge
     ports:
       - ${SEMAPHORE_PORT:-3000}:3000/tcp

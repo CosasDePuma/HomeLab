@@ -34,7 +34,7 @@ services:
       PHOTOPRISM_SITE_AUTHOR: K.F.
     working_dir: /photoprism
     volumes:
-      - ${PHOTOPRISM_MEDIA:-/data/media/photos}:/photoprism/originals:ro
+      - ${PHOTOPRISM_MEDIA:-/data/media/photos}:/photoprism/originals:rw
       - ${PHOTOPRISM_CONFIG:-/data/config/photoprism}:/photoprism/storage:rw
     hostname: prism
     ports:

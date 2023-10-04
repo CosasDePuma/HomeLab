@@ -1,0 +1,14 @@
+---
+http:
+  middlewares:
+    https:
+      redirectScheme:
+        port: 443
+        scheme: https
+        permanent: true
+
+      headers:
+        forceSTSHeader: true
+        stsPreload: true
+        stsSeconds: 315360000
+        stsIncludeSubdomains: true

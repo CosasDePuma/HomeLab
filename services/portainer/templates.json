@@ -67,7 +67,7 @@
             "name": "semaphore",
             "platform": "linux",
             "network": "bridge",
-            "hostname": "simpson",
+            "hostname": "signal",
             "ports": [
                 "3000:3000/tcp"
             ],
@@ -118,6 +118,40 @@
                 {
                     "container": "/playbooks",
                     "bind": "/data/ansible"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Management",
+                "Network",
+                "Open Source",
+                "Reverse Proxy"
+            ],
+            "title": "Traefik Proxy",
+            "note": "<p><a href=\"https://traefik.io/traefik/\" target=\"_blank\">Traefik Proxy</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://doc.traefik.io/traefik/\" target=\"_blank\">Traefik</a>.</p>",
+            "description": "Traefik is an open-source Edge Router that makes publishing your services a fun and easy experience. It receives requests on behalf of your system and finds out which components are responsible for handling them.",
+            "logo": "https://raw.githubusercontent.com/cosasdepuma/homelab/main/services/homer/www/icons/traefik.png",
+            "image": "traefik:latest",
+            "name": "traefik",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "traffic",
+            "ports": [
+                "80:80/tcp",
+                "443:443/tcp",
+                "8080:8080/tcp"
+            ],
+            "volumes": [
+                {
+                    "container": "/var/run/docker.sock",
+                    "bind": "/var/run/docker.sock"
+                },
+                {
+                    "container": "/etc/traefik",
+                    "bind": "/data/config/traefik"
                 }
             ],
             "restart_policy": "unless-stopped"

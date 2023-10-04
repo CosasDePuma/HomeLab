@@ -1,0 +1,47 @@
+---
+api:
+  dashboard: true
+  insecure: true
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: pumita-homelab@example.com
+      storage: /config/certificates
+      httpChallenge:
+        entryPoint: http
+
+entrypoints:
+  http:
+    address: :80
+    http:
+      middlewares:
+        - default
+      
+  https:
+    address: :443
+    http:
+      tls:
+        options: strong
+        certResolver: letsencrypt
+      middlewares:
+        - default
+
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+log:
+  filepath: /var/log/traefik.log
+  format: common
+  level: WARN
+
+providers:
+  docker:
+    endpoint: unix:///var/run/docker.sock
+    exposedByDefault: false
+    watch: true
+  
+  file:
+    directory: /config
+    watch: true
