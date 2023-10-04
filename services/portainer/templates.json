@@ -225,6 +225,41 @@
             "restart_policy": "unless-stopped"
         },
         {
+            "type": 1,
+            "categories": [
+                "Open Source",
+                "Password Manager",
+                "Security"
+            ],
+            "title": "VaultWarden",
+            "note": "<p><a href=\"https://github.com/dani-garcia/vaultwarden\" target=\"_blank\">VaultWarden</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://github.com/dani-garcia/vaultwarden/wiki\" target=\"_blank\">@dani-garcia</a>.</p>",
+            "description": "Alternative implementation of the Bitwarden server API written in Rust and compatible with upstream Bitwarden clients*, perfect for self-hosted deployment where running the official resource-heavy service might not be ideal.",
+            "logo": "https://raw.githubusercontent.com/cosasdepuma/homelab/main/services/homer/www/icons/vaultwarden.png",
+            "image": "vaultwarden/server:latest",
+            "name": "vaultwarden",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "vault",
+            "ports": [
+                "80:80/tcp"
+            ],
+            "env": [
+                {
+                    "name": "DOMAIN",
+                    "label": "DOMAIN",
+                    "default": "",
+                    "description": "VaultWarden domain"
+                }
+            ],
+            "volumes": [
+                {
+                    "container": "/data",
+                    "bind": "/data/config/vaultwarden"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
             "type": 3,
             "categories": [
                 "Network",

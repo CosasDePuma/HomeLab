@@ -12,5 +12,5 @@ services:
     hostname: vault
     network_mode: bridge
     ports:
-      - ${VAULTWARDEN_PORT:-80}:80
+      - ${VAULTWARDEN_PORT:-80}:80/tcp
     restart: unless-stopped
