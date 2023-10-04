@@ -7,16 +7,13 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: pumita-homelab@example.com
-      storage: /config/certificates
+      storage: /etc/traefik/certificates
       httpChallenge:
         entryPoint: http
 
 entrypoints:
   http:
     address: :80
-    http:
-      middlewares:
-        - default
       
   https:
     address: :443
@@ -24,17 +21,14 @@ entrypoints:
       tls:
         options: strong
         certResolver: letsencrypt
-      middlewares:
-        - default
 
 global:
   checkNewVersion: true
   sendAnonymousUsage: false
 
 log:
-  filepath: /var/log/traefik.log
   format: common
-  level: WARN
+  level: INFO
 
 providers:
   docker:
@@ -43,5 +37,5 @@ providers:
     watch: true
   
   file:
-    directory: /config
+    directory: /etc/traefik
     watch: true

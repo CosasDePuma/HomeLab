@@ -1,10 +1,11 @@
 ---
 http:
   middlewares:
-    size:
+    buffering:
       buffering:
         maxRequestBodyBytes: 2000000 # 2MB
 
+    compression:
       compress:
         minResponseBodyBytes: 1024
         excludedContentTypes:

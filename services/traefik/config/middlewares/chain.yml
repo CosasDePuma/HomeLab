@@ -6,7 +6,19 @@ http:
         middlewares:
           - jokes@file
           - security@file
-          - size@file
+          - performance@file
+
+    https:
+      chain:
+        middlewares:
+          - https-redirect@file
+          - hsts@file
+
+    performance:
+      chain:
+        middlewares:
+          - buffering@file
+          - compression@file
 
     security:
       chain:
