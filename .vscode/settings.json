@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "/**/playbooks/**/*.yml": "ansible"
+    },
+    "ansible.ansibleNavigator.path": "",
+    "ansible.python.interpreterPath": "python3",
+    "ansible.validation.lint.enabled": false,
+    "redhat.telemetry.enabled": false
+}
