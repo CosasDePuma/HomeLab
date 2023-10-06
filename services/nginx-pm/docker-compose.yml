@@ -4,6 +4,8 @@ services:
   nginx-proxy-manager:
     container_name: nginx-proxy-manager
     image: jc21/nginx-proxy-manager:latest
+    environment:
+      DISABLE_IPV6: ${NGINXPM_NOIPV6:-true}
     volumes:
       - ${NGINXPM_CONFIG:-/data/config/nginx-pm}:/data:rw
       - ${CERTIFICATES:-/data/certificates}:/etc/letsencrypt:rw

@@ -73,6 +73,13 @@
                 "81:81/tcp",
                 "443:443/tcp"
             ],
+            "env": [
+                {
+                    "name": "DISABLE_IPV6",
+                    "label": "DISABLE IPv6",
+                    "default": true
+                }
+            ],
             "volumes": [
                 {
                     "container": "/data",
