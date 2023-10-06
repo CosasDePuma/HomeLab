@@ -58,6 +58,39 @@
                 "IDE",
                 "Productivity"
             ],
+            "title": "Nginx Proxy Manager",
+            "note": "<p><a href=\"https://nginxproxymanager.com\" target=\"_blank\">Nginx Proxy Manager</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://nginxproxymanager.com/guide/#quick-setup\" target=\"_blank\">@jc21</a>.</p>",
+            "description": "Expose web services on your network using free SSL with Let's Encrypt. Designed with security in mind, perfect for home networks.",
+            "logo": "https://raw.githubusercontent.com/cosasdepuma/homelab/main/services/homer/www/icons/nginx-pm.png",
+            "image": "jc21/nginx-proxy-manager:latest",
+            "name": "nginx-proxy-manager",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "accreditor",
+            "ports": [
+                "80:80/tcp",
+                "81:81/tcp",
+                "443:443/tcp"
+            ],
+            "volumes": [
+                {
+                    "container": "/data",
+                    "bind": "/data/config/nginx-pm"
+                },
+                {
+                    "container": "/etc/letsencrypt",
+                    "bind": "/data/certificates"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Development",
+                "IDE",
+                "Productivity"
+            ],
             "title": "VSCode",
             "note": "<p><a href=\"https://coder.com\" target=\"_blank\">VSCode Server</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://docs.linuxserver.io/images/docker-code-server\" target=\"_blank\">linuxserver.io</a>.</p>",
             "description": "VS Code running on a remote server, accessible through the browser.",

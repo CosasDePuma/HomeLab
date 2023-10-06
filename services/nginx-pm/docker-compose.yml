@@ -1,0 +1,16 @@
+---
+version: '3.8'
+services:
+  nginx-proxy-manager:
+    container_name: nginx-proxy-manager
+    image: jc21/nginx-proxy-manager:latest
+    volumes:
+      - ${NGINXPM_CONFIG:-/data/config/nginx-pm}:/data:rw
+      - ${CERTIFICATES:-/data/certificates}:/etc/letsencrypt:rw
+    hostname: accreditor
+    network_mode: bridge
+    ports:
+      - 80:80/tcp
+      - 81:81/tcp
+      - 443:443/tcp
+    restart: unless-stopped
