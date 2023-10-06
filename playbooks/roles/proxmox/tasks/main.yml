@@ -1,0 +1,37 @@
+---
+- name: Disable Proxmox EE repository
+  ansible.builtin.apt_repository:
+    filename: pve-enterprise
+    repo: deb https://enterprise.proxmox.com/debian/pve {{ os_flavour }} pve-enterprise
+    update_cache: false
+    state: absent
+
+- name: Disable Proxmox CEPH repository
+  ansible.builtin.apt_repository:
+    filename: ceph
+    repo: deb https://enterprise.proxmox.com/debian/ceph-quincy {{ os_flavour }} enterprise
+    update_cache: false
+    state: absent
+
+- name: Add Proxmox CE repository
+  ansible.builtin.apt_repository:
+    filename: pve-no-subscription
+    repo: deb http://download.proxmox.com/debian {{ os_flavour }} pve-no-subscription
+    update_cache: true
+    state: present
+
+- name: VLAN Awareness
+  ansible.builtin.lineinfile:
+    path: /etc/network/interfaces
+    insertafter: bridge-fd
+    regex: bridge-vlan-aware
+    line: \tbridge-vlan-aware yes
+    state: "{{ 'present' if vlan_enabled else 'absent' }}"
+
+- name: VLAN IDs
+  ansible.builtin.lineinfile:
+    path: /etc/network/interfaces
+    insertafter: bridge-vlan-aware
+    regex: bridge-vids
+    line: \tbridge-vids 2-4094
+    state: "{{ 'present' if vlan_enabled else 'absent' }}"

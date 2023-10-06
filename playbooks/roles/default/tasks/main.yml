@@ -1,0 +1,40 @@
+---
+- name: APT upgrade
+  ansible.builtin.apt:
+    autoclean: true
+    autoremove: true
+    clean: true
+    upgrade: true
+  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+
+- name: YUM upgrade
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
+    autoremove: true
+    update_cache: true
+  when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+- name: Timezone
+  community.general.timezone:
+    name: Europe/Madrid
+
+- name: Crontab reboot
+  ansible.builtin.cron:
+    name: reboot
+    hour: 04
+    minute: 00
+    job: "/sbin/reboot"
+    state: present
+
+- name: Standard packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - btop
+    - curl
+    - git
+    - nano
+    - neovim
+    - wget

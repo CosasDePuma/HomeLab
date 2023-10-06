@@ -12,7 +12,7 @@ services:
       SEMAPHORE_ADMIN_EMAIL: ${SEMAPHORE_EMAIL:admin@localhost}
       SEMAPHORE_PLAYBOOK_PATH: /playbooks
     volumes:
-      - ${SEMAPHORE_PLAYBOOKS:-/data/ansible}:/playbooks:rw
+      - ${SEMAPHORE_PLAYBOOKS:-/data/playbooks}:/playbooks:rw
       - ${SEMAPHORE_CONFIG:-/data/config/semaphore}:/etc/semaphore:rw
       - ${SEMAPHORE_DATA:-/data/database/semaphore}:/var/lib/semaphore:rw
     hostname: signal

@@ -1,0 +1,10 @@
+---
+- hosts: proxmox
+  remote_user: root
+  vars:
+    os_flavour: bookworm
+    vlan_enabled: false
+  roles:
+    - proxmox
+    - default
+    
