@@ -66,7 +66,7 @@
             "image": "jc21/nginx-proxy-manager:latest",
             "name": "nginx-proxy-manager",
             "platform": "linux",
-            "network": "bridge",
+            "network": "proxy",
             "hostname": "accreditor",
             "ports": [
                 "80:80/tcp",
@@ -75,9 +75,28 @@
             ],
             "env": [
                 {
+                    "name": "PUID",
+                    "label": "UID",
+                    "default": "1000",
+                    "description": "User ID"
+                },
+                {
+                    "name": "PGID",
+                    "label": "GID",
+                    "default": "1000",
+                    "description": "Group ID"
+                },
+                {
                     "name": "DISABLE_IPV6",
                     "label": "DISABLE IPv6",
-                    "default": true
+                    "default": true,
+                    "description": "Disable IPv6 support"
+                },
+                {
+                    "name": "X_FRAME_OPTIONS",
+                    "label": "X-FRAME-OPTIONS",
+                    "default": "deny",
+                    "description": "X-FRAME-OPTIONS header value"
                 }
             ],
             "volumes": [
