@@ -54,9 +54,10 @@
         {
             "type": 1,
             "categories": [
-                "Development",
-                "IDE",
-                "Productivity"
+                "Certificates",
+                "Network",
+                "Security",
+                "Web Servers"
             ],
             "title": "Nginx Proxy Manager",
             "note": "<p><a href=\"https://nginxproxymanager.com\" target=\"_blank\">Nginx Proxy Manager</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://nginxproxymanager.com/guide/#quick-setup\" target=\"_blank\">@jc21</a>.</p>",
