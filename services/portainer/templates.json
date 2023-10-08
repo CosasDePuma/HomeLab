@@ -19,6 +19,14 @@
             "ports": [
                 "7575:7575/tcp"
             ],
+            "env": [
+                {
+                    "name": "EDIT_MODE_PASSWORD",
+                    "label": "EDIT PASSWORD",
+                    "default": "homarr",
+                    "description": "Password to enable/disable edit mode."
+                }
+            ],
             "volumes": [
                 {
                     "container": "/app/data/configs",
@@ -27,6 +35,10 @@
                 {
                     "container": "/app/public/icons",
                     "bind": "/data/config/homarr/icons"
+                },
+                {
+                    "container": "/var/run/docker.sock",
+                    "bind": "/var/run/docker.sock"
                 }
             ],
             "restart_policy": "unless-stopped"

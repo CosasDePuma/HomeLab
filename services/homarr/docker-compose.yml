@@ -5,7 +5,10 @@ services:
   homarr:
     image: ghcr.io/ajnart/homarr:latest
     container_name: homarr
+    environment:
+      EDIT_MODE_PASSWORD: ${HOMARR_PASSWORD:-homarr}
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
       - ${HOMARR_CONFIG:-/data/config/homarr}:/app/data/configs
       - ${HOMARR_ASSETS:-../../icons}:/app/public/icons
     hostname: lobster
