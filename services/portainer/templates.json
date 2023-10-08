@@ -7,6 +7,36 @@
                 "Dashboard",
                 "Open Source"
             ],
+            "title": "Homarr",
+            "note": "<p><a href=\"https://homarr.dev\" target=\"_blank\">Homarr</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://github.com/bastienwirtz/homer#getting-started\" target=\"_blank\">@bastienwirtz</a>.</p>",
+            "description": "Simplify the management of your server with Homarr - a sleek, modern dashboard that puts all of your apps and services at your fingertips. With Homarr, you can access and control everything in one convenient location.",
+            "logo": "https://raw.githubusercontent.com/bastienwirtz/homer/main/public/logo.png",
+            "image": "ghcr.io/ajnart/homarr:latest",
+            "name": "homarr",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "lobster",
+            "ports": [
+                "7575:7575/tcp"
+            ],
+            "volumes": [
+                {
+                    "container": "/app/data/configs",
+                    "bind": "/data/config/homarr"
+                },
+                {
+                    "container": "/app/public/icons",
+                    "bind": "/data/config/homarr/icons"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Dashboard",
+                "Open Source"
+            ],
             "title": "Homer",
             "note": "<p><a href=\"https://github.com/bastienwirtz/homer\" target=\"_blank\">Homer</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://github.com/bastienwirtz/homer#getting-started\" target=\"_blank\">@bastienwirtz</a>.</p>",
             "description": "Homer is a very simple static homepage for your server. A dead simple static HOMepage for your servER to keep your services on hand, from a simple yaml configuration file.",

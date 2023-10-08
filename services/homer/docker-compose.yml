@@ -9,7 +9,8 @@ services:
       SUBFOLDER: ${HOMER_SUBFOLDER}
       INIT_ASSETS: ${HOMER_INIT_ASSETS:-0}
     volumes:
-      - ${HOMER_ASSETS:-./www}:/www/assets:ro
+      - ${HOMER_ASSETS:-./config}:/www/assets:ro
+      - ${HOMER_ICONS:-../../icons}:/www/assets/icons:ro
     hostname: simpson
     network_mode: bridge
     ports:
