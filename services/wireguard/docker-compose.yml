@@ -19,7 +19,7 @@ services:
       LOG_CONFS: false
     volumes:
       - /lib/modules:/lib/modules:rw
-      - ${WIREGUARD_CONFIG:-/data/config/wireguard}:/config:rw
+      - ${WIREGUARD_CONFIG:-/share/config/wireguard}:/config:rw
     hostname: knight
     ports:
       - ${WIREGUARD_PORT:-51820}:51820/udp

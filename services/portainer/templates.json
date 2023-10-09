@@ -30,11 +30,11 @@
             "volumes": [
                 {
                     "container": "/app/data/configs",
-                    "bind": "/data/config/homarr"
+                    "bind": "/share/config/homarr"
                 },
                 {
                     "container": "/app/public/icons",
-                    "bind": "/data/config/homarr/icons"
+                    "bind": "/share/config/homarr/icons"
                 },
                 {
                     "container": "/var/run/docker.sock",
@@ -88,7 +88,7 @@
             "volumes": [
                 {
                     "container": "/www/assets",
-                    "bind": "/data/config/homer"
+                    "bind": "/share/config/homer"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -144,11 +144,11 @@
             "volumes": [
                 {
                     "container": "/data",
-                    "bind": "/data/config/nginx-pm"
+                    "bind": "/share/config/nginx-pm"
                 },
                 {
                     "container": "/etc/letsencrypt",
-                    "bind": "/data/certificates"
+                    "bind": "/share/certificates"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -212,11 +212,11 @@
             "volumes": [
                 {
                     "container": "/config",
-                    "bind": "/data/config/vscode"
+                    "bind": "/share/config/vscode"
                 },
                 {
                     "container": "/workspace",
-                    "bind": "/data/projects"
+                    "bind": "/share/projects"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -235,11 +235,8 @@
             "image": "vaultwarden/server:latest",
             "name": "vaultwarden",
             "platform": "linux",
-            "network": "bridge",
+            "network": "proxy",
             "hostname": "vault",
-            "ports": [
-                "80:80/tcp"
-            ],
             "env": [
                 {
                     "name": "DOMAIN",
@@ -251,7 +248,31 @@
             "volumes": [
                 {
                     "container": "/data",
-                    "bind": "/data/config/vaultwarden"
+                    "bind": "/share/config/vaultwarden"
+                }
+            ],
+            "restart_policy": "unless-stopped"
+        },
+        {
+            "type": 1,
+            "categories": [
+                "Container Manager",
+                "Open Source",
+                "Updates"
+            ],
+            "title": "WatchTower",
+            "note": "<p><a href=\"https://github.com/containrrr/watchtower/\" target=\"_blank\">WatchTower</a> template by <a href=\"https://www.github.com/cosasdepuma\" target=\"_blank\">@cosasdepuma</a> based on data provided by <a href=\"https://containrrr.dev/watchtower/\" target=\"_blank\">@containrrr</a>.</p>",
+            "description": "WatchTower is a container-based solution for automating Docker container base image updates. It will pull down your new image, gracefully shut down your existing container and restart it with the same options that were used when it was deployed initially.",
+            "logo": "https://raw.githubusercontent.com/cosasdepuma/homelab/main/icons/watchtower.png",
+            "image": "containrrr/watchtower:latest",
+            "name": "watchtower",
+            "platform": "linux",
+            "network": "bridge",
+            "hostname": "lighthouse",
+            "volumes": [
+                {
+                    "container": "/var/run/docker.sock",
+                    "bind": "/var/run/docker.sock"
                 }
             ],
             "restart_policy": "unless-stopped"
@@ -279,7 +300,7 @@
                 {
                     "name": "WIREGUARD_CONFIG",
                     "label": "CONFIG",
-                    "default": "/data/config/wireguard",
+                    "default": "/share/config/wireguard",
                     "description": "Path to the wireguard config folder"
                 },
                 {
