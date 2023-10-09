@@ -211,11 +211,11 @@
             "volumes": [
                 {
                     "container": "/etc/semaphore",
-                    "bind": "/share/config/semaphore"
+                    "bind": "/share/config/semaphore/etc"
                 },
                 {
                     "container": "/var/lib/semaphore",
-                    "bind": "/share/config/semaphore/database"
+                    "bind": "/share/config/semaphore/lib"
                 },
                 {
                     "container": "/playbooks",
