@@ -7,4 +7,12 @@
   roles:
     - proxmox
     - default
-    
+- hosts: portainer
+  remote_user: root
+  vars:
+    share: /share
+    domain: lab.kike.wtf
+    password: homelab
+  roles:
+    - default
+    - containers

@@ -1,0 +1,215 @@
+---
+- name: Install Docker
+  ansible.builtin.command:
+    cmd: curl -fsSL https://get.docker.com | sh
+    creates: /usr/bin/docker
+
+- name: Install Docker Compose
+  ansible.builtin.apt:
+    package: docker-compose
+    state: present
+    autoclean: true
+    autoremove: true
+    clean: true
+    update_cache: true
+  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+
+- name: Create config folders
+  ansible.builtin.file:
+    path: '{{ share }}/config/{{ item }}'
+    state: directory
+    recurse: true
+    mode: '0700'
+    owner: 1000
+    group: root
+  with_items:
+    - _certs
+    - gitea
+    - homarr
+    - nginx-pm
+    - portainer
+    - vaultwarden
+    - vscode
+    - wireguard
+
+- name: Create projects directory
+  ansible.builtin.file:
+    path: '{{ share }}/projects'
+    state: directory
+    recurse: true
+    mode: '0700'
+    owner: 1000
+    group: root
+
+- name: Create the proxy network used by exposed services
+  community.docker.docker_network:
+    name: proxy
+    state: present
+
+# -- | Internal Services
+
+- name: Internal Service -> Portainer
+  community.docker.docker_network:
+    name: portainer
+    state: started
+    image: portainer/portainer-ce:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - '{{ share }}/config/portainer:/data:rw'
+    hostname: whales
+    network_mode: bridge
+    ports:
+      - 9443:9443/tcp
+    restart: unless-stopped
+
+- name: Internal Service -> Homarr
+  community.docker.docker_network:
+    name: homarr
+    state: started
+    image: ghcr.io/ajnart/homarr:latest
+    env:
+      EDIT_MODE_PASSWORD: '{{ password }}'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - '{{ share }}/config/homarr:/app/data/configs:rw'
+      - '{{ share }}/config/homarr/icons:/app/public/icons:ro'
+    hostname: lobster
+    network_mode: bridge
+    ports:
+      - 88:7575/tcp
+    restart: unless-stopped
+
+- name: Internal Service -> VSCode
+  community.docker.docker_network:
+    name: vscode
+    state: started
+    image: linuxserver/code-server:latest
+    env:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Madrid
+      PASSWORD: '{{ password }}'
+      SUDO_PASSWORD: '{{ password }}'
+      DEFAULT_WORKSPACE: /workspace
+    volumes:
+      - '{{ share }}/config/vscode:/config:rw'
+      - '{{ share }}/projects:/workspace:rw'
+    hostname: workbench
+    network_mode: bridge
+    ports:
+      - 8443:8443/tcp
+    restart: unless-stopped
+
+- name: Internal Service -> WatchTower
+  community.docker.docker_network:
+    name: watchtower
+    state: started
+    image: containrrr/watchtower:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    hostname: lighthouse
+    network_mode: bridge
+    networks:
+      - name: proxy
+    ports:
+      - 8443:8443/tcp
+    restart: unless-stopped
+
+# -- | Exposed Services
+
+- name: Exposed Service -> Nginx Proxy Manager
+  community.docker.docker_network:
+    name: nginx-proxy-manager
+    state: started
+    image: jc21/nginx-proxy-manager:latest
+    env:
+      PUID: 1000
+      PGID: 1000
+      DISABLE_IPV6: true
+      X_FRAME_OPTIONS: deny
+    volumes:
+      - '{{ share }}/config/nginx-pm:/data:rw'
+      - '{{ share }}/config/_certs:/etc/letsencrypt:rw'
+    hostname: accreditor
+    network_mode: proxy
+    ports:
+      - 81:81/tcp
+      - 80:80/tcp
+      - 443:443/tcp
+    restart: unless-stopped
+
+- name: Exposed Service -> Gitea
+  community.docker.docker_network:
+    name: gitea
+    state: started
+    image: gitea/gitea:latest
+    env:
+      USER_UID: 1000
+      USER_GID: 1000
+    volumes:
+      - /etc/datetime:/etc/datetime:ro
+      - /etc/localtime:/etc/localtime:ro
+      - '{{ share }}/config/gitea:/data:rw'
+    hostname: tea
+    network_mode: proxy
+    restart: unless-stopped
+
+- name: Exposed Service -> VaultWarden
+  community.docker.docker_network:
+    name: vaultwarden
+    state: started
+    image: vaultwarden/server:latest
+    env:
+      DOMAIN: https://pw.{{ domain }}
+    volumes:
+      - '{{ share }}/config/vaultwarden:/data:rw'
+    hostname: vault
+    network_mode: proxy
+    restart: unless-stopped
+
+- name: Exposed Service -> Gitea
+  community.docker.docker_network:
+    name: gitea
+    state: started
+    image: gitea/gitea:latest
+    env:
+      USER_UID: 1000
+      USER_GID: 1000
+    volumes:
+      - /etc/datetime:/etc/datetime:ro
+      - /etc/localtime:/etc/localtime:ro
+      - '{{ share }}/config/gitea:/data:rw'
+    hostname: tea
+    network_mode: proxy
+    restart: unless-stopped
+
+- name: Exposed Service -> WireGuard
+  community.docker.docker_network:
+    name: wireguard
+    state: started
+    image: linuxserver/wireguard:latest
+    env:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Madrid
+      SERVERURL: vpn.{{ domain }}
+      SERVERPORT: 51820
+      PEERS: laptop,computer,phone,tablet,tv
+      INTERNAL_SUBNET: 10.10.10.0
+      PEERDNS: 10.10.10.1,1.1.1.1
+      ALLOWEDIPS: 10.10.10.1,192.168.0.0/23
+      PERSISTENTKEEPALIVE_PEERS: false
+      LOG_CONFS: false
+    volumes:
+      - /lib/modules:/lib/modules:rw
+      - '{{ share }}/config/vaultwarden:/config:rw'
+    hostname: knight
+    network_mode: bridge
+    ports:
+      - 51820:51820/udp
+    capabilities:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
