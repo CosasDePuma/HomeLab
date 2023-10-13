@@ -226,8 +226,16 @@
             ],
             "volumes": [
                 {
-                    "container": "/octobot",
-                    "bind": "/share/config/octobot"
+                    "container": "/octobot/user",
+                    "bind": "/share/config/octobot/user"
+                },
+                {
+                    "container": "/octobot/tentacles",
+                    "bind": "/share/config/octobot/tentacles"
+                },
+                {
+                    "container": "/octobot/logs",
+                    "bind": "/share/config/octobot/logs"
                 }
             ],
             "restart_policy": "unless-stopped"
