@@ -7,6 +7,12 @@
     upgrade: true
   when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
+- name: Install EPEL repo
+  ansible.builtin.yum:
+    name: epel-release
+    state: present
+  when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
 - name: YUM upgrade
   ansible.builtin.yum:
     name: '*'
