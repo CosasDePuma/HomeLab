@@ -1,7 +1,13 @@
 ---
 - name: Install Docker
-  ansible.builtin.command:
-    cmd: curl -fsSL https://get.docker.com | sh
+  ansible.builtin.get_url:
+    url: https://get.docker.com
+    dest: /tmp/get-docker.sh
+    mode: '0700'
+
+- name: Install Docker
+  ansible.builtin.shell:
+    cmd: /tmp/get-docker.sh
     creates: /usr/bin/docker
 
 - name: Install Docker Compose
