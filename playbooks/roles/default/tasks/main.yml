@@ -49,6 +49,7 @@
     state: present
   with_items:
     - btop
+  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
 - name: Standard packages (CentOS/RedHat)
   ansible.builtin.package:
@@ -56,6 +57,7 @@
     state: present
   with_items:
     - htop
+  when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
 
 - name: Default user
   ansible.builtin.user:

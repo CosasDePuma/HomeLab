@@ -1,0 +1,25 @@
+---
+- name: Install required packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - nano
+    - python3
+    - python3-pip
+    - sshpass
+
+- name: Install pipx (and upgrade pip)
+  ansible.builtin.pip:
+    name: pip
+    state: latest
+  with_items:
+    - pip
+    - pipx
+
+- name: Install Ansible
+  community.general.pipx:
+    name: ansible
+    install_deps: true
+    state: latest
