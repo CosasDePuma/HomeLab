@@ -26,7 +26,7 @@
   roles:
     - containers
 
-- hosts: ansible
-  become: true
-  roles:
-    - ansible
+#- hosts: ansible
+#  become: true
+#  roles:
+#    - ansible
