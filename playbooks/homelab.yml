@@ -1,18 +1,36 @@
 ---
-- hosts: proxmox
+- hosts: all
   remote_user: root
+  become: true
+  handlers:
+    - name: sshd
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
+  roles:
+    - default
+
+- hosts: proxmox
+  remote_user: user
+  become: true
   vars:
     os_flavour: bookworm
     vlan_enabled: false
   roles:
     - proxmox
-    - default
+
 - hosts: portainer
-  remote_user: root
+  remote_user: user
+  become: true
   vars:
     share: /share
     domain: lab.kike.wtf
     password: homelab
   roles:
-    - default
     - containers
+
+- hosts: ansible
+  remote_user: user
+  become: true
+  roles:
+    - ansible

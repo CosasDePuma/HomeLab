@@ -38,3 +38,24 @@
     - nano
     - neovim
     - wget
+
+- name: Default user
+  ansible.builtin.user:
+    name: user
+    group: users
+    shell: /bin/bash
+    create_home: yes
+    home: /home/user
+    password: "{{ 'user' | password_hash('sha512') }}"
+    update_password: on_create
+    password_expire_min: 0
+    state: present
+
+- name: Disable root login via SSH
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin no'
+    state: present
+  notify:
+    - sshd
