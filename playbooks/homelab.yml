@@ -1,6 +1,5 @@
 ---
 - hosts: all
-  remote_user: root
   become: true
   handlers:
     - name: sshd
@@ -11,7 +10,6 @@
     - default
 
 - hosts: proxmox
-  remote_user: user
   become: true
   vars:
     os_flavour: bookworm
@@ -20,7 +18,6 @@
     - proxmox
 
 - hosts: portainer
-  remote_user: user
   become: true
   vars:
     share: /share
@@ -30,7 +27,6 @@
     - containers
 
 - hosts: ansible
-  remote_user: user
   become: true
   roles:
     - ansible
