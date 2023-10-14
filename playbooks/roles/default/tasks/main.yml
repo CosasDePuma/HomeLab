@@ -37,12 +37,25 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - btop
     - curl
     - git
     - nano
     - neovim
     - wget
+
+- name: Standard packages (Ubuntu/Debian)
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - btop
+
+- name: Standard packages (CentOS/RedHat)
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - htop
 
 - name: Default user
   ansible.builtin.user:
