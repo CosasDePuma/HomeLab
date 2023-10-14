@@ -18,6 +18,7 @@
 - name: Install Docker Python module
   ansible.builtin.pip:
     name: docker
+    executable: pip3
     state: latest
 
 - name: Add user to docker group
