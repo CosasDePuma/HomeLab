@@ -48,7 +48,7 @@
 - name: pip3 as default pip
   ansible.builtin.file:
     src: /usr/bin/pip3
-    dst: /usr/bin/pip
+    dest: /usr/bin/pip
     state: link
 
 - name: Standard packages (Ubuntu/Debian)
