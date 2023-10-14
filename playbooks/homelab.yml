@@ -20,7 +20,7 @@
 - hosts: portainer
   become: true
   vars:
-    share: /share
+    share: /srv
     domain: lab.kike.wtf
     password: homelab
   roles:

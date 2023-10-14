@@ -32,21 +32,23 @@
     job: "/sbin/reboot"
     state: present
 
-- name: Standard packages
+- name: Standard packages (Agnostic)
   ansible.builtin.package:
     name: "{{ item }}"
-    state: present
+    state: latest
   with_items:
     - curl
     - git
     - nano
     - neovim
+    - python3
+    - python3-pip
     - wget
 
 - name: Standard packages (Ubuntu/Debian)
   ansible.builtin.package:
     name: "{{ item }}"
-    state: present
+    state: latest
   with_items:
     - btop
   when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
@@ -54,7 +56,7 @@
 - name: Standard packages (CentOS/RedHat)
   ansible.builtin.package:
     name: "{{ item }}"
-    state: present
+    state: latest
   with_items:
     - htop
   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"

@@ -1,5 +1,5 @@
 ---
-- name: Install Docker
+- name: Download Docker installer
   ansible.builtin.get_url:
     url: https://get.docker.com
     dest: /tmp/get-docker.sh
@@ -11,14 +11,20 @@
     creates: /usr/bin/docker
 
 - name: Install Docker Compose
-  ansible.builtin.apt:
-    package: docker-compose
-    state: present
-    autoclean: true
-    autoremove: true
-    clean: true
-    update_cache: true
-  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+  ansible.builtin.package:
+    name: docker-compose
+    state: latest
+
+- name: Install Docker Python module
+  ansible.builtin.pip:
+    name: docker
+    state: latest
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: '{{ ansible_user }}'
+    group: docker
+    append: yes
 
 - name: Create config folders
   ansible.builtin.file:
