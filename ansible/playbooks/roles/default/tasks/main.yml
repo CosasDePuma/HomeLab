@@ -45,12 +45,6 @@
     - python3-pip
     - wget
 
-- name: pip3 as default pip
-  ansible.builtin.file:
-    src: /usr/bin/pip3
-    dest: /usr/bin/pip
-    state: link
-
 - name: Standard packages (Ubuntu/Debian)
   ansible.builtin.package:
     name: "{{ item }}"

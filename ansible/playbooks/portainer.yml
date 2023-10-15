@@ -1,0 +1,12 @@
+---
+- hosts: portainer
+  become: true
+  become_method: su
+  vars:
+    share: /srv
+    domain: lab.kike.wtf
+    password: homelab
+  roles:
+    - default
+    - docker
+    - containers

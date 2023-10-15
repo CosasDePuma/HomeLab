@@ -1,0 +1,10 @@
+---
+- hosts: proxmox
+  become: true
+  become_method: su
+  vars:
+    os_flavour: bookworm
+    vlan_enabled: false
+  roles:
+    - default
+    - proxmox

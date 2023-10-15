@@ -1,0 +1,9 @@
+---
+- name: Virtual Machine Manager
+  ansible.builtin.import_playbook: proxmox.yml
+
+- name: Docker Manager
+  ansible.builtin.import_playbook: portainer.yml
+
+- name: Ansible Manager
+  ansible.builtin.import_playbook: ansible.yml

@@ -1,0 +1,56 @@
+---
+- name: Install required packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - git
+    - nano
+    - python3
+    - python3-pip
+    - sshpass
+
+- name: Install pipx (and upgrade pip)
+  ansible.builtin.pip:
+    name: pip
+    executable: pip3
+    state: latest
+  with_items:
+    - pip
+    - pipx
+
+- name: Install Ansible
+  community.general.pipx:
+    name: ansible
+    install_deps: true
+    state: latest
+
+- name: Create Semaphore directories
+  ansible.builtin.file:
+    path: '/srv/{{ item }}'
+    state: directory
+    recurse: true
+    mode: '0700'
+    owner: 1000
+    group: root
+  with_items:
+    - config
+    - database
+
+- name: Install Semaphore
+  community.docker.docker_container:
+    name: semaphore
+    state: started
+    image: semaphoreui/semaphore:latest
+    env:
+      SEMAPHORE_DB_DIALECT: 'bolt'
+      SEMAPHORE_ADMIN: 'root'
+      SEMAPHORE_ADMIN_NAME: 'Ansible'
+      SEMAPHORE_ADMIN_EMAIL: 'root@localhost'
+      SEMAPHORE_ADMIN_PASSWORD: '{{ password | default("homelab") }}'
+    volumes:
+      - '/srv/config:/etc/semaphore:rw'
+      - '/srv/database:/var/lib/semaphore:rw'
+    hostname: semaphore
+    network_mode: bridge
+    restart: unless-stopped

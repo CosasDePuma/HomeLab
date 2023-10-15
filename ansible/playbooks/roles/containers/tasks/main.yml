@@ -1,32 +1,4 @@
 ---
-- name: Download Docker installer
-  ansible.builtin.get_url:
-    url: https://get.docker.com
-    dest: /tmp/get-docker.sh
-    mode: '0700'
-
-- name: Install Docker
-  ansible.builtin.shell:
-    cmd: /tmp/get-docker.sh
-    creates: /usr/bin/docker
-
-- name: Install Docker Compose
-  ansible.builtin.package:
-    name: docker-compose
-    state: latest
-
-- name: Install Docker Python module
-  ansible.builtin.pip:
-    name: docker
-    executable: pip3
-    state: latest
-
-- name: Add user to docker group
-  ansible.builtin.user:
-    name: '{{ ansible_user }}'
-    groups: docker
-    append: yes
-
 - name: Create config folders
   ansible.builtin.file:
     path: '{{ share }}/config/{{ item }}'
@@ -62,7 +34,7 @@
 # -- | Internal Services
 
 - name: Internal Service -> Portainer
-  community.docker.docker_network:
+  community.docker.docker_container:
     name: portainer
     state: started
     image: portainer/portainer-ce:latest
@@ -76,7 +48,7 @@
     restart: unless-stopped
 
 - name: Internal Service -> Homarr
-  community.docker.docker_network:
+  community.docker.docker_container:
     name: homarr
     state: started
     image: ghcr.io/ajnart/homarr:latest
@@ -93,17 +65,17 @@
     restart: unless-stopped
 
 - name: Internal Service -> VSCode
-  community.docker.docker_network:
+  community.docker.docker_container:
     name: vscode
     state: started
     image: linuxserver/code-server:latest
     env:
-      PUID: 1000
-      PGID: 1000
-      TZ: Europe/Madrid
+      PUID: '1000'
+      PGID: '1000'
+      TZ: 'Europe/Madrid'
       PASSWORD: '{{ password }}'
       SUDO_PASSWORD: '{{ password }}'
-      DEFAULT_WORKSPACE: /workspace
+      DEFAULT_WORKSPACE: '/workspace'
     volumes:
       - '{{ share }}/config/vscode:/config:rw'
       - '{{ share }}/projects:/workspace:rw'
@@ -114,7 +86,7 @@
     restart: unless-stopped
 
 - name: Internal Service -> WatchTower
-  community.docker.docker_network:
+  community.docker.docker_container:
     name: watchtower
     state: started
     image: containrrr/watchtower:latest
@@ -131,15 +103,15 @@
 # -- | Exposed Services
 
 - name: Exposed Service -> Nginx Proxy Manager
-  community.docker.docker_network:
+  community.docker.docker_container:
     name: nginx-proxy-manager
     state: started
     image: jc21/nginx-proxy-manager:latest
     env:
-      PUID: 1000
-      PGID: 1000
-      DISABLE_IPV6: true
-      X_FRAME_OPTIONS: deny
+      PUID: '1000'
+      PGID: '1000'
+      DISABLE_IPV6: 'true'
+      X_FRAME_OPTIONS: 'deny'
     volumes:
       - '{{ share }}/config/nginx-pm:/data:rw'
       - '{{ share }}/config/_certs:/etc/letsencrypt:rw'
@@ -152,13 +124,13 @@
     restart: unless-stopped
 
 - name: Exposed Service -> Gitea
-  community.docker.docker_network:
+  community.docker.docker_container:
     name: gitea
     state: started
     image: gitea/gitea:latest
     env:
-      USER_UID: 1000
-      USER_GID: 1000
+      USER_UID: '1000'
+      USER_GID: '1000'
     volumes:
       - /etc/datetime:/etc/datetime:ro
       - /etc/localtime:/etc/localtime:ro
@@ -168,12 +140,12 @@
     restart: unless-stopped
 
 - name: Exposed Service -> VaultWarden
-  community.docker.docker_network:
+  community.docker.docker_container:
     name: vaultwarden
     state: started
     image: vaultwarden/server:latest
     env:
-      DOMAIN: https://pw.{{ domain }}
+      DOMAIN: 'https://pw.{{ domain }}'
     volumes:
       - '{{ share }}/config/vaultwarden:/data:rw'
     hostname: vault
@@ -181,13 +153,13 @@
     restart: unless-stopped
 
 - name: Exposed Service -> Gitea
-  community.docker.docker_network:
+  community.docker.docker_container:
     name: gitea
     state: started
     image: gitea/gitea:latest
     env:
-      USER_UID: 1000
-      USER_GID: 1000
+      USER_UID: '1000'
+      USER_GID: '1000'
     volumes:
       - /etc/datetime:/etc/datetime:ro
       - /etc/localtime:/etc/localtime:ro
@@ -197,22 +169,22 @@
     restart: unless-stopped
 
 - name: Exposed Service -> WireGuard
-  community.docker.docker_network:
+  community.docker.docker_container:
     name: wireguard
     state: started
     image: linuxserver/wireguard:latest
     env:
-      PUID: 1000
-      PGID: 1000
-      TZ: Europe/Madrid
-      SERVERURL: vpn.{{ domain }}
-      SERVERPORT: 51820
-      PEERS: laptop,computer,phone,tablet,tv
-      INTERNAL_SUBNET: 10.10.10.0
-      PEERDNS: 10.10.10.1,1.1.1.1
-      ALLOWEDIPS: 10.10.10.1,192.168.0.0/23
-      PERSISTENTKEEPALIVE_PEERS: false
-      LOG_CONFS: false
+      PUID: '1000'
+      PGID: '1000'
+      TZ: 'Europe/Madrid'
+      SERVERURL: 'vpn.{{ domain }}'
+      SERVERPORT: '51820'
+      PEERS: 'laptop,computer,phone,tablet,tv'
+      INTERNAL_SUBNET: '10.10.10.0'
+      PEERDNS: '10.10.10.1,1.1.1.1'
+      ALLOWEDIPS: '10.10.10.1,192.168.0.0/23'
+      PERSISTENTKEEPALIVE_PEERS: 'false'
+      LOG_CONFS: 'false'
     volumes:
       - /lib/modules:/lib/modules:rw
       - '{{ share }}/config/vaultwarden:/config:rw'
@@ -224,5 +196,5 @@
       - NET_ADMIN
       - SYS_MODULE
     sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
+      - 'net.ipv4.conf.all.src_valid_mark=1'
     restart: unless-stopped

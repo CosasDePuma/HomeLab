@@ -1,0 +1,22 @@
+---
+- name: Download Docker installer
+  ansible.builtin.get_url:
+    url: https://get.docker.com
+    dest: /tmp/get-docker.sh
+    mode: '0700'
+
+- name: Install Docker
+  ansible.builtin.shell:
+    cmd: /tmp/get-docker.sh
+    creates: /usr/bin/docker
+
+- name: Install Docker Compose
+  ansible.builtin.package:
+    name: docker-compose
+    state: latest
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: '{{ ansible_user }}'
+    groups: docker
+    append: yes
