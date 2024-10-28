@@ -1,0 +1,23 @@
+apiVersion: v2
+name: duckdns
+version: 0.1.0
+type: application
+description: |
+  DuckDNS is a free and reliable DDNS provider that enables you to associate a dynamic IP address with a domain name.
+sources:
+  - https://www.duckdns.org/
+appVersion: "latest"
+icon: https://www.duckdns.org/img/ducky_icon_small.png
+home: https://cosasdepuma.github.io/homelab/
+
+maintainers:
+  - name: Kike Fontan
+    email: helm@kike.wtf
+    url: https://github.com/cosasdepuma/
+keywords:
+  - cosasdepuma
+  - homelab
+  - duckdns
+  - dns
+  - ddns
+  - dyndns

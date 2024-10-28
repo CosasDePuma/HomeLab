@@ -1,0 +1,35 @@
+---
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: k0s
+spec:
+  hosts:
+  - role: controller
+    ssh:
+      address: 192.168.1.10
+      user: root
+      port: 22
+      keyPath: ~/.ssh/id_rsa
+  - role: worker
+    ssh:
+      address: 192.168.1.11
+      user: root
+      port: 22
+      keyPath: ~/.ssh/id_rsa
+  k0s:
+    config:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: Cluster
+      metadata:
+        name: k0s
+      spec:
+        network:
+          kubeProxy:
+            mode: ipvs
+            ipvs:
+              strictARP: true
+        telemetry:
+          enabled: false
+    dynamicConfig: false
+...

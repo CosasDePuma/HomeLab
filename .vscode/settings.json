@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        ".env": "*.env",
+        "flake.nix": "flake.lock"
+    },
+    "yaml.validate": false
+}

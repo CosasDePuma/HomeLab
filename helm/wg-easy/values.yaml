@@ -1,0 +1,57 @@
+---
+# Default values for WG-Easy VPN (WireGuard).
+
+# --- | WG-Easy configuration
+wgEasy:
+  route: Host(`*`)
+  # Host IP (should be the public ip)
+  hostIP: 127.0.0.1
+  # Default DNS resolvers
+  dns: 1.1.1.1
+  # Default TUN IP ranges
+  defaultAddress: 10.10.0.x
+  # Whitelisted connection IPs
+  whitelist: 0.0.0.0/0, ::/0
+  # Web interface language
+  lang: "en"
+  # Maximum Transmit Unit
+  mtu: "1360"
+  # The PVC used for the deployment.
+  pvc: storage-nfs
+  # Config path inside PVC
+  configPath: /config
+
+# --- | Metadata values
+
+# This is to override the chart name.
+nameOverride: ""
+# Specify extra annotations.
+annotations: {}
+# Specify extra labels.
+labels: {}
+
+# --- | Deployment values
+
+# The image to deploy
+image: "ghcr.io/wg-easy/wg-easy"
+# The version of the image to deploy
+tag: "latest"
+# Specifies the image pull policy.
+pullPolicy: IfNotPresent
+# The number of replicas to deploy.
+replicas: 1
+# The strategy to use for the deployment.
+# More information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+# The resources to allocate to the container.
+resources:
+  requests:
+    memory: 16Mi
+    cpu: 50m
+  limits:
+    memory: 512Mi
+    cpu: 150m

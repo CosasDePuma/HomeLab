@@ -1,0 +1,5 @@
+# Remove secrets
+/**/.env
+
+# Remove lockfiles
+/**/.lock

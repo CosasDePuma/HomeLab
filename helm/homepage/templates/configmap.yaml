@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "name" . }}
+  {{- include "metadata" . | nindent 2 }}
+data:
+    bookmarks.yaml: |
+        {{ .Values.homepage.bookmarks | nindent 8 }}
+    kubernetes.yaml: |
+        {{ .Values.homepage.kubernetes | nindent 8 }}
+    services.yaml: |
+        {{ .Values.homepage.services | nindent 8 }}
+    settings.yaml: |
+        {{ .Values.homepage.settings | nindent 8 }}
+    widgets.yaml: |
+        {{ .Values.homepage.widgets | nindent 8 }}
+...

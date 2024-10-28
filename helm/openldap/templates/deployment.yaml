@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "name" . }}
+  {{- include "metadata" . | nindent 2 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "name" . }}
+  replicas: {{ .Values.replicas }}
+  progressDeadlineSeconds: 60
+  strategy: {{ .Values.strategy | toYaml | nindent 4 }}
+  template:
+    metadata:
+      {{- include "metadata" . | nindent 6 }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      {{- with .Values.dns }}
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          {{ . | toYaml }}
+      {{- end }}
+      containers:
+      - name: {{ include "name" . }}
+        image: {{ .Values.image }}:{{ .Values.tag }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+        args:
+        - "--copy-service"
+        - "--loglevel=debug"
+        env:
+        - name: LDAP_ORGANISATION
+          value: {{ .Values.openldap.organization | quote }}
+        - name: LDAP_DOMAIN
+          value: {{ .Values.openldap.domain | quote }}
+        - name: LDAP_ADMIN_PASSWORD
+          value: {{ .Values.openldap.password.admin | quote }}
+        - name: LDAP_CONFIG_PASSWORD
+          value: {{ .Values.openldap.password.admin | default .Values.openldap.password.admin | quote }}
+        - name: LDAP_READONLY_USER
+          value: 'true'
+        - name: LDAP_READONLY_USER_USERNAME
+          value: {{ .Values.openldap.readonlyUser | quote }}
+        - name: LDAP_READONLY_USER_PASSWORD
+          value: {{ .Values.openldap.password.readonly | quote }}
+        ports:
+        - name: {{ include "shortName" . }}
+          containerPort: 389
+          protocol: TCP
+        readinessProbe:
+          tcpSocket:
+            port: {{ include "shortName" . }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: {{ include "shortName" . }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}
+        volumeMounts:
+        - name: ldifs
+          mountPath: /container/service/slapd/assets/config/bootstrap/ldif/custom
+          readOnly: true
+      volumes:
+      - name: ldifs
+        configMap:
+          name: {{ include "name" . }}
+...

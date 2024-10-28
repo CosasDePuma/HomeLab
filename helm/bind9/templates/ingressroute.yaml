@@ -1,0 +1,31 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name:  {{ include "name" . }}
+  {{- include "metadata" . | nindent 2 }}
+spec:
+  entryPoints:
+  - dns-tcp
+  routes:
+  - kind: Rule
+    match: {{ .Values.bind9.route }}
+    services:
+    - name: {{ include "name" . }}
+      port: {{ include "name" . }}-tcp
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteUDP
+metadata:
+  name:  {{ include "name" . }}
+  {{- include "metadata" . | nindent 2 }}
+spec:
+  entryPoints:
+  - dns-udp
+  routes:
+  - kind: Rule
+    match: {{ .Values.bind9.route }}
+    services:
+    - name: {{ include "name" . }}
+      port: {{ include "shortName" . }}-udp
+...

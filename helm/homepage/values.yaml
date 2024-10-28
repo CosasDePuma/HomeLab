@@ -1,0 +1,58 @@
+---
+# Default values for Homepage Dashboard.
+
+# --- | Homepage configuration
+homepage:
+  # Homepage route
+  route: Host(`*`)
+  # The PVC used for the deployment.
+  pvc: storage-nfs
+  # Config path inside PVC
+  configPath: /config
+  # Homepage settings.yaml (see: https://gethomepage.dev/configs/settings/)
+  settings: ""
+  # Homepage bookmarks.yaml (see: https://gethomepage.dev/configs/bookmarks/)
+  bookmarks: ""
+  # Homepage services.yaml (see: https://gethomepage.dev/configs/services/)
+  services: ""
+  # Homepage kubernetes.yaml (see: https://gethomepage.dev/configs/kubernetes/)
+  kubernetes: "mode: default"
+  # Homepage widgets.yaml (see: https://gethomepage.dev/configs/widgets/)
+  widgets: ""
+
+# --- | Metadata values
+
+# This is to override the chart name.
+nameOverride: ""
+# Specify extra annotations.
+annotations: {}
+# Specify extra labels.
+labels: {}
+
+# --- | Deployment values
+
+# The image to deploy
+image: "ghcr.io/gethomepage/homepage"
+# The version of the image to deploy
+tag: "latest"
+# Specifies the image pull policy.
+pullPolicy: IfNotPresent
+# The number of replicas to deploy.
+replicas: 1
+# The strategy to use for the deployment.
+# More information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+# The resources to allocate to the container.
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 50m
+  limits:
+    memory: 512Mi
+    cpu: 150m
+# The DNS resolvers to use for the container.
+dns: []

@@ -1,0 +1,79 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "name" . }}
+  {{- include "metadata" . | nindent 2 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "name" . }}
+  replicas: {{ .Values.replicas }}
+  progressDeadlineSeconds: 60
+  strategy: {{ .Values.strategy | toYaml | nindent 4 }}
+  template:
+    metadata:
+      {{- include "metadata" . | nindent 6 }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: {{ include "name" . }}
+        image: {{ .Values.image }}:{{ .Values.tag }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+              - SYS_MODULE
+        sysctls:
+          - name: net.ipv4.ip_forward
+            value: "1"
+          - name: net.ipv4.conf.all.src_valid_mark
+            value: "1"
+        ports:
+        - name: {{ include "shortName" . }}-webui
+          containerPort: 51821
+          protocol: TCP
+        - name: {{ include "shortName" . }}-vpn
+          containerPort: 51820
+          protocol: UDP
+        livesnessProbe:
+          tcpSocket:
+            port: {{ include "shortName" . }}-webui
+        readnessProbe:
+          httpGet:
+            path: /
+            port: {{ include "shortName" . }}-webui
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}
+        env:
+        - name: WG_HOST
+          value: '{{ .Values.wgEasy.hostIP }}'
+        - name: WG_DEFAULT_ADDRESS
+          value: '{{ .Values.wgEasy.defaultAddress }}'
+        - name: WG_DEFAULT_DNS
+          value: '{{ .Values.wgEasy.dns }}'
+        - name: WG_ALLOWED_IPS
+          value: '{{ .Values.wgEasy.whitelist }}'
+        - name: WG_LANG
+          value: '{{ .Values.wgEasy.lang }}'
+        - name: WG_MTU
+          value: '{{ .Values.wgEasy.mtu }}'
+        - name: UI_TRAFFIC_STATS
+          value: 'true'
+        - name: UI_CHART_TYPE
+          value: '2'
+        volumeMounts:
+        - name: config
+          mountPath: /etc/wireguard
+          subPath: ./{{ .Values.wgEasy.configPath }}/wireguard
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: {{ .Values.wgEasy.pvc }}
+...

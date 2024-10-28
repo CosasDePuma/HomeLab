@@ -1,0 +1,111 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "name" . }}
+  {{- include "metadata" . | nindent 2 }}
+data:
+    configuration.yml: |
+        server:
+            address: auth.kike.wtf:9091/
+        log:
+            level: debug
+        theme: dark
+        totp:
+            issuer: Authelia (kike.wtf)
+        authentication_backend:
+            ldap:
+                address: ldap://ldap.kike.wtf:389
+                start_tls: true
+                implementation: custom
+                timeout: 5s
+                base_dn: dc=kike,dc=wtf
+                additional_users_dn: ou=users
+                users_filter: '(&(objectClass=posixAccount)(|({username_attribute}={input})({mail_attribute}={input})))'
+                additional_groups_dn: ou=groups
+                groups_filter: '(&(objectClass=groupOfUniqueNames)(uniquemember={dn}))'
+                group_search_mode: filter
+                permit_unauthenticated_bind: false
+                user: 'cn={{ ldap_read_user }},dc={{ srv_domain.split('.')|join(",dc=") }}'
+                password: '{{ ldap_read_pass }}'
+                attributes:
+                    username: 'uid'
+                    display_name: 'displayName'
+                    mail: 'mail'
+                    member_of: 'memberOf'
+                    group_name: 'cn'
+      {% else %}
+        file:
+          path: /etc/authelia/database.yml
+          watch: true
+          search:
+            email: true
+          password:
+            algorithm: pbkdf2
+            pkdf2:
+              iterations: 310000
+              salt_length: 16
+              variant: sha512
+      {% endif %}
+      access_control:
+        default_policy: deny
+        rules:
+          # Rules applied to everyone
+          - domain_regex: "^(.*\\.)?{{ srv_domain }}$"
+            resources:
+              - "^/-/.*"
+            policy: {{ authelia_policy }}
+      session:
+        name: __auth
+        secret: {{ authelia_secret_session }}
+        expiration: 3600  # 1 hour
+        inactivity: 300  # 5 minutes
+        remember_me: 604800  # 1 week
+        same_site: lax
+        cookies:
+          - domain: "{{ srv_domain }}"
+            authelia_url: "https://{{ authelia_domain }}{{ authelia_path }}"
+            default_redirection_url: "https://{{ srv_domain }}/"
+      {% if docker_network_cache.exists|bool %}
+      storage:
+        redis:
+          host: redis
+      {% endif %}
+      regulation:
+        max_retries: 3
+        find_time: 120
+        ban_time: 300
+      storage:
+        encryption_key: "{{ authelia_secret_storage }}"
+        local:
+          path: /config/db.sqlite3
+      notifier:
+      #TODO: Email notifier
+        disable_startup_check: true # FIXME: Remove this if SMTP
+        filesystem:
+          filename: /config/notification.txt
+      # TODO: Telemetry metrics
+      # TODO: Security Password policy
+      identity_validation:
+        reset_password:
+          jwt_secret: "{{ authelia_secret_jwt }}"
+      identity_providers:
+        oidc:
+          jwks:
+            - key: |
+                {{ authelia_cert.privatekey|indent(10) }}
+          clients:
+      {% for client in authelia_clients %}
+            - client_id: "{{ client|lower }}"
+              client_name: "{{ client|title }}"
+              public: false
+              client_secret: {{ 'gitea_test'|argon2('salt') }}
+              redirect_uris: {{ authelia_clients[client].redirects|to_yaml|indent(8) }}
+              scopes:
+                - 'openid'
+                - 'email'
+                - 'profile'
+              userinfo_signed_response_alg: 'none'
+              token_endpoint_auth_method: 'client_secret_basic'
+      {% endfor %}
+...

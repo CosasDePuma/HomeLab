@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "name" . }}
+  {{- include "metadata" . | nindent 2 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "name" . }}
+  replicas: {{ .Values.replicas }}
+  progressDeadlineSeconds: 60
+  strategy: {{ .Values.strategy | toYaml | nindent 4 }}
+  template:
+    metadata:
+      {{- include "metadata" . | nindent 6 }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      {{- with .Values.dns }}
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          {{ . | toYaml }}
+      {{- end }}
+      containers:
+      - name: {{ include "name" . }}
+        image: {{ .Values.image }}:{{ .Values.tag }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+        ports:
+        - name: {{ include "shortName" . }}-webui
+          containerPort: 3000
+          protocol: TCP
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}
+        volumeMounts:
+        - name: config
+          mountPath: /app/config/bookmarks.yaml
+          subPath: bookmarks.yaml
+          readOnly: true
+        - name: config
+          mountPath: /app/config/services.yaml
+          subPath: services.yaml
+          readOnly: true
+        - name: config
+          mountPath: /app/config/settings.yaml
+          subPath: settings.yaml
+          readOnly: true
+        - name: config
+          mountPath: /app/config/widgets.yaml
+          subPath: widgets.yaml
+          readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "name" . }}
+...
