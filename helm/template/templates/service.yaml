@@ -1,0 +1,33 @@
+{{- define "service.tpl" -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "name" . }}
+  labels:
+    {{- include "labels" . | nindent 4 }}
+    {{- with .Values.service.labels }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- include "annotations" . | nindent 4 }}
+    {{- with .Values.service.annotations }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
+spec:
+  {{- with .Values.service.ports }}
+  ports:
+    {{- range $port := . }}
+    - name: {{ $port.name | default (include "svcName" $) | quote}}
+      port: {{ $port.port }}
+      protocol: {{ $port.protocol | default "TCP" }}
+      targetPort: {{ $port.targetPort | default (include "svcName" $) | quote }}
+    {{- end }}
+  {{- end }}
+  {{- with .Values.service.selector }}
+  selector:
+    {{- . | toYaml | nindent 4 }}
+  {{- end }}
+  type: {{ .Values.service.type | default "ClusterIP" }}
+...
+{{- end -}}

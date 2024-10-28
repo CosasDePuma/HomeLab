@@ -3,3 +3,7 @@
 
 # Remove lockfiles
 /**/.lock
+
+# Remove backups and chart dependencies
+/**/.old/
+/**/charts/

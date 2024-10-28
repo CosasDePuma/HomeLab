@@ -1,0 +1,33 @@
+{{- define "configmap.tpl" -}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "name" . }}
+  labels:
+    {{- include "labels" . | nindent 4 }}
+    {{- with .Values.configMap.labels }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- include "annotations" . | nindent 4 }}
+    {{- with .Values.configMap.annotations }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
+{{- with .Values.configMap.binaryData }}
+binaryData:
+  {{- range $name, $contents := . }}
+  {{- $name | nindent 2 }}: |-
+    {{- $contents | toYaml | nindent 4 }}
+  {{- end }}
+{{- end }}
+{{- with .Values.configMap.data }}
+data:
+  {{- range $name, $contents := . }}
+  {{- $name | nindent 2 }}: |-
+    {{- $contents | toYaml | nindent 4 }}
+  {{- end }}
+{{- end }}
+inmutable: {{ .Values.configMap.inmutable | default "false" }}
+...
+{{- end -}}

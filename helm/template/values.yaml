@@ -1,0 +1,48 @@
+---
+# ---- | ConfigMap components
+configMap:
+  # -- Additional annotations to apply to the ConfigMap
+  annotations: {}
+  #  annotationKey: "annotationValue"
+  # -- Binary data to be added inside the ConfigMap
+  binaryData: {}
+  #  sample.txt.gz: 'H4sIAAAAAAAA/8vJyCxWAKJEiQoAAAA='
+  # -- Data to be added inside the ConfigMap
+  data: {}
+  #  sample.txt: "Hello, World!"
+  # -- Prevent update after creation
+  inmutable: false
+  # -- Additional labels to apply to the ConfigMap
+  labels: {}
+  #  labelKey: "labelValue"
+
+# ---- | Common metadata
+metadata:
+  # --- Additional annotations to apply to all resources
+  annotations: {}
+  #  annotationKey: "annotationValue"
+  # --- Additional labels to apply to all resources
+  labels: {}
+  #  app.kubernetes.io/component: ""
+  # --- Component name override
+  name: ""
+
+# ---- | Service component
+service:
+  # --- Additional annotations to apply to the Service
+  annotations: {}
+  #  annotationKey: "annotationValue"
+  # --- Additional labels to apply to the Service
+  labels: {}
+  #  labelKey: "labelValue"
+  # --- Ports to expose
+  ports: []
+  # - name: ""
+  #   port: 80
+  #   protocol: TCP
+  #   targetPort: 80
+  # --- Label selector to match
+  selector: {}
+  #  app.kubernetes.io/name: "app"
+  # --- Service type
+  type: ClusterIP
