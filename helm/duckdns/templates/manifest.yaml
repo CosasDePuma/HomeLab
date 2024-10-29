@@ -1,0 +1,50 @@
+{{- define "values" -}}
+# -------------- ConfigMap --------------
+configmap:
+  data:
+    SUBDOMAINS: {{ .Values.duckdns.subdomains | quote }}
+    UPDATE_IP: {{ .Values.duckdns.updateIP | default "both" | quote }}
+
+# --------------- Secret ----------------
+secret:
+  data:
+    TOKEN: {{ .Values.duckdns.token | quote}}
+
+# -------------- Deployment -------------
+deployment:
+  spec:
+    template:
+      spec:
+        containers:
+          - image:
+              repository: lscr.io/linuxserver/duckdns
+            envFrom:
+              - configmapRef:
+                name: env-config
+              - secretRef:
+                name: env-secret
+        volumes:
+          - name: env-config
+            configmap:
+              name: {{ include "name" . }}
+          - name: env-secret
+            secret:
+              secretName: {{ include "name" . }}
+{{- end -}}
+{{- $values := include "context" (list . "values") | fromYaml -}}
+
+{{- define "checksums" -}}
+{{- $values := include "context" (list . "values") | fromYaml -}}
+deployment:
+  annotations:
+    checksum/configmap: {{ tpl (include "configmap.tpl" .) $values | sha256sum }}
+    checksum/secret: {{ tpl (include "secret.tpl" .) $values | sha256sum }}
+{{- end -}}
+{{- $valuesWithChecksums := include "context" (list $values "checksums") | fromYaml -}}
+
+---
+{{- include "configmap.tpl" $values | fromYaml | toYaml | nindent 0 }}
+---
+{{- /* include "deployment.tpl" $valuesWithChecksums | fromYaml | toYaml | nindent 0 */ -}}
+---
+{{- include "secret.tpl" $values | fromYaml | toYaml | nindent 0 }}

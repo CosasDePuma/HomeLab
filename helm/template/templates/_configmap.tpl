@@ -3,31 +3,30 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "name" . }}
+  name: "{{ include "name" . }}"
   labels:
     {{- include "labels" . | nindent 4 }}
-    {{- with .Values.configMap.labels }}
+    {{- with .Values.configmap.labels | default (dict ) }}
     {{- . | toYaml | nindent 4 }}
     {{- end }}
   annotations:
     {{- include "annotations" . | nindent 4 }}
-    {{- with .Values.configMap.annotations }}
+    {{- with .Values.configmap.annotations | default (dict ) }}
     {{- . | toYaml | nindent 4 }}
     {{- end }}
-{{- with .Values.configMap.binaryData }}
+{{- with .Values.configmap.binaryData | default (dict ) }}
 binaryData:
   {{- range $name, $contents := . }}
   {{- $name | nindent 2 }}: |-
     {{- $contents | toYaml | nindent 4 }}
   {{- end }}
 {{- end }}
-{{- with .Values.configMap.data }}
+{{- with .Values.configmap.data | default (dict ) }}
 data:
   {{- range $name, $contents := . }}
   {{- $name | nindent 2 }}: |-
     {{- $contents | toYaml | nindent 4 }}
   {{- end }}
 {{- end }}
-inmutable: {{ .Values.configMap.inmutable | default "false" }}
-...
+immutable: {{ .Values.configmap.immutable | default "false" }}
 {{- end -}}

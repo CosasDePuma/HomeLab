@@ -3,7 +3,8 @@
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         ".env": "*.env",
-        "flake.nix": "flake.lock"
+        "flake.nix": "flake.lock",
+        "Chart.yaml": "Chart.lock"
     },
     "yaml.validate": false
 }

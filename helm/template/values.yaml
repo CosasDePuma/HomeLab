@@ -1,20 +1,86 @@
 ---
-# ---- | ConfigMap components
-configMap:
-  # -- Additional annotations to apply to the ConfigMap
+# ---- | ConfigMap component
+configmap:
+  # --- Additional annotations to apply to the ConfigMap
   annotations: {}
   #  annotationKey: "annotationValue"
-  # -- Binary data to be added inside the ConfigMap
+  # --- Binary data to be added inside the ConfigMap
   binaryData: {}
   #  sample.txt.gz: 'H4sIAAAAAAAA/8vJyCxWAKJEiQoAAAA='
-  # -- Data to be added inside the ConfigMap
+  # --- Data to be added inside the ConfigMap
   data: {}
   #  sample.txt: "Hello, World!"
-  # -- Prevent update after creation
-  inmutable: false
-  # -- Additional labels to apply to the ConfigMap
+  # --- Prevent update after creation
+  immutable: false
+  # --- Additional labels to apply to the ConfigMap
   labels: {}
   #  labelKey: "labelValue"
+
+# ---- | Deployment component
+deployment:
+  # --- Additional annotations to apply to the ConfigMap
+  annotations: {}
+  #  annotationKey: "annotationValue"
+  # --- Containers to run
+  containers: []
+  # -
+  #   --- Container name
+  #   name: ""
+  #   --- Container image
+  #   image:
+  #     repository: ""
+  #     tag: ""
+  #   --- Image pull policy
+  #   pullPolicy: IfNotPresent
+  #   --- Container ports
+  #   ports: []
+  #   #  - name: ""
+  #   #    containerPort: 80
+  #   #    protocol: TCP
+  #   --- Environment variables
+  #   env: []
+  #   #  - name: FOO
+  #   #    value: bar
+  #   #    valueFrom:
+  #   #      secretKeyRef:
+  #   #        name: secret
+  #   #        key: key
+  #   #      configmapKeyRef:
+  #   #        name: configmap
+  #   #        key: key
+  #   envFrom: []
+  #   #  - configmapRef:
+  #   #      name: configmap
+  #   #  - secretRef:
+  #   #      name: secret
+  #   --- Resources to assign to the container
+  #   resources:
+  #     requests:
+  #       cpu: 50m
+  #       memory: 64Mi
+  #     limits:
+  #       cpu: 200m
+  #       memory: 256Mi
+  #   --- Volume mounts
+  #   volumeMounts: []
+  #   #  - name: volume
+  #   #    mountPath: /path
+  #   #    subPath: ""
+  #   #    readOnly: false
+  # --- Volumes to claim
+  volumes: []
+  # - name: volume
+  #   configmap:
+  #     name: configmap
+  #   secret:
+  #     secretName: secret
+  #   persistentVolumeClaim:
+  #     claimName: claim
+  # --- Additional labels to apply to the ConfigMap
+  labels: {}
+  #  labelKey: "labelValue"
+  # --- Amount of replicas
+  replicas: 1
 
 # ---- | Common metadata
 metadata:
@@ -26,6 +92,20 @@ metadata:
   #  app.kubernetes.io/component: ""
   # --- Component name override
   name: ""
+
+# ---- | Secret component
+secret:
+  # --- Additional annotations to apply to the Secret
+  annotations: {}
+  #  annotationKey: "annotationValue"
+  # --- Data to be added inside the Secret
+  data: {}
+  #  PASSWORD: "password"
+  # --- Type of Secret
+  type: Opaque
+  # --- Additional labels to apply to the Secret
+  labels: {}
+  #  labelKey: "labelValue"
 
 # ---- | Service component
 service:

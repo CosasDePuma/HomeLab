@@ -46,7 +46,10 @@ endif
 
 .PHONY: $(ENVIRONMENTS)
 $(ENVIRONMENTS): $(HELMFILE)
-	set -a; . ./.env; set +a;                  \
-	DOMAIN=$@                                  \
-	DUCKDNS_SUBDOMAINS=$$(echo $@ | tr -d '.') \
-	helmfile --file $< --selector environment=$$(echo $@ | tr -d '.') $(ACTION)
+	{                                                \
+		set -a; . ./.env; set +a;                    \
+		DOMAIN=$@;                                   \
+		DUCKDNS_SUBDOMAINS=$$(echo $@ | tr -d '.');  \
+		helmfile --file $< deps update;              \
+		helmfile --file $< --selector env=$$(echo $@ | tr -d '.') $(ACTION); \
+	}

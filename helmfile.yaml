@@ -1,9 +1,16 @@
 ---
 releases:
+
+  # ==========================
+  #   KIKEWTF
+  # ==========================
+
   # ---- | DuckDNS
   - name: duckdns
-    chart: ../helm/duckdns
+    chart: ./helm/duckdns
+    namespace: "kikewtf"
+    labels: { env: "kikewtf" }
     values:
-      - configMap:
-          data:
-            DUCKDNS_SUBDOMAINS: "{{ requiredEnv "DUCKDNS_SUBDOMAINS" }}"
+      - duckdns:
+          subdomains: "{{ requiredEnv "DUCKDNS_SUBDOMAINS" }}"
+          token: "{{ requiredEnv "DUCKDNS_TOKEN" }}"

@@ -29,5 +29,4 @@ spec:
     {{- . | toYaml | nindent 4 }}
   {{- end }}
   type: {{ .Values.service.type | default "ClusterIP" }}
-...
 {{- end -}}

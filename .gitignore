@@ -4,6 +4,10 @@
 # Remove lockfiles
 /**/.lock
 
-# Remove backups and chart dependencies
-/**/.old/
+# Remove chart dependencies
 /**/charts/
+
+# Remove backups and system files
+/**/.old/
+/**/*~
+/**/.DS_Store
