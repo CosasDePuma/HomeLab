@@ -1,5 +1,5 @@
 ---
-# Default values for DuckDNS.
+# --- | Default values for DuckDNS.
 duckdns:
   # Comma-separated list of DuckDNS subdomains (without .duckdns.org)
   subdomains: ""
@@ -8,45 +8,13 @@ duckdns:
   # DuckDNS update IP (ipv4, ipv6, both)
   updateIP: "both"
 
-# ---- | ConfigMap component
-configmap:
-  # --- Additional annotations to apply to the ConfigMap
-  annotations: {}
-  #  annotationKey: "annotationValue"
-  # --- Binary data to be added inside the ConfigMap
-  #binaryData: {}
-  #  sample.txt.gz: 'H4sIAAAAAAAA/8vJyCxWAKJEiQoAAAA='
-  # --- Data to be added inside the ConfigMap
-  data: {}
-  #  SUBDOMAINS: # "example,test"
-  #  UPDATE_IP: "both"
-  # --- Prevent update after creation
-  immutable: false
-  # --- Additional labels to apply to the ConfigMap
-  labels: {}
-  #  labelKey: "labelValue"
+# --- | Overriding 'template' chart values
+deployment:
+  # Image repository
+  image:
+    repository: "lscr.io/linuxserver/duckdns"
 
-# ---- | Common metadata
 metadata:
-  # --- Additional annotations to apply to all resources
-  annotations: {}
-  #  annotationKey2: "annotationValue"
-  # --- Additional labels to apply to all resources
+  # Additional component label
   labels:
     app.kubernetes.io/component: "dns"
-  # --- Component name override
-  name: ""
-
-# ---- | Secret component
-secret:
-  # --- Additional annotations to apply to the Secret
-  annotations: {}
-  #  annotationKey: "annotationValue"
-  # --- Data to be added inside the Secret
-  data: {}
-  #  TOKEN: "xxx-xxxxxxx-xxx"
-  # --- Type of Secret
-  type: Opaque
-  # --- Additional labels to apply to the Secret
-  labels: {}
-  #  labelKey: "labelValue"
