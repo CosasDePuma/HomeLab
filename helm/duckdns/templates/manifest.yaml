@@ -19,8 +19,8 @@ data:
 {{- define "deployment.overlays" -}}
 metadata:
   annotations:
-    checksum/configmap: {{- include "secret.tpl" (list . "configmap.overlays") | sha256sum | quote -}}
-    checksum/secret: {{- include "secret.tpl" (list . "secret.overlays") | sha256sum | quote -}}
+    checksum/configmap: {{ include "secret.tpl" (list . "configmap.overlays") | sha256sum | quote }}
+    checksum/secret: {{ include "secret.tpl" (list . "secret.overlays") | sha256sum | quote }}
 spec:
   template:
     spec:
@@ -28,12 +28,12 @@ spec:
         - image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default "latest" }}"
           envFrom:
             - configMapRef:
-                name: env-config
+                name: env-configmap
             - secretRef:
                 name: env-secret
       volumes:
-        - name: env-config
-          configmap:
+        - name: env-configmap
+          configMap:
             name: {{ include "name" . | quote }}
         - name: env-secret
           secret:

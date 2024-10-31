@@ -26,4 +26,4 @@ keywords:
 dependencies:
   - name: template
     version: 1.0.0
-    repository: file://../template
+    repository: file://../_template

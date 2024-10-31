@@ -2,7 +2,7 @@
 /**/.env
 
 # Remove lockfiles
-/**/.lock
+/**/*.lock
 
 # Remove chart dependencies
 /**/charts/

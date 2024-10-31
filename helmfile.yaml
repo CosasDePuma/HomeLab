@@ -8,7 +8,7 @@ releases:
   # ---- | DuckDNS
   - name: duckdns
     chart: ./helm/duckdns
-    namespace: "kikewtf"
+    namespace: "kikewtf-standalone"
     labels: { env: "kikewtf" }
     values:
       - duckdns:

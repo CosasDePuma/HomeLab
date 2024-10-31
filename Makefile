@@ -44,10 +44,6 @@ ifeq ($(ACTION),apply)
 	k0sctl kubeconfig --config $< > $(KUBECONFIG)
 endif
 
-.PHONY: test
-test:
-	set -a; . ./.env; set +a; DUCKDNS_SUBDOMAINS=$$(echo $@ | tr -d '.');
-
 .PHONY: $(ENVIRONMENTS)
 $(ENVIRONMENTS): $(HELMFILE)
 	{                                                \
