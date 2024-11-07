@@ -1,6 +1,6 @@
 HELMFILE ?= ./helmfile.yaml
 K0SFILE ?= ./k0sctl.yaml
-ENVIRONMENTS ?= system kike.wtf hackr.es
+ENVIRONMENTS ?= networking kike.wtf hackr.es
 
 
 

@@ -1,0 +1,27 @@
+---
+# --- | Default values for WG-Easy.
+wgeasy:
+  domain: "*"
+  # Host IP (should be the public ip)
+  host: 127.0.0.1
+  # Default DNS resolvers
+  dns: 1.1.1.1
+  # Default TUN IP ranges
+  defaultAddress: 10.10.0.x
+  # Whitelisted connection IPs
+  whitelist: 0.0.0.0/0, ::/0
+  # Web interface language
+  lang: "en"
+  # Maximum Transmit Unit
+  mtu: "1360"
+
+# --- | Overriding 'template' chart values
+deployment:
+  # Image repository
+  image:
+    repository: "ghcr.io/wg-easy/wg-easy"
+
+metadata:
+  # Additional component label
+  labels:
+    app.kubernetes.io/component: "vpn"

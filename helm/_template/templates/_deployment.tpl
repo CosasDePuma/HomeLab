@@ -3,16 +3,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "name" . | quote}}
+  name: {{ include "name" . | quote }}
   labels:
     {{- include "labels" . | nindent 4 }}
-    {{- with $values.labels | default dict }}
-    {{- . | toYaml | nindent 4 }}
+    {{- if $values.labels }}
+    {{- $values.labels | toYaml | nindent 4 }}
     {{- end }}
   annotations:
     {{- include "annotations" . | nindent 4 }}
-    {{- with $values.annotations }}
-    {{- . | toYaml | nindent 4 }}
+    {{- if $values.annotations }}
+    {{- $values.annotations | toYaml | nindent 4 }}
     {{- end }}
 spec:
   replicas: {{ $values.replicas | default 1 }}

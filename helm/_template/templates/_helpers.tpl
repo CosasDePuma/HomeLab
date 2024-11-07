@@ -5,19 +5,19 @@
 
 # --- | name
 # Helper function that returns the name of the chart.
-# It uses the `name` value if it is set, otherwise it uses `Chart.name`.
+# It uses the `name` value if it is set, otherwise it uses `Release.name`.
 # It truncates the name to 63 characters and removes any trailing hyphens.
 {{- define "name" -}}
 {{- $metadata := .Values.metadata | default (dict ) -}}
-{{- $metadata.name | default .Chart.Name | trunc 63 | trimSuffix "-" | lower }}
+{{- $metadata.name | default .Release.Name | trunc 63 | trimSuffix "-" | lower }}
 {{- end -}}
 
 # --- | svcName
 # Helper function that returns the name of the chart being valid for a service name.
 # It uses the `name` value if it is set, otherwise it uses `Chart.name`.
-# It truncates the name to 15 characters and removes any trailing hyphens.
+# It truncates the name to 10 characters and removes any trailing hyphens.
 {{- define "svcName" -}}
-{{- include "name" . | trunc 15 | trimSuffix "-" }}
+{{- include "name" . | trunc 10 | trimSuffix "-" }}
 {{- end -}}
 
 # =================================================
@@ -66,7 +66,7 @@ wtf.kike/project: "Homelab"
 # Merge two or more maps deeply. The values from the first argument (overlays) take precedence in case of conflicts.
 # This function handles all kind of values, ensuring proper merging of nested structures.
 {{- define "merge.deep" -}}
-{{- /* -- Checking types -- */ -}}
+{{- /* -- Check types -- */ -}}
 {{- if ne 2 (len .) -}}{{- printf "[merge.deep] Argument should be a list with only two values (curr: %d)" (len .) | fail -}}{{- end -}}
 {{- $base := last . -}}{{- $over := first . -}}{{- $kind := kindOf $base -}}
 {{- if ne $kind (kindOf $over) -}}{{- printf "[merge.deep] Both values must be of the same type (%s != %s)" (kindOf $over) $kind | fail -}}{{- end -}}
@@ -75,7 +75,7 @@ wtf.kike/project: "Homelab"
 {{- end -}}
 
 {{- define "_merge.deep.map" -}}
-{{- /* -- Checking types -- */ -}}
+{{- /* -- Check types -- */ -}}
 {{- if ne 2 (len .) -}}{{- printf "[_merge.deep.map] Argument should be a list with only two values (curr: %d)" (len .) | fail -}}{{- end -}}
 {{- $base := last . -}}{{- $over := first . -}}
 {{- if not (kindIs "map" $over) -}}{{- printf ("[_merge.deep.map] First item must be a `map` (%s)") (toString $over) | fail -}}{{- end -}}
@@ -99,7 +99,7 @@ wtf.kike/project: "Homelab"
 
 {{- define "_merge.deep.slice" -}}
 {{- /* -- Checking types -- */ -}}
-{{- if ne 2 (len .) -}}{{- printf "[_merge.deep.map] Argument should be a list with only two values (curr: %d)" (len .) | fail -}}{{- end -}}
+{{- if ne 2 (len .) -}}{{- printf "[_merge.deep.slice] Argument should be a list with only two values (curr: %d)" (len .) | fail -}}{{- end -}}
 {{- $base := last . -}}{{- $over := first . -}}{{- $acc := list -}}
 {{- if not (kindIs "slice" $over) -}}{{- printf ("[_merge.deep.slice] First item must be a `slice` (%s)") (toString $over) | fail -}}{{- end -}}
 {{- if not (kindIs "slice" $base) -}}{{- printf ("[_merge.deep.slice] Second item must be a `slice` (%s)") (toString $base) | fail -}}{{- end -}}
@@ -117,6 +117,15 @@ wtf.kike/project: "Homelab"
 {{- /* -- Add the rest of the old data */ -}}
 {{- if gt (len $base) (len $over) -}}{{- $acc = concat $acc (slice $base (len $over)) -}}{{- end -}}
 {{- /* -- Return -- */ -}}
+{{- toYaml $acc | nindent 0 -}}
+{{- end -}}
+
+{{- define "map2slice" -}}
+{{- /* -- Check types -- */ -}}
+{{- if not (kindIs "map" .) -}}{{- printf "[map2slice] Argument should be a map (curr: %s)" (. | toString) | fail -}}{{- end -}}
+{{- /* -- Convert -- */ -}}
+{{- $acc := list -}}
+{{- range $_, $value := . -}}{{- $acc = append $acc $value -}}{{- end -}}
 {{- toYaml $acc | nindent 0 -}}
 {{- end -}}
 ...

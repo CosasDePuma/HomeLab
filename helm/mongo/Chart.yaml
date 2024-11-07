@@ -1,0 +1,28 @@
+apiVersion: v2
+name: mongo
+version: 0.1.0
+type: application
+description: |
+  MongoDB document databases provide high availability and easy scalability.
+sources:
+  - https://www.mongodb.com/
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/mongodb/mongo/master/docs/leaf.svg
+home: https://cosasdepuma.github.io/homelab/
+
+maintainers:
+  - name: Kike Fontan
+    email: helm@kike.wtf
+    url: https://github.com/cosasdepuma/
+keywords:
+  - cosasdepuma
+  - homelab
+  - mongo
+  - mongodb
+  - database
+  - nosql
+
+dependencies:
+  - name: template
+    version: 1.0.0
+    repository: file://../_template

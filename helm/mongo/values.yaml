@@ -1,0 +1,15 @@
+---
+# --- | Default values for Mongo.
+mongo:
+  pvc: nfs
+
+# --- | Overriding 'template' chart values
+deployment:
+  # Image repository
+  image:
+    repository: "mongo"
+
+metadata:
+  # Additional component label
+  labels:
+    app.kubernetes.io/component: "database"

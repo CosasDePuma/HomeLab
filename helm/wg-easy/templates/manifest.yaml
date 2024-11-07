@@ -1,0 +1,104 @@
+---
+# -------------- ConfigMap -------------
+{{- include "configmap.tpl" (list . "configmap.overlays") | nindent 0 -}}
+{{- define "configmap.overlays" -}}
+{{- $values := .Values.wgeasy | default dict -}}
+data:
+  WG_HOST: {{ $values.host | default "0.0.0.0" | quote }}
+  WG_DEFAULT_ADDRESS: {{ $values.defaultAddress | default "10.0.0.0" | quote }}
+  WG_DEFAULT_DNS: {{ $values.dns | default "1.1.1.1,8.8.8.8" | quote }}
+  WG_ALLOWED_IPS: {{ $values.whitelist | default "0.0.0.0/0,::/0" | quote }}
+  WG_LANG: {{ $values.lang | default "en" | quote }}
+  WG_MTU: {{ $values.mtu | default "1360" | quote }}
+  UI_TRAFFIC_STATS: "true"
+  UI_CHART_TYPE: "2"
+{{- end }}
+---
+# -------------- Deployment -------------
+{{- include "deployment.tpl" (list . "deployment.overlays") | nindent 0 -}}
+{{- define "checksums" -}}
+metadata:
+  annotations:
+    checksum/configmap: {{ include "configmap.tpl" (list . "configmap.overlays") | sha256sum | quote }}
+{{- end }}
+{{- define "deployment.overlays" -}}
+{{- $values := .Values.wgeasy -}}{{- $deployment := .Values.deployment | default (dict "image" dict) -}}
+{{- include "checksums" . | nindent 0 }}
+spec:
+  template:
+    {{- include "checksums" . | nindent 4 }}
+    spec:
+      containers:
+        - image: "{{ $deployment.image.repository }}:{{ $deployment.image.tag | default "latest" }}"
+          envFrom:
+            - configMapRef:
+                name: {{ include "name" . | quote }}
+          ports:
+            - name: {{ include "svcName" . }}-webui
+              containerPort: 51821
+              protocol: TCP
+            - name: {{ include "svcName" . }}-vpn
+              containerPort: 51820
+              protocol: UDP
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_MODULE
+          sysctls:
+            - name: net.ipv4.ip_forward
+              value: "1"
+            - name: net.ipv4.conf.all.src_valid_mark
+              value: "1"
+          volumeMounts:
+            - name: nfs
+              mountPath: /etc/wireguard
+              subPath: ./config/wireguard
+      volumes:
+        - name: nfs
+          persistentVolumeClaim:
+            claimName: {{ $values.pvc | default "nfs" | quote }}
+{{- end }}
+---
+# -------------- Service -------------
+{{- include "service.tpl" (list . "service.overlays") | nindent 0 -}}
+{{- define "service.overlays" -}}
+spec:
+  ports:
+    - name: {{ include "svcName" . }}-webui
+      protocol: TCP
+      port: 51821
+      targetPort: {{ include "svcName" . }}-webui
+    - name: {{ include "svcName" . }}-vpn
+      protocol: UDP
+      port: 51820
+      targetPort: {{ include "svcName" . }}-vpn
+{{- end }}
+# -------------- IngressRoute -------------
+---
+{{- include "ingressroute.tpl" (list . "ingressroute.overlays") | nindent 0 -}}
+{{- define "ingressroute.overlays" -}}
+{{- $values := .Values.wgeasy | default dict -}}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ $values.domain | default "*" }}`) && PathPrefix(`{{ $values.path | default "/" }}`)
+      services:
+        - name: {{ include "name" . | quote }}
+          port: "{{ include "svcName" . }}-webui"
+{{- end }}
+# -------------- IngressRouteUDP -------------
+---
+{{- include "ingressroute.tpl" (list . "ingressroute-udp.overlays") | nindent 0 -}}
+{{- define "ingressroute-udp.overlays" -}}
+kind: IngressRouteUDP
+spec:
+  entryPoints:
+    - wireguard
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: {{ include "name" . | quote }}
+          port: "{{ include "svcName" . }}-vpn"
+{{- end }}

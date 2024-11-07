@@ -1,0 +1,54 @@
+---
+# -------------- Deployment -------------
+{{- include "deployment.tpl" (list . "deployment.overlays") | nindent 0 -}}
+{{- define "deployment.overlays" -}}
+{{- $values := .Values.komga | default dict -}}{{- $deployment := .Values.deployment | default (dict "image" dict) -}}
+spec:
+  template:
+    spec:
+      containers:
+        - image: "{{ $deployment.image.repository }}:{{ $deployment.image.tag | default "latest" }}"
+          ports:
+            - name: {{ include "svcName" . | quote }}
+              containerPort: 25600
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+          volumeMounts:
+            - name: nfs
+              mountPath: /config
+              subPath: ./config/komga
+            - name: nfs
+              mountPath: /media/mangas
+              subPath: ./media/mangas
+      volumes:
+        - name: nfs
+          persistentVolumeClaim:
+            claimName: {{ $values.pvc | default "nfs" | quote }}
+{{- end }}
+---
+# -------------- Service -------------
+{{- include "service.tpl" (list . "service.overlays") | nindent 0 -}}
+{{- define "service.overlays" -}}
+spec:
+  ports:
+    - name: {{ include "svcName" . | quote }}
+      protocol: TCP
+      port: 25600
+      targetPort: {{ include "svcName" . | quote }}
+{{- end }}
+---
+# -------------- IngressRoute -------------
+{{- include "ingressroute.tpl" (list . "ingressroute.overlays") | nindent 0 -}}
+{{- define "ingressroute.overlays" -}}
+{{- $values := .Values.komga | default dict -}}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ $values.domain | default "*" }}`) && PathPrefix(`{{ $values.path | default "/" }}`)
+{{- end }}

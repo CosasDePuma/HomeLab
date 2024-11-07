@@ -6,7 +6,7 @@ duckdns:
   # DuckDNS token (https://www.duckdns.org/)
   token: ""
   # DuckDNS update IP (ipv4, ipv6, both)
-  updateIP: "both"
+  updateIP: "ipv4"
 
 # --- | Overriding 'template' chart values
 deployment:

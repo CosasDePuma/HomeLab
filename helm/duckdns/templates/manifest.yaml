@@ -4,7 +4,7 @@
 {{- define "configmap.overlays" -}}
 data:
   SUBDOMAINS: {{ .Values.duckdns.subdomains | quote }}
-  UPDATE_IP: {{ .Values.duckdns.updateIP | default "both" | quote }}
+  UPDATE_IP: {{ .Values.duckdns.updateIP | default "ipv4" | quote }}
 {{- end }}
 ---
 # -------------- Secret -------------
@@ -16,26 +16,23 @@ data:
 ---
 # -------------- Deployment -------------
 {{- include "deployment.tpl" (list . "deployment.overlays") | nindent 0 -}}
-{{- define "deployment.overlays" -}}
+{{- define "checksums" -}}
 metadata:
   annotations:
-    checksum/configmap: {{ include "secret.tpl" (list . "configmap.overlays") | sha256sum | quote }}
+    checksum/configmap: {{ include "configmap.tpl" (list . "configmap.overlays") | sha256sum | quote }}
     checksum/secret: {{ include "secret.tpl" (list . "secret.overlays") | sha256sum | quote }}
+{{- end }}
+{{- define "deployment.overlays" -}}
+{{- include "checksums" . | nindent 0 }}
 spec:
   template:
+    {{- include "checksums" . | nindent 4 }}
     spec:
       containers:
         - image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default "latest" }}"
           envFrom:
             - configMapRef:
-                name: env-configmap
+                name: {{ include "name" . | quote }}
             - secretRef:
-                name: env-secret
-      volumes:
-        - name: env-configmap
-          configMap:
-            name: {{ include "name" . | quote }}
-        - name: env-secret
-          secret:
-            secretName: {{ include "name" . | quote }}
+                name: {{ include "name" . | quote }}
 {{- end }}

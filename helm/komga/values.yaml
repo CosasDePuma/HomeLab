@@ -1,0 +1,16 @@
+---
+# --- | Default values for Komga.
+komga:
+  domain: "*"
+  path: "/"
+
+# --- | Overriding 'template' chart values
+deployment:
+  # Image repository
+  image:
+    repository: "gotson/komga"
+
+metadata:
+  # Additional component label
+  labels:
+    app.kubernetes.io/component: "media"
