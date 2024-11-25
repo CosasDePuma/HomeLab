@@ -31,7 +31,54 @@ releases:
       - duckdns:
           subdomains: "{{ requiredEnv "DUCKDNS_SUBDOMAINS" }}"
           token: "{{ requiredEnv "DUCKDNS_TOKEN" }}"
+  
+  # ---- | OpenLDAP
+  - name: openldap
+    chart: ./helm/openldap
+    namespace: kikewtf
+    labels: { env: "kikewtf" }
+    values:
+      - openldap:
+          basedn: "dc={{ requiredEnv "DOMAIN" | replace "." ",dc=" }}"
+          admin:
+            user: "admin"
+            pass: "{{ requiredEnv "ADMIN_PASSWORD" }}"
+          ldifs:
+            my-schema.ldif: |-
+              dn: dc=kike,dc=wtf
+              objectClass: top
+              objectClass: dcObject
+              objectClass: organization
+              o: Kike! WTF?
+              dc: kike
 
+              dn: ou=Users,dc={{ requiredEnv "DOMAIN" | replace "." ",dc=" }}
+              objectClass: top
+              objectClass: organizationalUnit
+              ou: Users
+
+              dn: ou=Groups,dc={{ requiredEnv "DOMAIN" | replace "." ",dc=" }}
+              objectClass: top
+              objectClass: organizationalUnit
+              ou: Groups
+
+              dn: cn=Admins,ou=Groups,dc={{ requiredEnv "DOMAIN" | replace "." ",dc=" }}
+              objectClass: top
+              objectClass: groupOfUniqueNames
+              cn: Admins
+              uniqueMember: cn=Admins,ou=Groups,dc={{ requiredEnv "DOMAIN" | replace "." ",dc=" }}
+
+  # ---- | phpLDAPadmin
+  - name: phpldapadmin
+    chart: ./helm/phpldapadmin
+    namespace: kikewtf
+    labels: { env: "kikewtf" }
+    values:
+      - phpldapadmin:
+          domain: "users.{{ requiredEnv "DOMAIN" }}"
+          dns: [192.168.1.2]
+          ldapHost: "{{ requiredEnv "DOMAIN" }}"
+          
   # ---- | Komga
   - name: komga
     chart: ./helm/komga
@@ -40,7 +87,7 @@ releases:
     needs: [nfs-kikewtf]
     values:
       - komga:
-          domain: komga.kike.wtf
+          domain: "komga.{{ requiredEnv "DOMAIN" }}"
           pvc: nfs-kikewtf
   
   # ---- | WG Easy
@@ -51,10 +98,103 @@ releases:
     needs: [nfs-kikewtf]
     values:
       - wgeasy:
-          domain: vpn.kike.wtf
+          domain: "vpn.{{ requiredEnv "DOMAIN" }}"
           host: "{{ requiredEnv "DUCKDNS_SUBDOMAINS" | splitList "/" | first }}.duckdns.org"
           whitelist: "{{ requiredEnv "HOST" }}/32"
           pvc: nfs-kikewtf
+  
+  # ---- | Homepage
+  - name: homepage
+    chart: ./helm/homepage
+    namespace: kikewtf
+    labels: { env: "kikewtf" }
+    values:
+      - homepage:
+          dns: [192.168.1.2]
+          domain: "home.{{ requiredEnv "DOMAIN" }}"
+          settings: |-
+            title: Kike! WTF?
+            theme: dark
+            color: slate
+            statusStyle: dot
+            hideVersion: true
+            layout:
+              Services:
+                style: row
+                columns: 4
+              ServicesWithoutWidgets:
+                style: row
+                columns: 4
+                header: false
+              Daemons:
+                style : row
+                columns: 3
+              Hardware:
+                style: column
+              DNS:
+                style: column
+          services: |-
+            - Services:
+              - Komga:
+                  description: Book reader
+                  icon: sh-komga
+                  href: https://komga.{{ requiredEnv "DOMAIN" }}
+                  siteMonitor: https://komga.{{ requiredEnv "DOMAIN" }}
+                  widget:
+                    type: komga
+                    url: https://komga.{{ requiredEnv "DOMAIN" }}
+                    username: homepage@example.com
+                    password: homepage
+                    fields: ['series','books']
+              - WG-Easy:
+                  description: WireGuard VPN
+                  icon: sh-wireguard
+                  href: https://vpn.{{ requiredEnv "DOMAIN" }}
+                  siteMonitor: https://vpn.{{ requiredEnv "DOMAIN" }}
+                  widget:
+                    type: wgeasy
+                    password: 'nopassword'
+                    url: https://vpn.{{ requiredEnv "DOMAIN" }}
+                    fields: ['connected','enabled']
+            - ServicesWithoutWidgets:
+              - phpLDAPadmin:
+                  description: LDAP management
+                  icon: https://github.com/leenooks/phpLDAPadmin/blob/master/public/images/logo.png?raw=true
+                  href: https://users.{{ requiredEnv "DOMAIN" }}
+                  siteMonitor: https://users.{{ requiredEnv "DOMAIN" }}
+            - Daemons:
+              - DuckDNS:
+                  description: DynDNS
+                  icon: sh-duckdns
+                  href: http://{{ requiredEnv "DUCKDNS_SUBDOMAINS" | splitList "/" | first }}.duckdns.org
+                  ping: {{ requiredEnv "DUCKDNS_SUBDOMAINS" | splitList "/" | first }}.duckdns.org
+              - OpenLDAP:
+                  description: LDAP server
+                  icon: sh-freeipa
+          bookmarks: |-
+            - Hardware:
+              - Router:
+                - href: http://192.168.1.1/
+                  icon: https://upload.wikimedia.org/wikipedia/commons/1/1d/Digi_Logo.png
+                  description: H3600 V9
+            - DNS:
+              - Cloudflare:
+                - href: https://dash.cloudflare.com/
+                  icon: https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png
+                  description: Network services and cloud provider.
+              - DuckDNS:
+                - href: https://www.duckdns.org/
+                  icon: https://www.duckdns.org/img/ducky_icon_small.png
+                  description: Free and reliable DynDNS provider.
+          widgets: |-
+            - resources:
+                cpu: true
+                memory: true
+                disk: /
+            - datetime:
+                format:
+                  dateStyle: short
+                  timeStyle: short
 
   # ==========================
   #   HACKR.ES

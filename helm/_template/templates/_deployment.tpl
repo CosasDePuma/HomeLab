@@ -23,13 +23,13 @@ spec:
     metadata:
       labels:
         {{- include "labels" . | nindent 8 }}
-        {{- with $values.labels | default dict }}
-        {{- . | toYaml | nindent 8 }}
+        {{- if $values.labels }}
+        {{- $values.labels | toYaml | nindent 8 }}
         {{- end }}
       annotations:
         {{- include "annotations" . | nindent 8 }}
-        {{- with $values.annotations }}
-        {{- . | toYaml | nindent 8 }}
+        {{- if $values.annotations }}
+        {{- $values.annotations | toYaml | nindent 8 }}
         {{- end }}
     spec:
       {{- range $container := $values.containers | default (list (dict "foo" "bar")) }}
@@ -51,8 +51,8 @@ spec:
           {{- range $port := $container.ports }}
           - containerPort: {{ $port.port }}
               protocol: {{ $port.protocol | default "TCP" | quote }}
-              {{- with $port.name }}
-              name: {{ . | quote }}
+              {{- if $port.name }}
+              name: {{ $port.name | quote }}
               {{- end }}
           {{- end }}
           {{- end }}
@@ -60,11 +60,11 @@ spec:
           resources:
             {{- $requests := $resources.requests | default dict }}
             requests:
-              cpu: {{ $requests.cpu | default "50m" | quote }}
-              memory: {{ $requests.memory | default "64Mi" | quote }}
+              cpu: {{ $requests.cpu | default "0m" | quote }}
+              memory: {{ $requests.memory | default "12Mi" | quote }}
             {{- $limits := $resources.limits | default dict }}
             limits:
-              cpu: {{ $limits.cpu | default "100m" | quote }}
+              cpu: {{ $limits.cpu | default "10m" | quote }}
               memory: {{ $limits.memory | default "128Mi" | quote }}
           {{- if $container.volumeMounts }}
           volumeMounts:

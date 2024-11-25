@@ -121,13 +121,6 @@ spec:
             - name: "{{ include "svcName" . }}-udp"
               containerPort: 53
               protocol: UDP
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
-            limits:
-              cpu: 1000m
-              memory: 4096Mi
           volumeMounts:
             - name: configmap-conf
               mountPath: /etc/bind/named.conf

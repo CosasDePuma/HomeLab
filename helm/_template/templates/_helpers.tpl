@@ -45,11 +45,11 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Name | quote }}
 app.kubernetes.io/name: {{ include "name" . | quote }}
 app.kubernetes.io/part-of: {{ .Chart.Name | quote }}
-{{- with .Chart.AppVersion }}
-app.kubernetes.io/version: {{ . | quote }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-wtf.kike/project: "Homelab"
+github.com/cosasdepuma: "helm"
 {{- end -}}
 
 # --- | annotations
@@ -57,8 +57,8 @@ wtf.kike/project: "Homelab"
 # It includes any additional annotations defined as the `annotations` value.
 {{- define "annotations" -}}
 {{- $metadata := .Values.metadata | default (dict ) -}}
-{{- with $metadata.annotations | default (dict ) }}
-{{ . | toYaml | nindent 0 }}
+{{- if $metadata.annotations }}
+{{ $metadata.annotations | toYaml | nindent 0 }}
 {{- end }}
 {{- end -}}
 

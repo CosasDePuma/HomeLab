@@ -12,11 +12,8 @@ spec:
             - name: {{ include "svcName" . | quote }}
               containerPort: 25600
           resources:
-            requests:
-              cpu: 200m
-              memory: 512Mi
             limits:
-              cpu: 500m
+              cpu: 100m
               memory: 1024Mi
           volumeMounts:
             - name: nfs

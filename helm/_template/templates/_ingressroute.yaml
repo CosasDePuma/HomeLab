@@ -72,7 +72,7 @@ spec:
 kind: IngressRoute
 spec:
   entryPoints:
-    {{- $values.entrypoints | default (list "web websecure") | toYaml | nindent 4 }}
+    {{- $values.entrypoints | default (list "websecure") | toYaml | nindent 4 }}
   routes:
     - kind: Rule
 {{- end -}}

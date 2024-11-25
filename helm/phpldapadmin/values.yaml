@@ -1,0 +1,17 @@
+---
+# --- | Default values for phpLDAPadmin.
+phpldapadmin:
+  domain: "*"
+  dns: []
+  ldapHost: "127.0.0.1"
+
+# --- | Overriding 'template' chart values
+deployment:
+  # Image repository
+  image:
+    repository: "osixia/phpldapadmin"
+
+metadata:
+  # Additional component label
+  labels:
+    app.kubernetes.io/component: "ldap"

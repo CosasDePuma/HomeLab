@@ -93,6 +93,54 @@ metadata:
   # --- Component name override
   name: ""
 
+# ---- | IngressRoute component
+ingressroute:
+  # --- Additional annotations to apply to the IngressRoute
+  annotations: {}
+  #  annotationKey: "annotationValue"
+  # --- Entry points to expose
+  entrypoints: []
+  # - web
+  # --- Routes to match
+  routes: []
+  # - match: Host(`example.com`)
+  #   services:
+  #   - name: service
+  #     port: 80
+  # --- Additional labels to apply to the IngressRoute
+  labels: {}
+  #  labelKey: "labelValue"
+
+# ---- | IngressRouteTCP component
+ingressroutetcp:
+  # --- Additional annotations to apply to the IngressRouteTCP
+  annotations: {}
+  #  annotationKey: "annotationValue"
+  # --- Entry points to expose
+  entrypoints: []
+  # - tcp
+  # --- Routes to match
+  routes: []
+  # - match: HostSNI(`*`)
+  #   services:
+  #   - name: service
+  #     port: 80
+  # --- Additional labels to apply to the IngressRouteTCP
+  labels: {}
+  #  labelKey: "labelValue"
+
+# ---- | IngressRouteUDP component
+ingressrouteudp:
+  # --- Additional annotations to apply to the IngressRouteUDP
+  annotations: {}
+  #  annotationKey: "annotationValue"
+  # --- Entry points to expose
+  entrypoints: []
+  # - udp
+  # --- Additional labels to apply to the IngressRouteUDP
+  labels: {}
+  #  labelKey: "labelValue"
+
 # ---- | Secret component
 secret:
   # --- Additional annotations to apply to the Secret
