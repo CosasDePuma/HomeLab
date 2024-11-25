@@ -68,6 +68,27 @@ releases:
               cn: Admins
               uniqueMember: cn=Admins,ou=Groups,dc={{ requiredEnv "DOMAIN" | replace "." ",dc=" }}
 
+              dn: cn=Users,ou=Groups,dc={{ requiredEnv "DOMAIN" | replace "." ",dc=" }}
+              objectclass: top
+              objectclass: posixGroup
+              cn: Users
+              gidnumber: 5000
+
+              dn: cn=puma,ou=Users,dc={{ requiredEnv "DOMAIN" | replace "." ",dc=" }}
+              objectclass: top
+              objectclass: posixAccount
+              objectclass: inetOrgPerson
+              cn: puma
+              uid: puma
+              givenname: Kike
+              sn: Fontan
+              mail: puma@{{ requiredEnv "DOMAIN" }}
+              uidnumber: 1000
+              gidnumber: 5000
+              homedirectory: /home/users/puma
+              loginshell: /bin/bash
+              userpassword: {{ requiredEnv "ADMIN_PASSWORD" }}
+
   # ---- | phpLDAPadmin
   - name: phpldapadmin
     chart: ./helm/phpldapadmin
@@ -78,7 +99,17 @@ releases:
           domain: "users.{{ requiredEnv "DOMAIN" }}"
           dns: [192.168.1.2]
           ldapHost: "{{ requiredEnv "DOMAIN" }}"
-          
+  
+  # ---- | Authelia
+  - name: authelia
+    chart: ./helm/authelia
+    namespace: kikewtf
+    labels: { env: "kikewtf" }
+    values:
+      - authelia:
+          domain: "auth.{{ requiredEnv "DOMAIN" }}"
+          dns: [192.168.1.2]
+
   # ---- | Komga
   - name: komga
     chart: ./helm/komga
@@ -87,7 +118,7 @@ releases:
     needs: [nfs-kikewtf]
     values:
       - komga:
-          domain: "komga.{{ requiredEnv "DOMAIN" }}"
+          domain: "books.{{ requiredEnv "DOMAIN" }}"
           pvc: nfs-kikewtf
   
   # ---- | WG Easy
@@ -138,14 +169,23 @@ releases:
               - Komga:
                   description: Book reader
                   icon: sh-komga
-                  href: https://komga.{{ requiredEnv "DOMAIN" }}
-                  siteMonitor: https://komga.{{ requiredEnv "DOMAIN" }}
+                  href: https://books.{{ requiredEnv "DOMAIN" }}
+                  siteMonitor: https://books.{{ requiredEnv "DOMAIN" }}
                   widget:
                     type: komga
-                    url: https://komga.{{ requiredEnv "DOMAIN" }}
+                    url: https://books.{{ requiredEnv "DOMAIN" }}
                     username: homepage@example.com
                     password: homepage
                     fields: ['series','books']
+              - Traefik:
+                  description: Reverse proxy
+                  icon: sh-traefik
+                  href: http://192.168.1.2:9000/
+                  siteMonitor: http://192.168.1.2:9000/
+                  widget:
+                    type: traefik
+                    url: http://192.168.1.2:9000
+                    fields: ['routers','middleware']
               - WG-Easy:
                   description: WireGuard VPN
                   icon: sh-wireguard
@@ -157,6 +197,11 @@ releases:
                     url: https://vpn.{{ requiredEnv "DOMAIN" }}
                     fields: ['connected','enabled']
             - ServicesWithoutWidgets:
+              - Authelia:
+                  description: Authelia
+                  icon: sh-authelia
+                  href: https://auth.{{ requiredEnv "DOMAIN" }}
+                  siteMonitor: https://auth.{{ requiredEnv "DOMAIN" }}
               - phpLDAPadmin:
                   description: LDAP management
                   icon: https://github.com/leenooks/phpLDAPadmin/blob/master/public/images/logo.png?raw=true
@@ -177,14 +222,18 @@ releases:
                 - href: http://192.168.1.1/
                   icon: https://upload.wikimedia.org/wikipedia/commons/1/1d/Digi_Logo.png
                   description: H3600 V9
+              - Proxmox:
+                - href: https://192.168.1.254:8006/
+                  icon: sh-proxmox
+                  description: Virtualization platform
             - DNS:
               - Cloudflare:
                 - href: https://dash.cloudflare.com/
-                  icon: https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png
+                  icon: sh-cloudflare
                   description: Network services and cloud provider.
               - DuckDNS:
                 - href: https://www.duckdns.org/
-                  icon: https://www.duckdns.org/img/ducky_icon_small.png
+                  icon: sh-duckdns
                   description: Free and reliable DynDNS provider.
           widgets: |-
             - resources:

@@ -101,4 +101,6 @@ spec:
       services:
         - name: {{ include "name" . | quote }}
           port: "{{ include "svcName" . }}-vpn"
+      middlewares:
+        - name: "authelia"
 {{- end }}

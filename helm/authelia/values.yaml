@@ -1,0 +1,16 @@
+---
+# --- | Default values for Authelia.
+authelia:
+  domain: "*"
+  dns: []
+
+# --- | Overriding 'template' chart values
+deployment:
+  # Image repository
+  image:
+    repository: "authelia/authelia"
+
+metadata:
+  # Additional component label
+  labels:
+    app.kubernetes.io/component: "oidc"
