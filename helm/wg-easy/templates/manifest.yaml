@@ -87,6 +87,8 @@ spec:
       services:
         - name: {{ include "name" . | quote }}
           port: "{{ include "svcName" . }}-webui"
+      middlewares:
+        - name: "authelia"
 {{- end }}
 # -------------- IngressRouteUDP -------------
 ---
@@ -101,6 +103,4 @@ spec:
       services:
         - name: {{ include "name" . | quote }}
           port: "{{ include "svcName" . }}-vpn"
-      middlewares:
-        - name: "authelia"
 {{- end }}

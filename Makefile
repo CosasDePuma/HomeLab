@@ -3,7 +3,6 @@ K0SFILE ?= ./k0sctl.yaml
 ENVIRONMENTS ?= networking kike.wtf hackr.es
 
 
-
 .PHONY: default
 default: install
 
@@ -28,7 +27,6 @@ uninstall:
 .PHONY: art
 art:
 	find ./helm -type f -name 'NOTES.txt' -exec cat {} \;
-
 
 
 ACTION ?= apply

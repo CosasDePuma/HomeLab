@@ -186,16 +186,6 @@ releases:
                     type: traefik
                     url: http://192.168.1.2:9000
                     fields: ['routers','middleware']
-              - WG-Easy:
-                  description: WireGuard VPN
-                  icon: sh-wireguard
-                  href: https://vpn.{{ requiredEnv "DOMAIN" }}
-                  siteMonitor: https://vpn.{{ requiredEnv "DOMAIN" }}
-                  widget:
-                    type: wgeasy
-                    password: 'nopassword'
-                    url: https://vpn.{{ requiredEnv "DOMAIN" }}
-                    fields: ['connected','enabled']
             - ServicesWithoutWidgets:
               - Authelia:
                   description: Authelia
@@ -207,6 +197,11 @@ releases:
                   icon: https://github.com/leenooks/phpLDAPadmin/blob/master/public/images/logo.png?raw=true
                   href: https://users.{{ requiredEnv "DOMAIN" }}
                   siteMonitor: https://users.{{ requiredEnv "DOMAIN" }}
+              - WG-Easy:
+                  description: WireGuard VPN
+                  icon: sh-wireguard
+                  href: https://vpn.{{ requiredEnv "DOMAIN" }}
+                  siteMonitor: https://vpn.{{ requiredEnv "DOMAIN" }}
             - Daemons:
               - DuckDNS:
                   description: DynDNS

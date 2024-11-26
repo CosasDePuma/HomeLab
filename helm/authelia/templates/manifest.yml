@@ -73,7 +73,7 @@ metadata:
   name: authelia
 spec:
   forwardAuth:
-    address: http://0.0.0.0:9091/api/authz/forward-auth
+    address: http://{{ include "name" . }}.{{ .Release.Namespace }}.svc.cluster.local:9091/api/authz/forward-auth
     trustForwardHeader: true
     authResponseHeaders: [Remote-User,Remote-Groups,Remote-Email,Remote-Name]
 {{- end }}
@@ -127,7 +127,7 @@ session:
     - name: _Host-Auth
       domain: kike.wtf
       authelia_url: https://auth.kike.wtf
-      default_redirection_url: https://kike.wtf
+      default_redirection_url: https://auth.kike.wtf
 storage:
   encryption_key: "a_very_important_secret"
   local:
