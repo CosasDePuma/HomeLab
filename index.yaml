@@ -3,14 +3,14 @@ entries:
   authelia:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.850716732Z"
+    created: "2024-11-26T01:15:46.371733818Z"
     dependencies:
     - name: template
       repository: file://../_template
       version: 1.0.0
     description: 'Authelia is an open-source authentication and authorization server
       (IAM). '
-    digest: e2c191f7292b21860246a208caec996f477920b063ba6664934cbd0b69490aef
+    digest: f8a6a5f924d48af1fc4ea2fc8799231ee2c33e1245bf97d8adcf5f8eb2f58df2
     home: https://cosasdepuma.github.io/homelab/
     icon: https://www.authelia.com/images/branding/logo.png
     keywords:
@@ -37,13 +37,13 @@ entries:
   bind9:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.851314292Z"
+    created: "2024-11-26T01:15:46.372357923Z"
     dependencies:
     - name: template
       repository: file://../_template
       version: 1.0.0
     description: 'Bind9 is a complete implementation of the DNS protocol. '
-    digest: a0176016fada13fd305c0558929428a6fe1121e44cd88cb9650e42b3c1e1a595
+    digest: 199420f0c3bfcc6892d586d7d8b51b2e1d909801352c094f229de53f5752757a
     home: https://cosasdepuma.github.io/homelab/
     icon: https://jellyfin.org/images/logo.svg
     keywords:
@@ -66,14 +66,14 @@ entries:
   duckdns:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.85188962Z"
+    created: "2024-11-26T01:15:46.372902909Z"
     dependencies:
     - name: template
       repository: file://../_template
       version: 1.0.0
     description: 'DuckDNS is a free and reliable DDNS provider that enables you to
       associate a dynamic IP address with a domain name. '
-    digest: 4b96628f6dd97a85d359e286ea86721ce9289fb77f7714de474a421497a07da3
+    digest: 69d04bec0c11ffbfe7f000acf3835cdf54fbecf2ca2cb890a9e26ee764d215be
     home: https://cosasdepuma.github.io/homelab/
     icon: https://www.duckdns.org/img/ducky_icon_small.png
     keywords:
@@ -97,7 +97,7 @@ entries:
   homepage:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.852432368Z"
+    created: "2024-11-26T01:15:46.373463315Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -105,7 +105,7 @@ entries:
     description: 'Homepage is a modern, fully static, fast, secure fully proxied,
       highly customizable application dashboard with integrations for over 100 services
       and translations into multiple languages. '
-    digest: 235b2bcb8dbb97921132f89d4d73ee10b05eb1f80936db46c7f5179d7d2e758a
+    digest: 3e3c99dd59b73b89372880dc374f76038338aef95e8442ccba12f32a8bcd0d8b
     home: https://cosasdepuma.github.io/homelab/
     icon: https://gethomepage.dev/assets/banner_light@2x.webp
     keywords:
@@ -127,14 +127,14 @@ entries:
   komga:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.852958805Z"
+    created: "2024-11-26T01:15:46.373982403Z"
     dependencies:
     - name: template
       repository: file://../_template
       version: 1.0.0
     description: 'Komga is a media server for your comics, mangas, BDs, magazines
       and eBooks '
-    digest: 057867fd32197f2a85cb0f1b8e31e867d858513108e46b0fb86bb736168ca9f9
+    digest: e3607f0bc5fe7e35d7259e0ef12fb4c9f1fe0b8b582b42edd98ecdd4f46d5268
     home: https://cosasdepuma.github.io/homelab/
     icon: https://komga.org/img/logo.svg
     keywords:
@@ -157,14 +157,14 @@ entries:
   metallb:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.853486295Z"
+    created: "2024-11-26T01:15:46.374544653Z"
     dependencies:
     - name: template
       repository: file://../_template
       version: 1.0.0
     description: 'MetalLB is a load-balancer implementation for bare metal Kubernetes
       clusters, using standard routing protocols '
-    digest: a115c6789526cd0cc49c6b60535dec0c4006f6b15e080f35f56f9b2c58545712
+    digest: 97a911e9a17c1d1b2b394ea1305573e725d6c09807ec015a778a29e67e8554ce
     home: https://cosasdepuma.github.io/homelab/
     icon: https://metallb.universe.tf/images/logo/metallb-white.png
     keywords:
@@ -188,13 +188,13 @@ entries:
   nfs:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.853999087Z"
+    created: "2024-11-26T01:15:46.375074191Z"
     dependencies:
     - name: template
       repository: file://../_template
       version: 1.0.0
     description: 'An NFS Storage method. '
-    digest: 97636d5773ddec74263f86b6ef2078249cef771952d8e981aa56b6f53c744d91
+    digest: 1c86f34b2d841183b0fc528035927ea11adc5b42f6cd4230ff6063da9914cc7b
     home: https://cosasdepuma.github.io/homelab/
     icon: https://static-00.iconduck.com/assets.00/folder-remote-nfs-icon-512x430-ab8h76bp.png
     keywords:
@@ -216,14 +216,14 @@ entries:
   openldap:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.854599632Z"
+    created: "2024-11-26T01:15:46.375616823Z"
     dependencies:
     - name: template
       repository: file://../_template
       version: 1.0.0
     description: 'OpenLDAP is a free, open-source implementation of the Lightweight
       Directory Access Protocol (LDAP). '
-    digest: 79dfd4bc885919176ba5826eb31e0789b6561fddb517cf898e6cdc1c53d14e20
+    digest: ea3eafa9c7c7d6082a3892ead5575be125e77e3728e92241b1b887e5b347342e
     home: https://cosasdepuma.github.io/homelab/
     icon: https://en.wikipedia.org/wiki/File:OpenLDAP-logo.png
     keywords:
@@ -247,13 +247,13 @@ entries:
   phpldapadmin:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.855890805Z"
+    created: "2024-11-26T01:15:46.37614037Z"
     dependencies:
     - name: template
       repository: file://../_template
       version: 1.0.0
     description: 'phpLDAPadmin is a web-based LDAP admininstration tool. '
-    digest: 3e247721798028b7afb52c73563f3eeb8d221891bdf2a7be73353cf2405bb035
+    digest: d4cbecf758ee9ebd46354361fa1f4d437965ed8e419730379491807625acbc37
     home: https://cosasdepuma.github.io/homelab/
     icon: https://github.com/leenooks/phpLDAPadmin/blob/master/public/images/logo.png?raw=true
     keywords:
@@ -277,9 +277,9 @@ entries:
     version: 0.1.0
   template:
   - apiVersion: v2
-    created: "2024-11-26T01:11:52.856268095Z"
+    created: "2024-11-26T01:15:46.376504088Z"
     description: A Helm agnostic-application template chart.
-    digest: 70425d2ea10ff5c6ac6a49d34b45ec315df19db5079141c43893213ffac7ba97
+    digest: 97b82b51f908b6cb73198a43ec19b17aeaf66765d0ed84a993f5938d157e593b
     keywords:
     - cosasdepuma
     - homelab
@@ -298,14 +298,14 @@ entries:
   wg-easy:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:11:52.856842773Z"
+    created: "2024-11-26T01:15:46.377215747Z"
     dependencies:
     - name: template
       repository: file://../_template
       version: 1.0.0
     description: 'WG-Easy VPN (WireGuard) is a simple WireGuard VPN server with a
       web-based management interface. '
-    digest: 45c7b8b71edb5bb01b26df30375a4caed91618fd5113b1b96314dd91f8d6c854
+    digest: bded5f3efdd7b3e95c6f3c8a89e3ec44235a76d7bb80bdae7845ad30b529d456
     home: https://cosasdepuma.github.io/homelab/
     icon: https://play-lh.googleusercontent.com/tixGgVipnsaKeGQzykJfgSEhUc_YYMSsr3gwBuPTpXb2F1BKPVzv5OxfCrpS8OAXXh8=w480-h960-rw
     keywords:
@@ -327,4 +327,4 @@ entries:
     urls:
     - https://CosasDePuma.github.io/K8s/charts/wg-easy-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-26T01:11:52.849898001Z"
+generated: "2024-11-26T01:15:46.370324068Z"
