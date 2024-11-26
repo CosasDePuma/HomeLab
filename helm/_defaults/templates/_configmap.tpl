@@ -1,34 +1,17 @@
+---
+{{- /* -------------- ConfigMap ------------- */ -}}
 {{- define "configmap.base.tpl" -}}
-{{- $values := .Values.configmap | default dict -}}
-apiVersion: v1
-kind: ConfigMap
+apiVersion: "v1"
+kind: "ConfigMap"
 metadata:
   name: {{ include "name" . | quote }}
   labels:
     {{- include "labels" . | nindent 4 }}
-    {{- if $values.labels | default dict }}
-    {{- $values.labels | toYaml | nindent 4 }}
-    {{- end }}
   annotations:
     {{- include "annotations" . | nindent 4 }}
-    {{- if $values.annotations | default dict }}
-    {{- $values.annotations | toYaml | nindent 4 }}
-    {{- end }}
-{{- if $values.binaryData | default dict }}
-binaryData:
-  {{- range $name, $contents := $values.binaryData }}
-  {{- $name | nindent 2 }}: |-
-    {{- $contents | toYaml | nindent 4 }}
-  {{- end }}
-{{- end }}
-{{- if $values.data | default dict }}
-data:
-  {{- range $name, $contents := $values.data }}
-  {{- $name | nindent 2 }}: |-
-    {{- $contents | toYaml | nindent 4 }}
-  {{- end }}
-{{- end }}
-immutable: {{ $values.immutable | default "false" }}
+binaryData: {}
+data: {}
+immutable: false
 {{- end -}}
 
 {{- define "configmap.tpl" -}}
@@ -41,3 +24,4 @@ immutable: {{ $values.immutable | default "false" }}
 {{- $base := include "configmap.base.tpl" $values | fromYaml -}}{{- $over := include $overlay $values | fromYaml -}}
 {{- include "merge.deep" (list $over $base) | nindent 0 -}}
 {{- end -}}
+...

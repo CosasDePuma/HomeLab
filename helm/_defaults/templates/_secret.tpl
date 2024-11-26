@@ -1,26 +1,16 @@
+---
+{{- /* -------------- Secret ------------- */ -}}
 {{- define "secret.base.tpl" -}}
-{{- $values := .Values.secret | default dict -}}
-apiVersion: v1
-kind: Secret
+apiVersion: "v1"
+kind: "Secret"
 metadata:
   name: {{ include "name" . | quote}}
   labels:
     {{- include "labels" . | nindent 4 }}
-    {{- if $values.labels | default (dict ) }}
-    {{- $values.labels | toYaml | nindent 4 }}
-    {{- end }}
   annotations:
     {{- include "annotations" . | nindent 4 }}
-    {{- if $values.annotations }}
-    {{- $values.annotations | toYaml | nindent 4 }}
-    {{- end }}
-{{- if $values.data }}
-data:
-  {{- range $key, $value := $values.data }}
-  {{- $key | nindent 2 }}:  {{ $value | b64enc | quote }}
-  {{- end }}
-{{- end }}
-type: {{ $values.type | default "Opaque" | quote }}
+data: {}
+type: "Opaque"
 {{- end -}}
 
 {{- define "secret.tpl" -}}
@@ -33,3 +23,4 @@ type: {{ $values.type | default "Opaque" | quote }}
 {{- $base := include "secret.base.tpl" $values | fromYaml -}}{{- $over := include $overlay $values | fromYaml -}}
 {{- include "merge.deep" (list $over $base) | nindent 0 -}}
 {{- end -}}
+...

@@ -36,8 +36,7 @@
 # - app.kubernetes.io/managed-by: The name of the release service (Helm).
 # It also includes any additional labels defined as the `labels` value.
 {{- define "labels" -}}
-{{- $metadata := .Values.metadata | default (dict ) -}}
-{{- merge (include "labels_defaults" . | fromYaml) ($metadata.labels | default (dict )) | toYaml | nindent 0 }}
+{{- merge (include "labels_defaults" . | fromYaml) (.Values.labels | default (dict )) | toYaml | nindent 0 }}
 {{- end -}}
 {{- define "labels_defaults" -}}
 app: {{ include "name" . | quote }}
@@ -49,16 +48,15 @@ app.kubernetes.io/part-of: {{ .Chart.Name | quote }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-github.com/cosasdepuma: "helm"
+github.com/cosasdepuma: "HomeLab"
 {{- end -}}
 
 # --- | annotations
 # Helper function that returns common annotations for the chart.
 # It includes any additional annotations defined as the `annotations` value.
 {{- define "annotations" -}}
-{{- $metadata := .Values.metadata | default (dict ) -}}
-{{- if $metadata.annotations }}
-{{ $metadata.annotations | toYaml | nindent 0 }}
+{{- if .Values.annotations }}
+{{ .Values.annotations | toYaml | nindent 0 }}
 {{- end }}
 {{- end -}}
 

@@ -1,21 +1,14 @@
+---
 {{- /* -------------- Middleware ------------- */ -}}
-
 {{- define "middleware.base.tpl" -}}
-{{- $ctx := . -}}{{- $values := .Values.middleware | default dict -}}
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
+apiVersion: "traefik.io/v1alpha1"
+kind: "Middleware"
 metadata:
   name: {{ include "name" . | quote }}
   labels:
     {{- include "labels" . | nindent 4 }}
-    {{- if $values.labels }}
-    {{- $values.labels | toYaml | nindent 4 }}
-    {{- end }}
   annotations:
     {{- include "annotations" . | nindent 4 }}
-    {{- if $values.annotations }}
-    {{- $values.annotations | toYaml | nindent 4 }}
-    {{- end }}
 spec: {}
 {{- end -}}
 
@@ -29,3 +22,4 @@ spec: {}
 {{- $base := include "middleware.base.tpl" $values | fromYaml -}}{{- $over := include $overlay $values | fromYaml -}}
 {{- include "merge.deep" (list $over $base) | nindent 0 -}}
 {{- end -}}
+...
