@@ -11,7 +11,7 @@
           pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
         in with pkgs; {
           devShells.default = mkShell {
-            buildInputs = [ gnumake helmfile k0sctl kubectl kustomize ];
+            buildInputs = [ gnumake helmfile k0sctl kubectl yamllint ];
             shellHook = ''
               export KUBECONFIG="$HOME/.kube/config"
               export PS1="╠ IAC ╣ $PS1"

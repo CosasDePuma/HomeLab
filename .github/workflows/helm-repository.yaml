@@ -1,0 +1,30 @@
+---
+name: "Helm repository"
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+    branches: ["main"]
+
+defaults:
+  runs-on: "ubuntu-latest"
+
+jobs:
+  main:
+    steps:
+      - name: "Clone the main branch"
+        uses: "actions/checkout@v4"
+        with:
+          ref: "main"
+      - name: "Save the charts into an artifact"
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: "helm-charts"
+          path: "./helm/"
+  gh-pages:
+    steps:
+      - name: "Clone the gh-pages branch"
+        uses: "actions/checkout@v4"
+        ref: "gh-pages"
+
+...
