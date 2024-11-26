@@ -1,0 +1,32 @@
+---
+{{- if .Values.server -}}
+# -------------- PersistentVolume -------------
+{{- include "persistentvolume.tpl" (list . "persistentvolume.overlays") | nindent 0 -}}
+{{- end }}
+{{- define "persistentvolume.overlays" -}}
+metadata:
+  labels:
+    type: nfs
+spec:
+  capacity:
+    storage: {{ .Values.capacity | default "1Gi" | quote }}
+  mountOptions:
+    - "hard"
+    - "nfsvers=4.1"
+  nfs:
+    server: {{ .Values.server | quote }}
+    path: {{ .Values.path | default "/" | quote }}
+{{- end }}
+---
+# -------------- PersistentVolumeClaim -------------
+{{- include "persistentvolumeclaim.tpl" (list . "persistentvolumeclaim.overlays") | nindent 0 -}}
+{{- define "persistentvolumeclaim.overlays" -}}
+spec:
+  resources:
+    requests:
+      storage: {{ .Values.capacity | default "1Gi" | quote }}
+  selector:
+    matchLabels:
+      type: nfs
+{{- end }}
+...

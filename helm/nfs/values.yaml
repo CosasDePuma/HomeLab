@@ -1,0 +1,10 @@
+---
+# --- | Default values for NFS
+# NFS server IP or hostname.
+# If empty, only the NFS persistent volume claim will be created.
+server: ""
+# NFS shared folder path.
+path: "/"
+# NFS shared folder capacity.
+capacity: "10Gi"
+...

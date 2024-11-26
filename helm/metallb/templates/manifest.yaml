@@ -4,14 +4,11 @@
 {{- define "ipaddresspool.overlays" -}}
 spec:
   addresses:
-    {{- with .Values.addresses -}}{{- $addresses := . | toYaml -}}
-    {{- if kindIs "string" . -}}{{- $addresses = split "," . | include "map2slice" -}}{{- end -}}
-    {{- $addresses | nindent 4 }}
-    {{- end -}}
+    {{- with .Values.addresses }}
+    {{ . | toYaml | nindent 4 }}
+    {{- end }}
 {{- end }}
 ---
 # -------------- L2Advertisement -------------
-{{- include "l2advertisement.tpl" (list . "l2advertisement.overlays") | nindent 0 -}}
-{{- define "l2advertisement.overlays" -}}{{- end -}}
-{{- end }}
+{{- include "l2advertisement.base.tpl" . | nindent 0 }}
 ...

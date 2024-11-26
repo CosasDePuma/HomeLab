@@ -1,5 +1,5 @@
 ---
 # --- | Default values for MetalLb
-# List or comma-separated string of IP addresses used by the pool
+# List or comma-separated string of IP addresses used by the pool.
 addresses: ""
 ...

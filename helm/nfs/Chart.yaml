@@ -1,0 +1,28 @@
+---
+apiVersion: "v2"
+name: "nfs"
+version: "1.0.0"
+type: "application"
+description: |
+  An NFS Storage method.
+sources:
+  - "https://en.wikipedia.org/wiki/Network_File_System"
+appVersion: "latest"
+icon: "https://static-00.iconduck.com/assets.00/folder-remote-nfs-icon-512x430-ab8h76bp.png"
+home: "https://cosasdepuma.github.io/HomeLab/"
+
+maintainers:
+  - name: "Kike Fontan"
+    email: "helm@kike.wtf"
+    url: "https://github.com/cosasdepuma/"
+keywords:
+  - "cosasdepuma"
+  - "homelab"
+  - "storage"
+  - "nfs"
+
+dependencies:
+  - name: "defaults"
+    version: "1.0.0"
+    repository: "file://../_defaults"
+...
