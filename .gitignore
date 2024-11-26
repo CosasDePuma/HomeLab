@@ -1,0 +1,4 @@
+# Remove backups and system files
+/**/.old/
+/**/*~
+/**/.DS_Store
