@@ -22,7 +22,7 @@ spec:
 {{- define "ingressroute.overlays" -}}
 spec:
   routes:
-    - match: 'Host(`{{ .Values.host | default "*" }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))'
+    - match: 'Host(`{{ .Values.hostname | default "*" }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))'
       services:
         - name: "api@internal"
           kind: "TraefikService"

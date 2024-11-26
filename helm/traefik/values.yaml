@@ -1,9 +1,14 @@
 ---
 # --- | Default values for Traefik
 # Hostname for the Traefik dashboard.
-host: "*"
+hostname: "*"
 # Basic auth middleware.
 basicauth: {}
 #  username: "traefik"
 #  password: "dashboard"
+
+# --- | Overriding 'defaults' chart values
+# Additional component labels
+labels:
+  app.kubernetes.io/component: "reverse-proxy"
 ...

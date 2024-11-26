@@ -2,4 +2,9 @@
 # --- | Default values for MetalLb
 # List or comma-separated string of IP addresses used by the pool.
 addresses: ""
+
+# --- | Overriding 'defaults' chart values
+# Additional component labels
+labels:
+  app.kubernetes.io/component: "load-balancer"
 ...

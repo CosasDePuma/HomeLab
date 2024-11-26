@@ -7,4 +7,9 @@ server: ""
 path: "/"
 # NFS shared folder capacity.
 capacity: "10Gi"
+
+# --- | Overriding 'defaults' chart values
+# Additional component labels
+labels:
+  app.kubernetes.io/component: "storage"
 ...
