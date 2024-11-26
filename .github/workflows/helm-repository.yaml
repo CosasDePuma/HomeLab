@@ -26,7 +26,8 @@ jobs:
     steps:
       - name: "Clone the gh-pages branch"
         uses: "actions/checkout@v4"
-        ref: "gh-pages"
+        with:
+          ref: "gh-pages"
       - name: "Download the artifacts"
         uses: "actions/download-artifact@v4"
         with:
