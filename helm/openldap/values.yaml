@@ -1,0 +1,19 @@
+---
+# --- | Default values for OpenLDAP.
+openldap:
+  basedn: "dc=example,dc=com"
+  admin:
+    user: "admin"
+    pass: "password"
+  ldifs: {}
+
+# --- | Overriding 'template' chart values
+deployment:
+  # Image repository
+  image:
+    repository: "bitnami/openldap"
+
+metadata:
+  # Additional component label
+  labels:
+    app.kubernetes.io/component: "ldap"

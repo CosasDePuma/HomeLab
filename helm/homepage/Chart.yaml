@@ -1,0 +1,27 @@
+---
+apiVersion: v2
+name: homepage
+version: 0.1.0
+type: application
+description: |
+  Homepage is a modern, fully static, fast, secure fully proxied, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages.
+sources:
+  - https://gethomepage.dev/
+appVersion: "latest"
+icon: https://gethomepage.dev/assets/banner_light@2x.webp
+home: https://cosasdepuma.github.io/homelab/
+
+maintainers:
+  - name: Kike Fontan
+    email: helm@kike.wtf
+    url: https://github.com/cosasdepuma/
+keywords:
+  - cosasdepuma
+  - homelab
+  - homepage
+  - dashboard
+
+dependencies:
+  - name: template
+    version: 1.0.0
+    repository: file://../_template

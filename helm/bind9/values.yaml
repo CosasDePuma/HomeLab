@@ -1,0 +1,26 @@
+---
+# --- | Default values for Bind9.
+bind9:
+  route: HostSNI(`*`)
+  banner: Homelab DNS
+  host: 127.0.0.1
+  forwarders:
+    - 1.1.1.1
+    - 8.8.8.8
+  zones:
+    - name: example.com
+      records:
+        - name: www
+          type: A
+          target: 192.168.1.1
+
+# --- | Overriding 'template' chart values
+deployment:
+  # Image repository
+  image:
+    repository: "ubuntu/bind9"
+
+metadata:
+  # Additional component label
+  labels:
+    app.kubernetes.io/component: "dns"

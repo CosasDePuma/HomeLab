@@ -1,0 +1,38 @@
+---
+# -------------- ConfigMap -------------
+{{- include "configmap.tpl" (list . "configmap.overlays") | nindent 0 -}}
+{{- define "configmap.overlays" -}}
+data:
+  SUBDOMAINS: {{ .Values.duckdns.subdomains | quote }}
+  UPDATE_IP: {{ .Values.duckdns.updateIP | default "ipv4" | quote }}
+{{- end }}
+---
+# -------------- Secret -------------
+{{- include "secret.tpl" (list . "secret.overlays") | nindent 0 -}}
+{{- define "secret.overlays" -}}
+data:
+  TOKEN: {{ .Values.duckdns.token | b64enc | quote }}
+{{- end }}
+---
+# -------------- Deployment -------------
+{{- include "deployment.tpl" (list . "deployment.overlays") | nindent 0 -}}
+{{- define "checksums" -}}
+metadata:
+  annotations:
+    checksum/configmap: {{ include "configmap.tpl" (list . "configmap.overlays") | sha256sum | quote }}
+    checksum/secret: {{ include "secret.tpl" (list . "secret.overlays") | sha256sum | quote }}
+{{- end }}
+{{- define "deployment.overlays" -}}
+{{- include "checksums" . | nindent 0 }}
+spec:
+  template:
+    {{- include "checksums" . | nindent 4 }}
+    spec:
+      containers:
+        - image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default "latest" }}"
+          envFrom:
+            - configMapRef:
+                name: {{ include "name" . | quote }}
+            - secretRef:
+                name: {{ include "name" . | quote }}
+{{- end }}

@@ -1,0 +1,135 @@
+---
+# -------------- Secret -------------
+{{- include "secret.tpl" (list . "secret.overlays") | nindent 0 -}}
+{{- define "secret.overlays" -}}
+{{- $values := .Values.authelia | default dict -}}
+data:
+  configuration.yml: {{ include "configuration" $values | b64enc | quote }}
+{{- end }}
+---
+# -------------- Deployment -------------
+{{- include "deployment.tpl" (list . "deployment.overlays") | nindent 0 -}}
+{{- define "checksums" -}}
+metadata:
+  annotations:
+    checksum/secret: {{ include "secret.tpl" (list . "secret.overlays") | sha256sum | quote }}
+{{- end }}
+{{- define "deployment.overlays" -}}
+{{- $values := .Values.authelia | default dict -}}
+{{- include "checksums" . | nindent 0 }}
+spec:
+  template:
+    {{- include "checksums" . | nindent 4 }}
+    spec:
+      enableServiceLinks: false
+      {{- if $values.dns }}
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          {{- $values.dns | toYaml | nindent 10 }}
+      {{- end }}
+      containers:
+        - image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default "latest" }}"
+          ports:
+            - name: {{ include "svcName" . | quote }}
+              containerPort: 9091
+              protocol: TCP
+          resources:
+            limits:
+              memory: 1Gi
+          volumeMounts:
+            - name: config
+              mountPath: /tmp/files
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - cp /tmp/files/configuration.yml /config/configuration.yml
+      volumes:
+        - name: config
+          secret:
+            secretName: {{ include "name" . | quote }}
+{{- end }}
+---
+# -------------- Service -------------
+{{- include "service.tpl" (list . "service.overlays") | nindent 0 -}}
+{{- define "service.overlays" -}}
+spec:
+  ports:
+    - name: {{ include "svcName" . | quote }}
+      protocol: TCP
+      port: 9091
+      targetPort: {{ include "svcName" . | quote }}
+{{- end }}
+
+# -------------- IngressRoute -------------
+---
+{{- include "middleware.tpl" (list . "middleware.overlays") | nindent 0 -}}
+{{- define "middleware.overlays" -}}
+{{- $values := .Values.authelia | default dict -}}
+metadata:
+  name: authelia
+spec:
+  forwardAuth:
+    address: http://{{ include "name" . }}.{{ .Release.Namespace }}.svc.cluster.local:9091/api/authz/forward-auth
+    trustForwardHeader: true
+    authResponseHeaders: [Remote-User,Remote-Groups,Remote-Email,Remote-Name]
+{{- end }}
+# -------------- IngressRoute -------------
+---
+{{- include "ingressroute.tpl" (list . "ingressroute.overlays") | nindent 0 -}}
+{{- define "ingressroute.overlays" -}}
+{{- $values := .Values.authelia | default dict -}}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: "Host(`{{ $values.domain | default "*" }}`) && PathPrefix(`/`)"
+      services:
+        - name: {{ include "name" . | quote }}
+          port: {{ include "svcName" . | quote }}
+{{- end }}
+{{- define "configuration" -}}
+access_control:
+  default_policy: deny
+  rules:
+    - domain: 'vpn.kike.wtf'
+      policy: 'one_factor'
+authentication_backend:
+  ldap:
+    address: "ldap://kike.wtf"
+    timeout: 5
+    start_tls: false
+    base_dn: "dc=kike,dc=wtf"
+    user: 'cn=admin,dc=kike,dc=wtf'
+    password: 'P@ssword1'
+    additional_users_dn: 'ou=Users'
+    users_filter: '(&(objectClass=person)({username_attribute}={input}))'
+    additional_groups_dn: 'ou=Groups'
+    groups_filter: '(&(member={dn})(objectClass=groupOfNames))'
+identity_validation:
+  reset_password:
+    jwt_secret: "a_very_important_secret"
+notifier:
+  filesystem:
+    filename: /config/notifications.txt
+server:
+  address: :9091
+  endpoints:
+    authz:
+      forward-auth:
+        implementation: 'ForwardAuth'
+session:
+  secret: "a_very_important_secret"
+  cookies:
+    - name: _Host-Auth
+      domain: kike.wtf
+      authelia_url: https://auth.kike.wtf
+      default_redirection_url: https://auth.kike.wtf
+storage:
+  encryption_key: "a_very_important_secret"
+  local:
+    path: /config/db.sqlite3
+{{- end -}}

@@ -1,0 +1,22 @@
+---
+# --- | Default values for Homepage.
+homepage:
+  domain: "*"
+  path: "/"
+  bookmarks: ""
+  kubernetes: ""
+  services: ""
+  settings: ""
+  widgets: ""
+  dns: []
+
+# --- | Overriding 'template' chart values
+deployment:
+  # Image repository
+  image:
+    repository: "ghcr.io/gethomepage/homepage"
+
+metadata:
+  # Additional component label
+  labels:
+    app.kubernetes.io/component: "media"
