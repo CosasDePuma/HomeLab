@@ -1,0 +1,330 @@
+apiVersion: v1
+entries:
+  authelia:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.850716732Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'Authelia is an open-source authentication and authorization server
+      (IAM). '
+    digest: e2c191f7292b21860246a208caec996f477920b063ba6664934cbd0b69490aef
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://www.authelia.com/images/branding/logo.png
+    keywords:
+    - cosasdepuma
+    - homelab
+    - authelia
+    - iam
+    - oidc
+    - openid
+    - identity
+    - authentication
+    - authorization
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: authelia
+    sources:
+    - https://www.authelia.com
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/authelia-0.1.0.tgz
+    version: 0.1.0
+  bind9:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.851314292Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'Bind9 is a complete implementation of the DNS protocol. '
+    digest: a0176016fada13fd305c0558929428a6fe1121e44cd88cb9650e42b3c1e1a595
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://jellyfin.org/images/logo.svg
+    keywords:
+    - cosasdepuma
+    - homelab
+    - bind9
+    - dns
+    - networking
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: bind9
+    sources:
+    - https://www.isc.org/bind/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/bind9-0.1.0.tgz
+    version: 0.1.0
+  duckdns:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.85188962Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'DuckDNS is a free and reliable DDNS provider that enables you to
+      associate a dynamic IP address with a domain name. '
+    digest: 4b96628f6dd97a85d359e286ea86721ce9289fb77f7714de474a421497a07da3
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://www.duckdns.org/img/ducky_icon_small.png
+    keywords:
+    - cosasdepuma
+    - homelab
+    - duckdns
+    - dns
+    - ddns
+    - dyndns
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: duckdns
+    sources:
+    - https://www.duckdns.org/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/duckdns-0.1.0.tgz
+    version: 0.1.0
+  homepage:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.852432368Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'Homepage is a modern, fully static, fast, secure fully proxied,
+      highly customizable application dashboard with integrations for over 100 services
+      and translations into multiple languages. '
+    digest: 235b2bcb8dbb97921132f89d4d73ee10b05eb1f80936db46c7f5179d7d2e758a
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://gethomepage.dev/assets/banner_light@2x.webp
+    keywords:
+    - cosasdepuma
+    - homelab
+    - homepage
+    - dashboard
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: homepage
+    sources:
+    - https://gethomepage.dev/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/homepage-0.1.0.tgz
+    version: 0.1.0
+  komga:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.852958805Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'Komga is a media server for your comics, mangas, BDs, magazines
+      and eBooks '
+    digest: 057867fd32197f2a85cb0f1b8e31e867d858513108e46b0fb86bb736168ca9f9
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://komga.org/img/logo.svg
+    keywords:
+    - cosasdepuma
+    - homelab
+    - komga
+    - reader
+    - ebook
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: komga
+    sources:
+    - https://komga.org/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/komga-0.1.0.tgz
+    version: 0.1.0
+  metallb:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.853486295Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'MetalLB is a load-balancer implementation for bare metal Kubernetes
+      clusters, using standard routing protocols '
+    digest: a115c6789526cd0cc49c6b60535dec0c4006f6b15e080f35f56f9b2c58545712
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://metallb.universe.tf/images/logo/metallb-white.png
+    keywords:
+    - cosasdepuma
+    - homelab
+    - metallb
+    - load-balancer
+    - bare-metal
+    - networking
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: metallb
+    sources:
+    - https://metallb.universe.tf/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/metallb-0.1.0.tgz
+    version: 0.1.0
+  nfs:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.853999087Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'An NFS Storage method. '
+    digest: 97636d5773ddec74263f86b6ef2078249cef771952d8e981aa56b6f53c744d91
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://static-00.iconduck.com/assets.00/folder-remote-nfs-icon-512x430-ab8h76bp.png
+    keywords:
+    - cosasdepuma
+    - homelab
+    - storage
+    - nfs
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: nfs
+    sources:
+    - https://en.wikipedia.org/wiki/Network_File_System
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/nfs-0.1.0.tgz
+    version: 0.1.0
+  openldap:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.854599632Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'OpenLDAP is a free, open-source implementation of the Lightweight
+      Directory Access Protocol (LDAP). '
+    digest: 79dfd4bc885919176ba5826eb31e0789b6561fddb517cf898e6cdc1c53d14e20
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://en.wikipedia.org/wiki/File:OpenLDAP-logo.png
+    keywords:
+    - cosasdepuma
+    - homelab
+    - openldap
+    - ldap
+    - identity
+    - authentication
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: openldap
+    sources:
+    - https://www.openldap.org/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/openldap-0.1.0.tgz
+    version: 0.1.0
+  phpldapadmin:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.855890805Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'phpLDAPadmin is a web-based LDAP admininstration tool. '
+    digest: 3e247721798028b7afb52c73563f3eeb8d221891bdf2a7be73353cf2405bb035
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://github.com/leenooks/phpLDAPadmin/blob/master/public/images/logo.png?raw=true
+    keywords:
+    - cosasdepuma
+    - homelab
+    - phpldapadmin
+    - ldap
+    - identity
+    - authentication
+    - admininstration
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: phpldapadmin
+    sources:
+    - https://www.openldap.org/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/phpldapadmin-0.1.0.tgz
+    version: 0.1.0
+  template:
+  - apiVersion: v2
+    created: "2024-11-26T01:11:52.856268095Z"
+    description: A Helm agnostic-application template chart.
+    digest: 70425d2ea10ff5c6ac6a49d34b45ec315df19db5079141c43893213ffac7ba97
+    keywords:
+    - cosasdepuma
+    - homelab
+    - base
+    - core
+    - template
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: template
+    type: library
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/template-1.0.0.tgz
+    version: 1.0.0
+  wg-easy:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T01:11:52.856842773Z"
+    dependencies:
+    - name: template
+      repository: file://../_template
+      version: 1.0.0
+    description: 'WG-Easy VPN (WireGuard) is a simple WireGuard VPN server with a
+      web-based management interface. '
+    digest: 45c7b8b71edb5bb01b26df30375a4caed91618fd5113b1b96314dd91f8d6c854
+    home: https://cosasdepuma.github.io/homelab/
+    icon: https://play-lh.googleusercontent.com/tixGgVipnsaKeGQzykJfgSEhUc_YYMSsr3gwBuPTpXb2F1BKPVzv5OxfCrpS8OAXXh8=w480-h960-rw
+    keywords:
+    - cosasdepuma
+    - homelab
+    - wg-easy
+    - wireguard
+    - vpn
+    - networking
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: wg-easy
+    sources:
+    - https://github.com/wg-easy/wg-easy
+    - https://www.wireguard.com/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/K8s/charts/wg-easy-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-11-26T01:11:52.849898001Z"
