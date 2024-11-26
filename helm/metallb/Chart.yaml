@@ -1,0 +1,30 @@
+---
+apiVersion: "v2"
+name: "metallb"
+version: "1.0.0"
+type: "application"
+description: |-
+  MetalLB is a load-balancer implementation for bare metal Kubernetes clusters, using standard routing protocols.
+sources:
+  - "https://metallb.universe.tf/"
+appVersion: "latest"
+icon: "https://metallb.universe.tf/images/logo/metallb-white.png"
+home: "https://cosasdepuma.github.io/HomeLab/"
+
+maintainers:
+  - name: "Kike Fontan"
+    email: "helm@kike.wtf"
+    url: "https://github.com/cosasdepuma/"
+keywords:
+  - "cosasdepuma"
+  - "homelab"
+  - "metallb"
+  - "load-balancer"
+  - "bare-metal"
+  - "networking"
+
+dependencies:
+  - name: "defaults"
+    version: "1.0.0"
+    repository: "file://../_defaults"
+...

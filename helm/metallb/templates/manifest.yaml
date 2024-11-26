@@ -1,0 +1,17 @@
+---
+# -------------- IPAddressPool -------------
+{{- include "ipaddresspool.tpl" (list . "ipaddresspool.overlays") | nindent 0 -}}
+{{- define "ipaddresspool.overlays" -}}
+spec:
+  addresses:
+    {{- with .Values.addresses -}}{{- $addresses := . | toYaml -}}
+    {{- if kindIs "string" . -}}{{- $addresses = split "," . | include "map2slice" -}}{{- end -}}
+    {{- $addresses | nindent 4 }}
+    {{- end -}}
+{{- end }}
+---
+# -------------- L2Advertisement -------------
+{{- include "l2advertisement.tpl" (list . "l2advertisement.overlays") | nindent 0 -}}
+{{- define "l2advertisement.overlays" -}}{{- end -}}
+{{- end }}
+...
