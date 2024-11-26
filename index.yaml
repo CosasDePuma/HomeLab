@@ -3,7 +3,7 @@ entries:
   authelia:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.371733818Z"
+    created: "2024-11-26T01:50:32.496656442Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -32,12 +32,12 @@ entries:
     - https://www.authelia.com
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/authelia-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/authelia-0.1.0.tgz
     version: 0.1.0
   bind9:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.372357923Z"
+    created: "2024-11-26T01:50:32.497329379Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -61,12 +61,33 @@ entries:
     - https://www.isc.org/bind/
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/bind9-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/bind9-0.1.0.tgz
     version: 0.1.0
+  defaults:
+  - apiVersion: v2
+    created: "2024-11-26T01:50:32.497540484Z"
+    description: A Helm agnostic-application template chart with the default values.
+    digest: 8c02661330a780b846a8d0f80f8289ddb286db9eef91e06d0d8a6a09459d8e45
+    keywords:
+    - cosasdepuma
+    - homelab
+    - base
+    - core
+    - template
+    - defaults
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: defaults
+    type: library
+    urls:
+    - https://CosasDePuma.github.io/HomeLab/charts/defaults-1.0.0.tgz
+    version: 1.0.0
   duckdns:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.372902909Z"
+    created: "2024-11-26T01:50:32.498107263Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -92,12 +113,12 @@ entries:
     - https://www.duckdns.org/
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/duckdns-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/duckdns-0.1.0.tgz
     version: 0.1.0
   homepage:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.373463315Z"
+    created: "2024-11-26T01:50:32.498664945Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -122,12 +143,12 @@ entries:
     - https://gethomepage.dev/
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/homepage-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/homepage-0.1.0.tgz
     version: 0.1.0
   komga:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.373982403Z"
+    created: "2024-11-26T01:50:32.499214912Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -152,12 +173,12 @@ entries:
     - https://komga.org/
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/komga-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/komga-0.1.0.tgz
     version: 0.1.0
   metallb:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.374544653Z"
+    created: "2024-11-26T01:50:32.499737749Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -183,12 +204,12 @@ entries:
     - https://metallb.universe.tf/
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/metallb-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/metallb-0.1.0.tgz
     version: 0.1.0
   nfs:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.375074191Z"
+    created: "2024-11-26T01:50:32.500265716Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -211,12 +232,12 @@ entries:
     - https://en.wikipedia.org/wiki/Network_File_System
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/nfs-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/nfs-0.1.0.tgz
     version: 0.1.0
   openldap:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.375616823Z"
+    created: "2024-11-26T01:50:32.500843936Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -242,12 +263,12 @@ entries:
     - https://www.openldap.org/
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/openldap-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/openldap-0.1.0.tgz
     version: 0.1.0
   phpldapadmin:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.37614037Z"
+    created: "2024-11-26T01:50:32.501386219Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -273,11 +294,11 @@ entries:
     - https://www.openldap.org/
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/phpldapadmin-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/phpldapadmin-0.1.0.tgz
     version: 0.1.0
   template:
   - apiVersion: v2
-    created: "2024-11-26T01:15:46.376504088Z"
+    created: "2024-11-26T01:50:32.501727987Z"
     description: A Helm agnostic-application template chart.
     digest: 97b82b51f908b6cb73198a43ec19b17aeaf66765d0ed84a993f5938d157e593b
     keywords:
@@ -293,12 +314,12 @@ entries:
     name: template
     type: library
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/template-1.0.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/template-1.0.0.tgz
     version: 1.0.0
   wg-easy:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T01:15:46.377215747Z"
+    created: "2024-11-26T01:50:32.50302566Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -325,6 +346,6 @@ entries:
     - https://www.wireguard.com/
     type: application
     urls:
-    - https://CosasDePuma.github.io/K8s/charts/wg-easy-0.1.0.tgz
+    - https://CosasDePuma.github.io/HomeLab/charts/wg-easy-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-26T01:15:46.370324068Z"
+generated: "2024-11-26T01:50:32.495119271Z"
