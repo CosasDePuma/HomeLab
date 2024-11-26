@@ -51,7 +51,7 @@ kind: "IngressRoute"
 spec:
   entryPoints: ["websecure"]
   routes:
-  - kind: "Rule"
+    - kind: "Rule"
 {{- end -}}
 
 {{- define "ingressroute.tpl" -}}

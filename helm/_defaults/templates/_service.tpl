@@ -11,7 +11,7 @@ metadata:
     {{- include "annotations" . | nindent 4 }}
 spec:
   ports:
-  - protocol: "TCP"
+    - protocol: "TCP"
   selector:
     app: {{ include "name" . | quote }}
   type: "ClusterIP"

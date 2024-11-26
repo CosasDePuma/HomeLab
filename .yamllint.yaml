@@ -1,4 +1,7 @@
 ---
+extends: "default"
+ignore:
+  - "helm/*/templates/"
 rules:
   anchors:
     forbid-undeclared-aliases: true

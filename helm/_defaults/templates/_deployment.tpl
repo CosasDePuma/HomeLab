@@ -22,15 +22,15 @@ spec:
         {{- include "annotations" . | nindent 8 }}
     spec:
       containers:
-      - name: {{ include "name" . | quote }}
-        imagePullPolicy: "IfNotPresent"
-        resources:
-          requests:
-            cpu: "0m"
-            memory: "0Mi"
-          limits:
-            cpu: "10m"
-            memory: "128Mi"
+        - name: {{ include "name" . | quote }}
+          imagePullPolicy: "IfNotPresent"
+          resources:
+            requests:
+              cpu: "0m"
+              memory: "0Mi"
+            limits:
+              cpu: "10m"
+              memory: "128Mi"
 {{- end -}}
 
 {{- define "deployment.tpl" -}}
