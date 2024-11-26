@@ -3,7 +3,7 @@ entries:
   authelia:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.561780381Z"
+    created: "2024-11-26T15:56:45.556325324Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -37,7 +37,7 @@ entries:
   bind9:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.562401903Z"
+    created: "2024-11-26T15:56:45.556952018Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -65,9 +65,10 @@ entries:
     version: 0.1.0
   defaults:
   - apiVersion: v2
-    created: "2024-11-26T02:11:50.562607938Z"
+    created: "2024-11-26T15:56:45.557194021Z"
     description: A Helm agnostic-application template chart with the default values.
-    digest: 36b74092c98ef262ee918674b7b8b04802bfb84b7db144f8516ed3163706e9ac
+    digest: 675c6a76e5b9e86ffe8fd7e56b1271de51ec9e57e0457a91755278fac8288c9f
+    home: https://cosasdepuma.github.io/HomeLab/
     keywords:
     - cosasdepuma
     - homelab
@@ -87,7 +88,7 @@ entries:
   duckdns:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.563146956Z"
+    created: "2024-11-26T15:56:45.557750292Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -115,10 +116,48 @@ entries:
     urls:
     - https://CosasDePuma.github.io/HomeLab/charts/duckdns-0.1.0.tgz
     version: 0.1.0
+  homelab:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T15:56:45.558630491Z"
+    dependencies:
+    - condition: metallb.enabled
+      name: metallb
+      repository: file://../metallb
+      version: 1.0.0
+    - condition: nfs.enabled
+      name: nfs
+      repository: file://../nfs
+      version: 1.0.0
+    - condition: traefik.enabled
+      name: traefik
+      repository: file://../traefik
+      version: 1.0.0
+    description: This Chart contains the configuration to automatically deploy my
+      homelab configuration almost in its entirety.
+    digest: 890fb048c597c08fd5cf4c057e57d7b5fe22f3b2087525f8b17acbe00be3d3ea
+    home: https://cosasdepuma.github.io/HomeLab/
+    keywords:
+    - cosasdepuma
+    - homelab
+    - aoi
+    - all-in-one
+    - self-hosted
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: homelab
+    sources:
+    - https://github.com/cosasdepuma/homelab
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/HomeLab/charts/homelab-1.0.0.tgz
+    version: 1.0.0
   homepage:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.563695632Z"
+    created: "2024-11-26T15:56:45.559186421Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -148,7 +187,7 @@ entries:
   komga:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.564263984Z"
+    created: "2024-11-26T15:56:45.559728016Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -178,7 +217,37 @@ entries:
   metallb:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.564770591Z"
+    created: "2024-11-26T15:56:45.562055301Z"
+    dependencies:
+    - name: defaults
+      repository: file://../_defaults
+      version: 1.0.0
+    description: MetalLB is a load-balancer implementation for bare metal Kubernetes
+      clusters, using standard routing protocols.
+    digest: e287c98ea30d6bf558ab4d2dadf3da3eabdc75425230ce8fd7a2629493001c88
+    home: https://cosasdepuma.github.io/HomeLab/
+    icon: https://metallb.universe.tf/images/logo/metallb-white.png
+    keywords:
+    - cosasdepuma
+    - homelab
+    - metallb
+    - load-balancer
+    - bare-metal
+    - networking
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: metallb
+    sources:
+    - https://metallb.universe.tf/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/HomeLab/charts/metallb-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T15:56:45.560251105Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -209,7 +278,34 @@ entries:
   nfs:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.565289893Z"
+    created: "2024-11-26T15:56:45.564072959Z"
+    dependencies:
+    - name: defaults
+      repository: file://../_defaults
+      version: 1.0.0
+    description: 'An NFS Storage method. '
+    digest: 13f423e5f75649690191f6776449e0fb4498e4c13001d899f4fc6ffed3b5f703
+    home: https://cosasdepuma.github.io/HomeLab/
+    icon: https://static-00.iconduck.com/assets.00/folder-remote-nfs-icon-512x430-ab8h76bp.png
+    keywords:
+    - cosasdepuma
+    - homelab
+    - storage
+    - nfs
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: nfs
+    sources:
+    - https://en.wikipedia.org/wiki/Network_File_System
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/HomeLab/charts/nfs-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T15:56:45.563306333Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -237,7 +333,7 @@ entries:
   openldap:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.566580267Z"
+    created: "2024-11-26T15:56:45.565152921Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -268,7 +364,7 @@ entries:
   phpldapadmin:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.567136487Z"
+    created: "2024-11-26T15:56:45.566253752Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -296,10 +392,41 @@ entries:
     urls:
     - https://CosasDePuma.github.io/HomeLab/charts/phpldapadmin-0.1.0.tgz
     version: 0.1.0
+  traefik:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-11-26T15:56:45.567025778Z"
+    dependencies:
+    - name: defaults
+      repository: file://../_defaults
+      version: 1.0.0
+    description: Traefik is an open-source application proxy that makes publishing
+      your services a fun and easy experience.
+    digest: 5c59a5bc5ff36ec826d8422565db5f4e1ba4cf03afa0984d555b9d3794ff5156
+    home: https://cosasdepuma.github.io/HomeLab/
+    icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
+    keywords:
+    - cosasdepuma
+    - homelab
+    - traefik
+    - reverse-proxy
+    - proxy
+    - networking
+    maintainers:
+    - email: helm@kike.wtf
+      name: Kike Fontan
+      url: https://github.com/cosasdepuma/
+    name: traefik
+    sources:
+    - https://traefik.io/traefik/
+    type: application
+    urls:
+    - https://CosasDePuma.github.io/HomeLab/charts/traefik-1.0.0.tgz
+    version: 1.0.0
   wg-easy:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-11-26T02:11:50.567702796Z"
+    created: "2024-11-26T15:56:45.568123493Z"
     dependencies:
     - name: template
       repository: file://../_template
@@ -328,4 +455,4 @@ entries:
     urls:
     - https://CosasDePuma.github.io/HomeLab/charts/wg-easy-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-26T02:11:50.561023346Z"
+generated: "2024-11-26T15:56:45.555539412Z"
