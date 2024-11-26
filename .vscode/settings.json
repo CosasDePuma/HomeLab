@@ -1,0 +1,14 @@
+{
+    "editor.formatOnSave": true,
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        ".env": "*.env",
+        "flake.nix": "flake.lock",
+        "helmfile.yaml": "helmfile.lock",
+        "Chart.yaml": "Chart.lock"
+    },
+    "yaml.validate": false,
+    "[yaml]": {
+        "editor.defaultFormatter": "fnando.linter"
+    }
+}

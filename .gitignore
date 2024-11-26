@@ -1,0 +1,13 @@
+# Remove secrets
+/**/.env
+
+# Remove lockfiles
+/**/*.lock
+
+# Remove chart dependencies
+/**/charts/
+
+# Remove backups and system files
+/**/.old/
+/**/*~
+/**/.DS_Store
