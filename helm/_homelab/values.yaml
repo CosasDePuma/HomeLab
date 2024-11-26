@@ -1,0 +1,21 @@
+---
+# --- | Default chart values
+# All services are disabled by default.
+
+# |> MetalLB: Load Balancer for bare metal Kubernetes clusters.
+metallb:
+  enabled: false
+  name: "metallb"
+  namespace: "networking"
+
+# |> NFS: Network file system for persistent storage.
+nfs:
+  enabled: false
+  name: "nfs"
+
+# |> Traefik: Reverse application proxy.
+traefik:
+  enabled: false
+  name: "traefik"
+  namespace: "networking"
+...

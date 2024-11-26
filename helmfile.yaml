@@ -1,0 +1,161 @@
+---
+repositories:
+  - name: "metallb"
+    url: "https://metallb.github.io/metallb"
+  - name: "traefik"
+    url: "https://traefik.github.io/charts"
+
+releases:
+  # ==========================
+  #   KIKE.WTF
+  # ==========================
+
+  # ==========================
+  #   NETWORKING
+  # ==========================
+
+  # --- | NFS
+  - name: "nfs-networking"
+    chart: "./helm/nfs"
+    namespace: "networking"
+    labels: { env: "networking" }
+    values:
+      - name: "nfs"
+      - server: '{{ requiredEnv "NFS_SERVER" }}'
+        path: '{{ requiredEnv "NFS_PATH" }}'
+        capacity: '{{ requiredEnv "NFS_CAPACITY" }}'
+
+  # --- | HomeLab: Networking
+  - name: "homelab"
+    chart: "./helm/_homelab"
+    namespace: "networking"
+    labels: { env: "networking" }
+    needs: ["metallb", "traefik"]
+    values:
+      - metallb:
+          enabled: true
+          addresses: ['{{ requiredEnv "HOST" }}/32']
+      - traefik:
+          enabled: true
+          host: "proxy.kike.wtf"
+          basicauth:
+            username: "traefik"
+            password: "dashboard"
+
+  # --- | MetalLB
+  - name: "metallb"
+    chart: "metallb/metallb"
+    namespace: "networking"
+    labels: { env: "networking" }
+    wait: true
+
+  # --- | Traefik
+  - name: "traefik"
+    chart: "traefik/traefik"
+    namespace: "networking"
+    labels: { env: "networking" }
+    needs: ["nfs-networking"]
+    values:
+      - env:
+          - name: '{{ requiredEnv "ACME_TOKEN_NAME" }}'
+            value: '{{ requiredEnv "ACME_TOKEN_VALUE" }}'
+      - ports:
+          dns-tcp:
+            protocol: "TCP"
+            port: 8053
+            exposedPort: 53
+            expose: { default: true }
+          dns-udp:
+            protocol: "UDP"
+            port: 8053
+            exposedPort: 53
+            expose: { default: true }
+          web:
+            protocol: "TCP"
+            port: 8080
+            exposedPort: 80
+            expose: { default: true }
+            redirectTo:
+              port: "websecure"
+          websecure:
+            protocol: "TCP"
+            port: 8443
+            exposedPort: 443
+            expose: { default: true }
+          ldap:
+            protocol: "TCP"
+            port: 8389
+            exposedPort: 389
+            expose: { default: true }
+          traefik:
+            protocol: "TCP"
+            port: 9000
+            exposedPort: 9000
+            expose: { default: false }
+          wireguard:
+            protocol: "UDP"
+            port: 51820
+            exposedPort: 51820
+            expose: { default: true }
+      - persistence:
+          enabled: true
+          existingClaim: "nfs"
+          path: "/data"
+          subPath: '{{ env "NFS_SUBFOLDER_CONFIG" | default "./config" }}/traefik'
+      - deployment:
+          initContainers:
+            - name: "traefik-volume-permissions"
+              image: "busybox:latest"
+              command: ["sh", "-c", "touch /data/acme.json; chmod -v 600 /data/acme.json"]
+              volumeMounts:
+                - name: "data"
+                  mountPath: "/data"
+      - additionalArguments:
+          - "--api=true"
+          - "--api.dashboard=true"
+          # Providers
+          - "--providers.kubernetescrd=true"
+          - "--providers.kubernetescrd.allowemptyservices=true"
+          - "--providers.kubernetescrd.allowexternalnameservices=true"
+          - "--providers.kubernetesingress=true"
+          - "--providers.kubernetesingress.allowemptyservices=true"
+          - "--providers.kubernetesingress.allowexternalnameservices=true"
+          # TLS challenge
+          - '--certificatesresolvers.letsencrypt.acme.email={{ env "ACME_EMAIL" | default "acme@example.com" }}'
+          - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
+          - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+          - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
+          - '--certificatesresolvers.letsencrypt.acme.dnschallenge.provider={{ requiredEnv "ACME_PROVIDER" }}'
+          - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
+          - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
+          # Entrypoints
+          - "--entrypoints.web=true"
+          - "--entrypoints.web.address=:8080/tcp"
+          - "--entrypoints.web.asdefault=true"
+          - "--entrypoints.websecure=true"
+          - "--entrypoints.websecure.address=:8443/tcp"
+          - "--entrypoints.websecure.http.tls=true"
+          - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
+          {{- range $idx,$domain := (requiredEnv "ACME_DOMAINS" | split ",") }}
+          - '--entrypoints.websecure.http.tls.domains[{{ trimPrefix "_" $idx }}].main={{ $domain }}'
+          - '--entrypoints.websecure.http.tls.domains[{{ trimPrefix "_" $idx }}].sans=*.{{ $domain }}'
+          {{- end }}
+          - "--entrypoints.dns-tcp=true"
+          - "--entrypoints.dns-tcp.address=:8053/tcp"
+          - "--entrypoints.dns-udp=true"
+          - "--entrypoints.dns-udp.address=:8053/udp"
+          - "--entrypoints.ldap=true"
+          - "--entrypoints.ldap.address=:8389/tcp"
+          - "--entrypoints.traefik=true"
+          - "--entrypoints.traefik.address=:9000/tcp"
+          - "--entrypoints.wireguard=true"
+          - "--entrypoints.wireguard.address=:51820/udp"
+          # Logging
+          - "--log=true"
+          - "--log.format=json"
+          - "--log.level=DEBUG"
+          # Miscellanous
+          - "--ping=true"
+          - "--global.checknewversion=true"
+          - "--global.sendanonymoususage=false"
+...
