@@ -5,10 +5,17 @@ apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: {{ include "name" . | quote }}
+  namespace: {{ .Values.namespace | default .Release.Namespace | quote }}
   labels:
     {{- include "labels" . | nindent 4 }}
+    {{- with .Values.labels }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
   annotations:
     {{- include "annotations" . | nindent 4 }}
+    {{- with .Values.annotations }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
 spec:
   replicas: 1
   selector:
@@ -18,8 +25,14 @@ spec:
     metadata:
       labels:
         {{- include "labels" . | nindent 8 }}
+        {{- with .Values.labels }}
+        {{- . | toYaml | nindent 8 }}
+        {{- end }}
       annotations:
         {{- include "annotations" . | nindent 8 }}
+        {{- with .Values.annotations }}
+        {{- . | toYaml | nindent 8 }}
+        {{- end }}
     spec:
       containers:
         - name: {{ include "name" . | quote }}

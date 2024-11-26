@@ -8,8 +8,7 @@
 # It uses the `name` value if it is set, otherwise it uses `Release.name`.
 # It truncates the name to 63 characters and removes any trailing hyphens.
 {{- define "name" -}}
-{{- $metadata := .Values.metadata | default (dict ) -}}
-{{- $metadata.name | default .Release.Name | trunc 63 | trimSuffix "-" | lower }}
+{{- .Values.name | default .Release.Name | trunc 63 | trimSuffix "-" | lower }}
 {{- end -}}
 
 # --- | svcName
@@ -103,8 +102,9 @@ github.com/cosasdepuma: "HomeLab"
 {{- if not (kindIs "slice" $base) -}}{{- printf ("[_merge.deep.slice] Second item must be a `slice` (%s)") (toString $base) | fail -}}{{- end -}}
 {{- /* -- Merge -- */ -}}
 {{- range $idx, $new := $over -}}
-  {{- if lt (len $base) $idx -}}{{- $acc = append $acc $new -}}
-  {{- else -}}{{- $old := index $base $idx -}}{{- $kind := kindOf $new -}}
+  {{- if le (len $base) $idx -}}{{- $acc = append $acc $new -}}
+  {{- else -}}
+  {{- $old := index $base $idx -}}{{- $kind := kindOf $new -}}
     {{- if and (eq $kind (kindOf $old)) (has $kind (list "map" "slice")) -}}
       {{- $res := include (printf "_merge.deep.%s" $kind) (list $new $old) -}}
       {{- $acc = append $acc (eq "map" $kind | ternary (fromYaml $res) (fromYamlArray $res)) -}}
@@ -115,15 +115,6 @@ github.com/cosasdepuma: "HomeLab"
 {{- /* -- Add the rest of the old data */ -}}
 {{- if gt (len $base) (len $over) -}}{{- $acc = concat $acc (slice $base (len $over)) -}}{{- end -}}
 {{- /* -- Return -- */ -}}
-{{- toYaml $acc | nindent 0 -}}
-{{- end -}}
-
-{{- define "map2slice" -}}
-{{- /* -- Check types -- */ -}}
-{{- if not (kindIs "map" .) -}}{{- printf "[map2slice] Argument should be a map (curr: %s)" (. | toString) | fail -}}{{- end -}}
-{{- /* -- Convert -- */ -}}
-{{- $acc := list -}}
-{{- range $_, $value := . -}}{{- $acc = append $acc $value -}}{{- end -}}
 {{- toYaml $acc | nindent 0 -}}
 {{- end -}}
 ...

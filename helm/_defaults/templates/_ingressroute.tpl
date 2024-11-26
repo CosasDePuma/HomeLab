@@ -5,13 +5,24 @@ apiVersion: "traefik.io/v1alpha1"
 kind: "IngressRouteTCP"
 metadata:
   name: {{ include "name" . | quote }}
+  namespace: {{ .Values.namespace | default .Release.Namespace | quote }}
   labels:
     {{- include "labels" . | nindent 4 }}
+    {{- with .Values.labels }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
   annotations:
     {{- include "annotations" . | nindent 4 }}
+    {{- with .Values.annotations }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
 spec:
   entryPoints: ["tcp"]
-  routes: []
+  routes:
+    - match: "HostSNI(`*`)"
+      services:
+        name: {{ include "name" . | quote }}
+        port: {{ include "svcName" . | quote }}
 {{- end -}}
 
 {{- define "ingressroutetcp.tpl" -}}
@@ -52,6 +63,7 @@ spec:
   entryPoints: ["websecure"]
   routes:
     - kind: "Rule"
+      match: "Host(`*`) && PathPrefix(`/`)"
 {{- end -}}
 
 {{- define "ingressroute.tpl" -}}

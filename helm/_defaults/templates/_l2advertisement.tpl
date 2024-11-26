@@ -5,10 +5,17 @@ apiVersion: "metallb.io/v1beta1"
 kind: "L2Advertisement"
 metadata:
   name: {{ include "name" . | quote }}
+  namespace: {{ .Values.namespace | default .Release.Namespace | quote }}
   labels:
     {{- include "labels" . | nindent 4 }}
+    {{- with .Values.labels }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
   annotations:
     {{- include "annotations" . | nindent 4 }}
+    {{- with .Values.annotations }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
 spec:
   ipAddressPoolSelectors:
   - matchLabels:
