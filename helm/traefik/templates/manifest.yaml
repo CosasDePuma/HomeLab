@@ -1,0 +1,32 @@
+---
+# -------------- Secret -------------
+{{- if (.Values.basicauth | default dict).username -}}{{- include "secret.tpl" (list . "secret.overlays") | nindent 0 -}}{{- end -}}
+{{- define "secret.overlays" -}}
+type: kubernetes.io/basic-auth
+stringData:
+  username: {{ .Values.basicauth.username | default "traefik" | quote }}
+  password: {{ .Values.basicauth.password | default "password" | quote }}
+{{- end }}
+---
+# -------------- Middleware -------------
+{{- if (.Values.basicauth | default dict).username -}}{{- include "middleware.tpl" (list . "middleware.overlays") | nindent 0 -}}{{- end -}}
+{{- define "middleware.overlays" -}}
+metadata:
+  name: "basic-auth"
+spec:
+  basicAuth:
+    secret: {{ include "name" . | quote }}
+{{- end -}}
+# -------------- IngressRoute -------------
+{{- include "ingressroute.tpl" (list . "ingressroute.overlays") | nindent 0 -}}
+{{- define "ingressroute.overlays" -}}
+spec:
+  routes:
+    - match: 'Host(`{{ .Values.host | default "*" }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))'
+      services:
+        - name: "api@internal"
+          kind: "TraefikService"
+      middlewares:
+        - name: "dashboard-auth"
+{{- end }}
+...

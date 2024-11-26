@@ -1,0 +1,30 @@
+---
+apiVersion: "v2"
+name: "traefik"
+version: "1.0.0"
+type: "application"
+description: |-
+  Traefik is an open-source application proxy that makes publishing your services a fun and easy experience.
+sources:
+  - "https://traefik.io/traefik/"
+appVersion: "latest"
+icon: "https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png"
+home: "https://cosasdepuma.github.io/HomeLab/"
+
+maintainers:
+  - name: "Kike Fontan"
+    email: "helm@kike.wtf"
+    url: "https://github.com/cosasdepuma/"
+keywords:
+  - "cosasdepuma"
+  - "homelab"
+  - "traefik"
+  - "reverse-proxy"
+  - "proxy"
+  - "networking"
+
+dependencies:
+  - name: "defaults"
+    version: "1.0.0"
+    repository: "file://../_defaults"
+...

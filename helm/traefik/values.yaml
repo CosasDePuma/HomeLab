@@ -1,0 +1,9 @@
+---
+# --- | Default values for Traefik
+# Hostname for the Traefik dashboard.
+host: "*"
+# Basic auth middleware.
+basicauth: {}
+#  username: "traefik"
+#  password: "dashboard"
+...
