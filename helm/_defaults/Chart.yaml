@@ -1,9 +1,12 @@
 ---
 apiVersion: "v2"
 name: "defaults"
-description: "A Helm agnostic-application template chart with the default values."
+description: |-
+  A Helm agnostic-application template chart with the default values.
 type: "library"
 version: "1.0.0"
+home: "https://cosasdepuma.github.io/HomeLab/"
+
 maintainers:
   - name: "Kike Fontan"
     email: "helm@kike.wtf"
