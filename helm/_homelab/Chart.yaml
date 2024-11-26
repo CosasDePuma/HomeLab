@@ -22,6 +22,10 @@ keywords:
   - "self-hosted"
 
 dependencies:
+  - name: "bind9"
+    version: "1.0.0"
+    repository: "file://../bind9"
+    condition: "bind9.enabled"
   - name: "metallb"
     version: "1.0.0"
     repository: "file://../metallb"

@@ -2,6 +2,11 @@
 # --- | Default chart values
 # All services are disabled by default.
 
+# |> Bind9: DNS server.
+bind9:
+  enabled: false
+  name: "bind9"
+
 # |> MetalLB: Load Balancer for bare metal Kubernetes clusters.
 metallb:
   enabled: false

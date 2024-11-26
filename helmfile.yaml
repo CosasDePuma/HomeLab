@@ -10,6 +10,22 @@ releases:
   #   KIKE.WTF
   # ==========================
 
+  # --- | HomeLab: kike.wtf
+  - name: "homelab"
+    chart: "./helm/_homelab"
+    namespace: "kiketf"
+    labels: { env: "kikewtf" }
+    values:
+      - nfs:
+          enabled: true
+          capacity: '{{ requiredEnv "NFS_CAPACITY" }}'
+      - traefik:
+          enabled: true
+          hostname: 'proxy.{{ requiredEnv "DOMAIN" }}'
+          basicauth:
+            username: '{{ requiredEnv "ADMIN_USERNAME" }}'
+            password: '{{ requiredEnv "ADMIN_PASSWORD" }}'
+
   # ==========================
   #   NETWORKING
   # ==========================
@@ -32,15 +48,21 @@ releases:
     labels: { env: "networking" }
     needs: ["metallb", "traefik"]
     values:
+      - bind9:
+          enabled: true
+          host: '{{ requiredEnv "HOST" }}'
+          hostname: 'dns.{{ requiredEnv "DOMAIN" }}'
+          zones:
+          {{- range $domain := env "ACME_DOMAINS" | default "" | split "," }}
+            - name: '{{ $domain }}'
+              records:
+                - name: "*"
+                  type: "A"
+                  target: '{{ requiredEnv "HOST" }}'
+          {{- end }}
       - metallb:
           enabled: true
           addresses: ['{{ requiredEnv "HOST" }}/32']
-      - traefik:
-          enabled: true
-          host: "proxy.kike.wtf"
-          basicauth:
-            username: "traefik"
-            password: "dashboard"
 
   # --- | MetalLB
   - name: "metallb"
@@ -136,7 +158,7 @@ releases:
           - "--entrypoints.websecure.address=:8443/tcp"
           - "--entrypoints.websecure.http.tls=true"
           - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
-          {{- range $idx,$domain := (requiredEnv "ACME_DOMAINS" | split ",") }}
+          {{- range $idx,$domain := (env "ACME_DOMAINS" | default "" | split ",") }}
           - '--entrypoints.websecure.http.tls.domains[{{ trimPrefix "_" $idx }}].main={{ $domain }}'
           - '--entrypoints.websecure.http.tls.domains[{{ trimPrefix "_" $idx }}].sans=*.{{ $domain }}'
           {{- end }}

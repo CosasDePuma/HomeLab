@@ -102,7 +102,7 @@ github.com/cosasdepuma: "HomeLab"
 {{- if not (kindIs "slice" $base) -}}{{- printf ("[_merge.deep.slice] Second item must be a `slice` (%s)") (toString $base) | fail -}}{{- end -}}
 {{- /* -- Merge -- */ -}}
 {{- range $idx, $new := $over -}}
-  {{- if le (len $base) $idx -}}{{- $acc = append $acc $new -}}
+  {{- if ge $idx (len $base) -}}{{- $acc = append $acc $new -}}
   {{- else -}}
   {{- $old := index $base $idx -}}{{- $kind := kindOf $new -}}
     {{- if and (eq $kind (kindOf $old)) (has $kind (list "map" "slice")) -}}

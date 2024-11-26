@@ -1,0 +1,30 @@
+---
+# --- | Default values for Bind9
+# Server IP or hostname
+host: "127.0.0.1"
+# TCP hostname
+hostname: "*"
+# Server banner
+banner: "Homelab DNS"
+# Forwarders. Upstream DNS servers.
+forwarders:
+  - "1.1.1.1"
+  - "8.8.8.8"
+# Transfer zones. Custom DNS records.
+zones: []
+#  - name: example.com
+#    records:
+#      - name: www
+#        type: A
+#        target: 192.168.1.1
+
+# --- | Overriding 'defaults' chart values
+# Image repository
+deployment:
+  image:
+    repository: "ubuntu/bind9"
+
+# Additional component labels
+labels:
+  app.kubernetes.io/component: "dns"
+...

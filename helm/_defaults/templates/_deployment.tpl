@@ -36,6 +36,8 @@ spec:
     spec:
       containers:
         - name: {{ include "name" . | quote }}
+          {{ $image := (.Values.deployment | default dict).image | default dict }}
+          image: {{ printf "%s:%s" $image.repository ($image.tag | default "latest") | quote }}
           imagePullPolicy: "IfNotPresent"
           resources:
             requests:

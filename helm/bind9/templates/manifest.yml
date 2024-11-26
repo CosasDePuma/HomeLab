@@ -1,0 +1,179 @@
+---
+# -------------- ConfigMap -------------
+{{- include "configmap.tpl" (list . "configmap-conf.overlays") | nindent 0 -}}
+{{- define "configmap-conf.overlays" -}}
+metadata:
+  name: "{{ include "name" . }}-conf"
+data:
+  named.conf: |-
+    acl internal {
+        10.0.0.0/8;
+        127.0.0.0/8;
+        172.16.0.0/12;
+        192.168.0.0/16;
+    };
+
+    options {
+        directory "/var/cache/bind";
+        dnssec-validation auto;
+        auth-nxdomain no;                         # conform to RFC1035
+        listen-on { any; };
+        listen-on-v6 { any; };
+        recursion yes;
+        allow-recursion { internal; };
+        allow-query { internal; };
+        allow-query-cache { internal; };
+        allow-transfer { none; };
+        empty-zones-enable no;
+        querylog yes;
+        version {{ .Values.banner | quote }};
+        forward only;
+        forwarders {
+        {{- range .Values.forwarders }}
+            {{ . }};
+        {{- end }}
+        };
+    };
+
+    // External zones
+
+    zone "."  {
+        type hint;
+        file "/usr/share/dns/root.hints";
+    };
+    zone "localhost" {
+        type master;
+        file "/etc/bind/db.local";
+    };
+    zone "127.in-addr.arpa" {
+        type master;
+        file "/etc/bind/db.127";
+    };
+    zone "0.in-addr.arpa" {
+        type master;
+        file "/etc/bind/db.0";
+    };
+    zone "255.in-addr.arpa" {
+        type master;
+        file "/etc/bind/db.255";
+    };
+
+    // Custom zones
+
+    {{- range $zone := (.Values.zones | default list) }}
+    zone "{{ $zone.name }}" IN {
+        type master;
+        file "/etc/bind/zones/{{ $zone.name }}";
+        allow-update { none; };
+    };
+    {{- end -}}
+{{- end }}
+---
+{{- include "configmap.tpl" (list . "configmap-zones.overlays") | nindent 0 -}}
+{{- define "configmap-zones.overlays" -}}
+metadata:
+  name: "{{ include "name" . }}-zones"
+data:
+  {{- $values := .Values -}}
+  {{- range $zone := .Values.zones | default list }}
+  "{{ $zone.name }}": |-
+      $TTL 604800
+      $ORIGIN {{ $zone.name }}.
+      @ IN SOA ns.{{ $zone.name }}. root.{{ $zone.name }}. (
+          2022072651  ; serial
+          3600        ; refresh
+          1800        ; retry
+          2419200     ; expire
+          604800 )    ; negative cache TTL
+      ;
+      @ IN NS ns.{{ $zone.name }}.
+      @ IN A {{ $values.host }}
+      ns IN A {{ $values.host }}
+      ;
+      {{- range $record := $zone.records }}
+      {{ $record.name }} IN {{ $record.type }} {{ $record.target }}
+
+      {{ end }}
+  {{- end }}
+{{- end }}
+---
+# -------------- Deployment -------------
+{{- include "deployment.tpl" (list . "deployment.overlays") | nindent 0 -}}
+{{- define "checksums" -}}
+metadata:
+  annotations:
+    checksum/configmap-conf: {{ include "configmap.tpl" (list . "configmap-conf.overlays") | sha256sum | quote }}
+    checksum/configmap-zones: {{ include "configmap.tpl" (list . "configmap-zones.overlays") | sha256sum | quote }}
+{{- end }}
+{{- define "deployment.overlays" -}}
+{{- include "checksums" . | nindent 0 }}
+spec:
+  template:
+    {{- include "checksums" . | nindent 4 }}
+    spec:
+      containers:
+        - ports:
+            - name: "{{ include "svcName" . }}-tcp"
+              containerPort: 53
+              protocol: "TCP"
+            - name: "{{ include "svcName" . }}-udp"
+              containerPort: 53
+              protocol: "UDP"
+          volumeMounts:
+            - name: "configmap-conf"
+              mountPath: "/etc/bind/named.conf"
+              subPath: "named.conf"
+              readOnly: true
+            - name: "configmap-zones"
+              mountPath: "/etc/bind/zones"
+              readOnly: true
+      volumes:
+        - name: "configmap-conf"
+          configMap:
+            name: "{{ include "name" . }}-conf"
+        - name: "configmap-zones"
+          configMap:
+            name: "{{ include "name" . }}-zones"
+{{- end }}
+---
+# -------------- Service -------------
+{{- include "service.tpl" (list . "service.overlays") | nindent 0 -}}
+{{- define "service.overlays" -}}
+spec:
+  ports:
+    - name: "{{ include "svcName" . }}-tcp"
+      protocol: "TCP"
+      port: 53
+      targetPort: "{{ include "svcName" . }}-tcp"
+    - name: "{{ include "svcName" . }}-udp"
+      protocol: "UDP"
+      port: 53
+      targetPort: "{{ include "svcName" . }}-udp"
+{{- end }}
+# -------------- IngressRoute -------------
+---
+{{- include "ingressroutetcp.tpl" (list . "ingressroutetcp.overlays") | nindent 0 -}}
+{{- define "ingressroutetcp.overlays" -}}
+spec:
+  entryPoints:
+    - "dns-tcp"
+  routes:
+    - match: "HostSNI(`{{ .Values.hostname | default "*" }}`)"
+      services:
+        - name: {{ include "name" . | quote }}
+          port: "{{ include "svcName" . }}-tcp"
+{{- end }}
+# -------------- IngressRouteUDP -------------
+---
+{{- include "ingressrouteudp.tpl" (list . "ingressrouteudp.overlays") | nindent 0 -}}
+{{- define "ingressrouteudp.overlays" -}}
+spec:
+  entryPoints:
+    - "dns-udp"
+  routes:
+    - match: "HostSNI(`*`)"
+      services:
+        - name: {{ include "name" . | quote }}
+          port: "{{ include "svcName" . }}-udp"
+{{- end }}
+...
